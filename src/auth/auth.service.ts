@@ -203,7 +203,7 @@ export class AuthService {
           config.host.url +
           '/auth/email/verify/' +
           model.emailToken +
-          '<a>Click here to activate your account</a>', // html body
+          ' <a>Click here to activate your account</a>', // html body
       };
 
       const sent = await new Promise<boolean>(async function (resolve, reject) {
