@@ -3,8 +3,6 @@ import {
   Get,
   Post,
   Body,
-  HttpCode,
-  HttpStatus,
   UseGuards,
   UseInterceptors,
   Param,
@@ -30,7 +28,7 @@ export class UsersController {
 
   @Get('user/:email')
   @UseGuards(RolesGuard)
-  @Roles('User')
+  @Roles('Student', 'Teacher')
   async findById(@Param() params): Promise<IResponse> {
     try {
       const user = await this.usersService.findByEmail(params.email);
@@ -42,7 +40,7 @@ export class UsersController {
 
   @Post('profile/update')
   @UseGuards(RolesGuard)
-  @Roles('User')
+  @Roles('Student', 'Teacher')
   async updateProfile(@Body() profileDto: ProfileDto): Promise<IResponse> {
     try {
       const user = await this.usersService.updateProfile(profileDto);
@@ -54,7 +52,7 @@ export class UsersController {
 
   @Post('gallery/update')
   @UseGuards(RolesGuard)
-  @Roles('User')
+  @Roles('Student', 'Teacher')
   async updateGallery(
     @Body() galleryRequest: UpdateGalleryDto,
   ): Promise<IResponse> {
@@ -68,7 +66,7 @@ export class UsersController {
 
   @Post('settings/update')
   @UseGuards(RolesGuard)
-  @Roles('User')
+  @Roles('Student', 'Teacher')
   async updateSettings(@Body() settingsDto: SettingsDto): Promise<IResponse> {
     try {
       const user = await this.usersService.updateSettings(settingsDto);

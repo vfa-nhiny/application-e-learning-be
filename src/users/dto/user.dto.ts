@@ -4,10 +4,10 @@ import { PhotoDto } from '../../common/dto/photo.dto';
 export class UserDto {
   constructor(object: any) {
     this.name = object.name;
-    this.surname = object.surname;
     this.email = object.email;
     this.phone = object.phone;
-    this.birthdaydate = object.birthdaydate;
+    this.birthdayDate = object.birthdayDate;
+    this.gender = object.gender;
     this.settings = new SettingsDto(object.settings);
     this.photos = {
       profilePic: new PhotoDto(object.photos.profilePic),
@@ -20,10 +20,10 @@ export class UserDto {
     }
   }
   readonly name: string;
-  readonly surname: string;
   readonly email: string;
   readonly phone: string;
-  readonly birthdaydate: Date;
+  readonly birthdayDate: string;
+  readonly gender: string;
   settings: SettingsDto;
   photos: {
     profilePic: PhotoDto;

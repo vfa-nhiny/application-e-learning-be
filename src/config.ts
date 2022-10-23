@@ -1,12 +1,4 @@
 export default {
-  db: {
-    user: null,
-    pass: null,
-    host: 'localhost',
-    port: '27017',
-    database: 'testdb',
-    authSource: null,
-  },
   host: {
     url: 'https://e-learning-hehe.herokuapp.com',
     port: '3000',

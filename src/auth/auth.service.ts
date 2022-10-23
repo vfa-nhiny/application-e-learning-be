@@ -87,7 +87,6 @@ export class AuthService {
       newConsent.date = new Date();
       newConsent.registrationForm = [
         'name',
-        'surname',
         'email',
         'birthday date',
         'password',

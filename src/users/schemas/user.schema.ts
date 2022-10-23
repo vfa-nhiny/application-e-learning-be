@@ -5,12 +5,12 @@ export const UserSchema = new mongoose.Schema({
   id: String,
   date: { type: Date, default: Date.now },
   name: String,
-  surname: String,
   email: String,
   phone: String,
   password: String,
-  birthdaydate: Date,
+  birthdayDate: String,
   roles: [],
+  gender: String,
   auth: {
     email: {
       valid: { type: Boolean, default: false },

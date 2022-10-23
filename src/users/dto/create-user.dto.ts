@@ -19,8 +19,17 @@ export class CreateUserDto {
   })
   password: string;
 
+  @IsNotEmpty()
   name: string;
-  surname: string;
-  birthdayDate: Date;
-  readonly phone: string;
+
+  @IsNotEmpty()
+  birthdayDate: string;
+
+  @IsNotEmpty()
+  gender: string;
+
+  @IsNotEmpty()
+  role: string;
+
+  phone: string;
 }

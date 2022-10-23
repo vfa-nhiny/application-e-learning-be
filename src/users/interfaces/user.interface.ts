@@ -3,12 +3,12 @@ import { Photo } from 'src/common/interfaces/photo.interface';
 
 export interface User extends Document {
   name: string;
-  surname: string;
   email: string;
   phone: string;
-  birthdaydate: Date;
+  birthdayDate: string;
   password: string;
   roles: string[];
+  gender: string;
   auth: {
     email: {
       valid: boolean;

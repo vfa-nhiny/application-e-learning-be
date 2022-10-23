@@ -9,6 +9,7 @@ import { SettingsDto } from './dto/settings.dto';
 import { PhotoDto } from '../common/dto/photo.dto';
 import { UpdateGalleryDto } from './dto/update-gallery.dto';
 import * as _ from 'lodash';
+import { parse } from 'date-fns';
 
 const saltRounds = 10;
 
@@ -29,8 +30,15 @@ export class UsersService {
       const userRegistered = await this.findByEmail(newUser.email);
       if (!userRegistered) {
         newUser.password = await bcrypt.hash(newUser.password, saltRounds);
-        const createdUser = new this.userModel(newUser);
-        createdUser.roles = ['User'];
+        const createdUser = new this.userModel({
+          birthdayDate: await parse(
+            newUser.birthdayDate,
+            'dd/MM/yyyy',
+            new Date(),
+          ),
+          ...newUser,
+        });
+        createdUser.roles = [newUser.role];
         return await createdUser.save();
       } else if (!userRegistered.auth.email.valid) {
         return userRegistered;
@@ -75,13 +83,13 @@ export class UsersService {
       throw new HttpException('COMMON.USER_NOT_FOUND', HttpStatus.NOT_FOUND);
 
     if (profileDto.name) userFromDb.name = profileDto.name;
-    if (profileDto.surname) userFromDb.surname = profileDto.surname;
     if (profileDto.phone) userFromDb.phone = profileDto.phone;
-    if (profileDto.birthdaydate)
-      userFromDb.birthdaydate = profileDto.birthdaydate;
+    if (profileDto.gender) userFromDb.phone = profileDto.gender;
+    if (profileDto.birthdayDate)
+      userFromDb.birthdayDate = profileDto.birthdayDate;
 
-    if (profileDto.profilepicture) {
-      const base64Data = profileDto.profilepicture.replace(
+    if (profileDto.profilePicture) {
+      const base64Data = profileDto.profilePicture.replace(
         /^data:image\/png;base64,/,
         '',
       );

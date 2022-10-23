@@ -2,15 +2,15 @@ export class ProfileDto {
   constructor(object: any) {
     this.email = object.email;
     this.name = object.name;
-    this.surname = object.surname;
-    this.birthdaydate = object.birthdaydate;
+    this.birthdayDate = object.birthdayDate;
     this.phone = object.phone;
-    this.profilepicture = object.profilepicture;
+    this.profilePicture = object.profilePicture;
+    this.gender = object.gender;
   }
   readonly email: string;
   readonly name: string;
-  readonly surname: string;
-  readonly birthdaydate: Date;
+  readonly birthdayDate: string;
   readonly phone: string;
-  readonly profilepicture: string;
+  readonly profilePicture: string;
+  readonly gender: string;
 }

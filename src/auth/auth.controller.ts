@@ -9,10 +9,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Login } from './interfaces/login.interface';
-import { User } from '../users/interfaces/user.interface';
 import { ResponseSuccess, ResponseError } from '../common/dto/response.dto';
 import { IResponse } from '../common/interfaces/response.interface';
-import { UserDto } from '../users/dto/user.dto';
 import { UsersService } from '../users/users.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
