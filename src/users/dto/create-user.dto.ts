@@ -5,12 +5,11 @@ import {
   MaxLength,
   Matches,
 } from 'class-validator';
-import { IsEqualTo } from 'src/decorators/match.decorator';
 
 export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
-  username: string;
+  email: string;
 
   @IsNotEmpty()
   @MinLength(8)
@@ -20,6 +19,8 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsEqualTo('password')
-  passwordConfirm: string;
+  name: string;
+  surname: string;
+  birthdayDate: Date;
+  readonly phone: string;
 }
