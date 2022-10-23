@@ -3,14 +3,14 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './passport/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { UserSchema } from '../users/schemas/user.schema';
-import { EmailVerificationSchema } from '../auth/schemas/emailverification.schema';
-import { ForgottenPasswordSchema } from './schemas/forgottenpassword.schema';
-import { ConsentRegistrySchema } from './schemas/consentregistry.schema';
+import { ForgottenPasswordSchema } from './schemas/forgottenPassword.schema';
+import { ConsentRegistrySchema } from './schemas/consentRegistry.schema';
 import { UsersService } from '../users/users.service';
 import { JWTService } from './jwt.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LoggerMiddleware } from '../common/middlewares/logger.middleware';
 import { HttpModule } from '@nestjs/axios';
+import { EmailVerificationSchema } from './schemas/emailVerification.schema';
 
 @Module({
   imports: [
