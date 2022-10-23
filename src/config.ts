@@ -8,7 +8,7 @@ export default {
     authSource: null,
   },
   host: {
-    url: 'https://e-learning-hehe.herokuapp.com/',
+    url: 'https://e-learning-hehe.herokuapp.com',
     port: '3000',
   },
   jwt: {
