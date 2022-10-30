@@ -83,9 +83,16 @@ export class AuthController {
   public async sendEmailForgotPassword(@Body() body): Promise<IResponse> {
     console.log(body);
     try {
-      const isEmailSent = await this.authService.sendEmailForgotPassword(
+      const tokenModel = await this.authService.createForgottenPasswordToken(
         body.email,
       );
+
+      const isEmailSent = await this.authService.sendEmailForgotPassword(
+        body.email,
+        tokenModel,
+      );
+
+      console.log(isEmailSent);
       if (isEmailSent) {
         return new ResponseSuccess('LOGIN.EMAIL_RESENT', null);
       } else {

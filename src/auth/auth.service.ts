@@ -233,28 +233,31 @@ export class AuthService {
     return await bcrypt.compare(password, userFromDb.password);
   }
 
-  async sendEmailForgotPassword(email: string): Promise<boolean> {
+  async sendEmailForgotPassword(
+    email: string,
+    tokenModel: { newPasswordToken: string },
+  ): Promise<boolean> {
     const userFromDb = await this.userModel.findOne({ email: email });
+    console.log(email);
     if (!userFromDb)
       throw new HttpException('LOGIN.USER_NOT_FOUND', HttpStatus.NOT_FOUND);
 
-    const tokenModel = await this.createForgottenPasswordToken(email);
-
     if (tokenModel && tokenModel.newPasswordToken) {
       const transporter = nodemailer.createTransport({
-        host: config.mail.host,
-        port: config.mail.port,
-        secure: config.mail.secure, // true for 465, false for other ports
+        service: config.mail.host,
         auth: {
           user: config.mail.user,
           pass: config.mail.pass,
         },
+        tls: {
+          rejectUnauthorized: false,
+        },
       });
 
       const mailOptions = {
-        from: '"Company" <' + config.mail.user + '>',
+        from: 'EHEHE LEARNING',
         to: email, // list of receivers (separated by ,)
-        subject: 'Frogotten Password',
+        subject: 'Forgotten Password',
         text: 'Forgot Password',
         html:
           'Hi! <br><br> If you requested to reset your password<br><br>' +
@@ -264,7 +267,7 @@ export class AuthService {
           config.host.port +
           '/auth/email/reset-password/' +
           tokenModel.newPasswordToken +
-          '>Click here</a>', // html body
+          '> Click here </a>', // html body
       };
 
       const sent = await new Promise<boolean>(async function (resolve, reject) {
