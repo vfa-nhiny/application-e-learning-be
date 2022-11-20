@@ -8,6 +8,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { ProfileDto } from "./dto/profile.dto";
 import { SettingsDto } from "./dto/settings.dto";
 import * as fs from "fs";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 const saltRounds = 10;
 
@@ -51,11 +52,14 @@ export class UsersService {
     return true;
   }
 
-  async updateProfile(profileDto: ProfileDto): Promise<User> {
+  async updateProfile(profileDto: UpdateUserDto): Promise<User> {
+    console.log(profileDto);
+
     const userFromDb = await this.userModel.findOne({
       email: profileDto.email,
     });
     if (!userFromDb) throw new HttpException("COMMON.USER_NOT_FOUND", HttpStatus.NOT_FOUND);
+    console.log(userFromDb);
 
     if (profileDto.name) userFromDb.name = profileDto.name;
     if (profileDto.phone) userFromDb.phone = profileDto.phone;

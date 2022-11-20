@@ -11,6 +11,7 @@ import { AuthGuard } from "../../node_modules/@nestjs/passport";
 import { ProfileDto } from "./dto/profile.dto";
 import { SettingsDto } from "./dto/settings.dto";
 import { role } from "src/auth/constants";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Controller("users")
 @UseGuards(AuthGuard("jwt"))
@@ -33,7 +34,8 @@ export class UsersController {
   @Post("profile/update")
   @UseGuards(RolesGuard)
   @Roles(role.student, role.teacher)
-  async updateProfile(@Body() profileDto: ProfileDto): Promise<IResponse> {
+  async updateProfile(@Body() profileDto: UpdateUserDto): Promise<IResponse> {
+    console.log(profileDto);
     try {
       const user = await this.usersService.updateProfile(profileDto);
       return new ResponseSuccess("PROFILE.UPDATE_SUCCESS", new UserDto(user));

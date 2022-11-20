@@ -41,7 +41,9 @@ export class CoursesService {
     return courseFromDb;
   }
 
-  async deleteCourse(id: string): Promise<Course> {
-    return await this.courseModel.findOneAndDelete({ course_id: id }).exec();
+  async deleteCourse(id: string) {
+    const courseFromDb = await this.courseModel.findOne({ course_id: id }).exec();
+    if (!courseFromDb) throw new HttpException("COMMON.COURSE_NOT_FOUND", HttpStatus.NOT_FOUND);
+    return courseFromDb;
   }
 }
