@@ -1,3 +1,8 @@
 export const jwtConstants = {
-  secret: 'secretKey',
+  secret: "secretKey",
+};
+
+export const role = {
+  student: "student",
+  teacher: "teacher",
 };

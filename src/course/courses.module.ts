@@ -1,22 +1,22 @@
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { UsersController } from "./users.controller";
-import { UsersService } from "./users.service";
-import { UserSchema } from "./schemas/user.schema";
+import { CoursesController } from "./courses.controller";
+import { CoursesService } from "./courses.service";
+import { CourseSchema } from "./schemas/course.schema";
 import { LoggerMiddleware } from "../common/middlewares/logger.middleware";
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: "User", schema: UserSchema }])],
-  controllers: [UsersController],
-  providers: [UsersService],
+  imports: [MongooseModule.forFeature([{ name: "Course", schema: CourseSchema }])],
+  controllers: [CoursesController],
+  providers: [CoursesService],
 })
-export class UsersModule implements NestModule {
+export class CourseModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
       // .exclude(
       //   { path: "example", method: RequestMethod.GET },
       // )
-      .forRoutes(UsersController);
+      .forRoutes(CoursesController);
   }
 }

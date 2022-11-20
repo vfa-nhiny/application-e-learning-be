@@ -1,147 +1,108 @@
-import {
-  Controller,
-  Post,
-  HttpStatus,
-  HttpCode,
-  Get,
-  Body,
-  Param,
-} from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { Login } from './interfaces/login.interface';
-import { ResponseSuccess, ResponseError } from '../common/dto/response.dto';
-import { IResponse } from '../common/interfaces/response.interface';
-import { UsersService } from '../users/users.service';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { Controller, Post, HttpStatus, HttpCode, Get, Body, Param } from "@nestjs/common";
+import { AuthService } from "./auth.service";
+import { Login } from "./interfaces/login.interface";
+import { ResponseSuccess, ResponseError } from "../common/dto/response.dto";
+import { IResponse } from "../common/interfaces/response.interface";
+import { UsersService } from "../users/users.service";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { CreateUserDto } from "src/users/dto/create-user.dto";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly authService: AuthService, private readonly userService: UsersService) {}
 
-  @Post('email/login')
+  @Post("email/login")
   @HttpCode(HttpStatus.OK)
   public async login(@Body() login: Login): Promise<IResponse> {
     try {
-      const response = await this.authService.validateLogin(
-        login.email,
-        login.password,
-      );
-      return new ResponseSuccess('LOGIN.SUCCESS', response);
+      const response = await this.authService.validateLogin(login.email, login.password);
+      return new ResponseSuccess("LOGIN.SUCCESS", response);
     } catch (error) {
-      return new ResponseError('LOGIN.ERROR', error);
+      return new ResponseError("LOGIN.ERROR", error);
     }
   }
 
-  @Post('email/register')
+  @Post("email/register")
   @HttpCode(HttpStatus.OK)
   async register(@Body() createUserDto: CreateUserDto): Promise<IResponse> {
     console.log(createUserDto);
-    console.log('asdasda');
     const newUser = await this.userService.createNewUser(createUserDto);
     await this.authService.createEmailToken(newUser.email);
-    //await this.authService.saveUserConsent(newUser.email); //[GDPR user content]
+    // await this.authService.saveUserConsent(newUser.email); //[GDPR user content]
     const sent = await this.authService.sendEmailVerification(newUser.email);
     if (sent) {
-      return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY');
+      return new ResponseSuccess("REGISTRATION.USER_REGISTERED_SUCCESSFULLY");
     } else {
-      return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
+      return new ResponseError("REGISTRATION.ERROR.MAIL_NOT_SENT");
     }
   }
 
-  @Get('email/verify/:token')
+  @Get("email/verify/:token")
   public async verifyEmail(@Param() params): Promise<IResponse> {
     try {
       const isEmailVerified = await this.authService.verifyEmail(params.token);
-      return new ResponseSuccess('LOGIN.EMAIL_VERIFIED', isEmailVerified);
+      return new ResponseSuccess("LOGIN.EMAIL_VERIFIED", isEmailVerified);
     } catch (error) {
-      return new ResponseError('LOGIN.ERROR', error);
+      return new ResponseError("LOGIN.ERROR", error);
     }
   }
 
-  @Get('email/resend-verification/:email')
-  public async sendEmailVerification(@Param() params): Promise<IResponse> {
+  @Post("email/resendVerification")
+  public async sendEmailVerification(@Body() body): Promise<IResponse> {
     try {
-      await this.authService.createEmailToken(params.email);
-      const isEmailSent = await this.authService.sendEmailVerification(
-        params.email,
-      );
+      await this.authService.createEmailToken(body.email);
+      const isEmailSent = await this.authService.sendEmailVerification(body.email);
       if (isEmailSent) {
-        return new ResponseSuccess('LOGIN.EMAIL_RESENT', null);
+        return new ResponseSuccess("LOGIN.EMAIL_RESENT", null);
       } else {
-        return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
+        return new ResponseError("REGISTRATION.ERROR.MAIL_NOT_SENT");
       }
     } catch (error) {
-      return new ResponseError('LOGIN.ERROR.SEND_EMAIL', error);
+      return new ResponseError("LOGIN.ERROR.SEND_EMAIL", error);
     }
   }
 
-  @Post('email/forgot-password')
+  @Post("email/getCodeResetPassword")
   public async sendEmailForgotPassword(@Body() body): Promise<IResponse> {
     console.log(body);
     try {
-      const tokenModel = await this.authService.createForgottenPasswordToken(
-        body.email,
-      );
+      const tokenModel = await this.authService.createForgottenPasswordToken(body.email);
 
-      const isEmailSent = await this.authService.sendEmailForgotPassword(
-        body.email,
-        tokenModel,
-      );
+      const isEmailSent = await this.authService.sendEmailForgotPassword(body.email, tokenModel);
 
       console.log(isEmailSent);
       if (isEmailSent) {
-        return new ResponseSuccess('LOGIN.EMAIL_RESENT', null);
+        return new ResponseSuccess("LOGIN.EMAIL_RESENT", null);
       } else {
-        return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
+        return new ResponseError("REGISTRATION.ERROR.MAIL_NOT_SENT");
       }
     } catch (error) {
-      return new ResponseError('LOGIN.ERROR.SEND_EMAIL', error);
+      return new ResponseError("LOGIN.ERROR.SEND_EMAIL", error);
     }
   }
 
-  @Post('email/reset-password')
+  @Post("email/resetPassword")
   @HttpCode(HttpStatus.OK)
-  public async setNewPassord(
-    @Body() resetPassword: ResetPasswordDto,
-  ): Promise<IResponse> {
+  public async setNewPassword(@Body() resetPassword: ResetPasswordDto): Promise<IResponse> {
     try {
       let isNewPasswordChanged = false;
       if (resetPassword.email && resetPassword.currentPassword) {
-        const isValidPassword = await this.authService.checkPassword(
-          resetPassword.email,
-          resetPassword.currentPassword,
-        );
+        const isValidPassword = await this.authService.checkPassword(resetPassword.email, resetPassword.currentPassword);
         if (isValidPassword) {
-          isNewPasswordChanged = await this.userService.setPassword(
-            resetPassword.email,
-            resetPassword.newPassword,
-          );
+          isNewPasswordChanged = await this.userService.setPassword(resetPassword.email, resetPassword.newPassword);
         } else {
-          return new ResponseError('RESET_PASSWORD.WRONG_CURRENT_PASSWORD');
+          return new ResponseError("RESET_PASSWORD.WRONG_CURRENT_PASSWORD");
         }
       } else if (resetPassword.newPasswordToken) {
-        const forgottenPasswordModel =
-          await this.authService.getForgottenPasswordModel(
-            resetPassword.newPasswordToken,
-          );
-        isNewPasswordChanged = await this.userService.setPassword(
-          forgottenPasswordModel.email,
-          resetPassword.newPassword,
-        );
+        const forgottenPasswordModel = await this.authService.getForgottenPasswordModel(resetPassword.newPasswordToken);
+        isNewPasswordChanged = await this.userService.setPassword(forgottenPasswordModel.email, resetPassword.newPassword);
         if (isNewPasswordChanged) await forgottenPasswordModel.remove();
       } else {
-        return new ResponseError('RESET_PASSWORD.CHANGE_PASSWORD_ERROR');
+        return new ResponseError("RESET_PASSWORD.CHANGE_PASSWORD_ERROR");
       }
-      return new ResponseSuccess(
-        'RESET_PASSWORD.PASSWORD_CHANGED',
-        isNewPasswordChanged,
-      );
+      return new ResponseSuccess("RESET_PASSWORD.PASSWORD_CHANGED", isNewPasswordChanged);
     } catch (error) {
-      return new ResponseError('RESET_PASSWORD.CHANGE_PASSWORD_ERROR', error);
+      return new ResponseError("RESET_PASSWORD.CHANGE_PASSWORD_ERROR", error);
     }
   }
 }

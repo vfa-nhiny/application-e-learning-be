@@ -1,7 +1,7 @@
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { ValidationError } from 'class-validator';
-import { AppModule } from './app.module';
+import { BadRequestException, ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { ValidationError } from "class-validator";
+import { AppModule } from "./app.module";
 
 declare const module: any;
 

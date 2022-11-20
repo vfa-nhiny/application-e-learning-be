@@ -1,13 +1,13 @@
-import { Document } from 'mongoose';
-import { Photo } from 'src/common/interfaces/photo.interface';
+import { Document } from "mongoose";
 
 export interface User extends Document {
+  user_id: string;
   name: string;
   email: string;
   phone: string;
-  birthdayDate: string;
+  birthday: string;
   password: string;
-  roles: string[];
+  role: string;
   gender: string;
   auth: {
     email: {
@@ -20,9 +20,8 @@ export interface User extends Document {
       userid: string;
     };
   };
-  settings: {};
-  photos: {
-    profilePic: Photo;
-    gallery: Photo[];
+  settings: {
+    //TODO: add setting
   };
+  avatar: string;
 }
