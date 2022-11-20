@@ -29,8 +29,8 @@ export class CoursesService {
 
     if (courseDto.title) courseFromDb.title = courseDto.title;
     if (courseDto.description) courseFromDb.description = courseDto.description;
-    if (courseDto.rates) courseFromDb.rates = courseDto.rates;
-    if (courseDto.votes) courseFromDb.votes = courseDto.votes;
+    if (courseDto.rates_point) courseFromDb.rates_point = courseDto.rates_point;
+    if (courseDto.rates_number) courseFromDb.rates_number = courseDto.rates_number;
     if (courseDto.image) courseFromDb.image = courseDto.image;
     if (courseDto.category) courseFromDb.category = courseDto.category;
     if (courseDto.price) courseFromDb.price = courseDto.price;

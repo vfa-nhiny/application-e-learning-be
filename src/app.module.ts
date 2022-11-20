@@ -5,9 +5,10 @@ import { UsersModule } from "./users/users.module";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { CourseModule } from "./course/courses.module";
+import { SectionModule } from "./sections/sections.module";
 
 @Module({
-  imports: [ConfigModule.forRoot(), MongooseModule.forRoot(`${process.env.MONGO_CONNECTION}`), UsersModule, AuthModule, CourseModule],
+  imports: [ConfigModule.forRoot(), MongooseModule.forRoot(`${process.env.MONGO_CONNECTION}`), UsersModule, AuthModule, CourseModule, SectionModule],
   controllers: [],
   providers: [],
 })

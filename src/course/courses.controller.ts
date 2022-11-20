@@ -44,7 +44,7 @@ export class CoursesController {
   @Post("create")
   @UseGuards(RolesGuard)
   @Roles(role.teacher)
-  async createNewCourse(@Body() body): Promise<IResponse> {
+  async createNewCourse(@Body() body: CreateCourseDto): Promise<IResponse> {
     console.log(body);
     try {
       const course = await this.courseService.createNewCourse(body);
@@ -72,7 +72,7 @@ export class CoursesController {
   async deleteCourse(@Body() body): Promise<IResponse> {
     try {
       const course = await this.courseService.deleteCourse(body.course_id);
-      return new ResponseSuccess("COMMON.SUCCESS");
+      return new ResponseSuccess("COMMON.SUCCESS", null);
     } catch (error) {
       return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
     }

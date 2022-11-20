@@ -4,8 +4,8 @@ export interface Course extends Document {
   course_id: string;
   title: string;
   description: string;
-  rates: number;
-  votes: number;
+  rates_point: number;
+  rates_number: number;
   image: string;
   price: number;
   sale: number;

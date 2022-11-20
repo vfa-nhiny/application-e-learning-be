@@ -3,8 +3,8 @@ export class CourseDto {
     this.course_id = object.course_id;
     this.title = object.title;
     this.description = object.description;
-    this.rates = object.rates;
-    this.votes = object.votes;
+    this.rates_point = object.rates_point;
+    this.rates_number = object.rates_number;
     this.image = object.image;
     this.category = object.category;
     this.price = object.price;
@@ -14,8 +14,8 @@ export class CourseDto {
   readonly course_id: string;
   readonly title: string;
   readonly description: string;
-  readonly rates: number;
-  readonly votes: number;
+  readonly rates_point: number;
+  readonly rates_number: number;
   readonly image: string;
   readonly category: string[];
   readonly price: number;
