@@ -4,11 +4,18 @@ import { CoursesController } from "./courses.controller";
 import { CoursesService } from "./courses.service";
 import { CourseSchema } from "./schemas/course.schema";
 import { LoggerMiddleware } from "../common/middlewares/logger.middleware";
+import { SectionsService } from "src/sections/sections.service";
+import { SectionSchema } from "src/sections/schemas/section.schema";
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: "Course", schema: CourseSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: "Course", schema: CourseSchema },
+      { name: "Section", schema: SectionSchema },
+    ]),
+  ],
   controllers: [CoursesController],
-  providers: [CoursesService],
+  providers: [CoursesService, SectionsService],
 })
 export class CourseModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {

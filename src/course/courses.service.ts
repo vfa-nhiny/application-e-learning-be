@@ -4,11 +4,11 @@ import { Course } from "./interfaces/course.interface";
 import { InjectModel } from "@nestjs/mongoose";
 import * as crypto from "crypto";
 import { CreateCourseDto } from "./dto/create-course.dto";
+import { Section } from "src/sections/interfaces/section.interface";
 
 @Injectable()
 export class CoursesService {
-  constructor(@InjectModel("Course") private readonly courseModel: Model<Course>) {}
-
+  constructor(@InjectModel("Course") private readonly courseModel: Model<Course>, @InjectModel("Section") private readonly sectionModel: Model<Section>) {}
   async findAll(): Promise<Course[]> {
     return await this.courseModel.find().exec();
   }
@@ -44,6 +44,10 @@ export class CoursesService {
   async deleteCourse(id: string) {
     const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
     if (!courseFromDb) throw new HttpException("COMMON.COURSE_NOT_FOUND", HttpStatus.NOT_FOUND);
-    return courseFromDb;
+    const sectionArrayFromDb = await this.sectionModel.find({ courseId: id });
+    sectionArrayFromDb?.map(item => {
+      item.remove();
+    });
+    return await courseFromDb.remove();
   }
 }
