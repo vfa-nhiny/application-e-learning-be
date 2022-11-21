@@ -2,8 +2,9 @@ import { Document } from "mongoose";
 import { LessonDto } from "../dto/lesson.dto";
 
 export interface Section extends Document {
-  section_id: string;
-  course_id: string;
+  sectionId: string;
+  courseId: string;
   title: string;
+  order: number;
   lessons: LessonDto[];
 }

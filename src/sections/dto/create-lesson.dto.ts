@@ -1,6 +1,8 @@
 export class CreateLessonDto {
-  lesson_id: string;
-  section_id: string;
+  lessonId: string;
+  sectionId: string;
+  date: Date;
   url: string;
   title: string;
+  order: number;
 }

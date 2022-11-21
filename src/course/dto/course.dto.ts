@@ -1,24 +1,29 @@
 export class CourseDto {
   constructor(object: any) {
-    this.course_id = object.course_id;
+    this.courseId = object.courseId;
     this.title = object.title;
     this.description = object.description;
-    this.rates_point = object.rates_point;
-    this.rates_number = object.rates_number;
+    this.ratingScore = object.ratingScore;
+    this.ratingNumber = object.ratingNumber;
     this.image = object.image;
+    this.createdAt = object.createdAt;
+    this.updatedAt = object.updatedAt;
     this.category = object.category;
     this.price = object.price;
     this.sale = object.sale;
-    this.author_id = object.author_id;
+    this.authorId = object.authorId;
   }
-  readonly course_id: string;
+  readonly courseId: string;
   readonly title: string;
   readonly description: string;
-  readonly rates_point: number;
-  readonly rates_number: number;
+  readonly ratingScore: number;
+  readonly ratingNumber: number;
   readonly image: string;
+  readonly date: Date;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
   readonly category: string[];
   readonly price: number;
   readonly sale: number;
-  readonly author_id: string;
+  readonly authorId: string;
 }

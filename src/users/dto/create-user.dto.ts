@@ -1,7 +1,7 @@
 import { IsEmail, MinLength, MaxLength, Matches } from "class-validator";
 
 export class CreateUserDto {
-  user_id: string;
+  userId: string;
 
   @IsEmail()
   email: string;

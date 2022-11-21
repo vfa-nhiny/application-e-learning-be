@@ -2,7 +2,7 @@ import { SettingsDto } from "./settings.dto";
 
 export class UserDto {
   constructor(object: any) {
-    this.user_id = object.user_id;
+    this.userId = object.userId;
     this.name = object.name;
     this.email = object.email;
     this.phone = object.phone;
@@ -13,7 +13,7 @@ export class UserDto {
     this.role = object.role;
   }
 
-  readonly user_id: string;
+  readonly userId: string;
   readonly name: string;
   readonly email: string;
   readonly phone: string;

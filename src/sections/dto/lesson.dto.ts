@@ -1,11 +1,15 @@
 export class LessonDto {
   constructor(object: any) {
-    this.lesson_id = object.lesson_id;
+    this.lessonId = object.lessonId;
     this.url = object.url;
+    this.date = object.date;
     this.title = object.title;
+    this.order = object.order;
   }
 
   url: string;
   title: string;
-  lesson_id: string;
+  date: Date;
+  lessonId: string;
+  order: number;
 }

@@ -1,14 +1,16 @@
 import { Document } from "mongoose";
 
 export interface Course extends Document {
-  course_id: string;
+  courseId: string;
   title: string;
   description: string;
-  rates_point: number;
-  rates_number: number;
+  ratingScore: number;
+  ratingNumber: number;
+  createdAt: Date;
+  updatedAt: Date;
   image: string;
   price: number;
   sale: number;
-  author_id: string;
+  authorId: string;
   category: string[];
 }

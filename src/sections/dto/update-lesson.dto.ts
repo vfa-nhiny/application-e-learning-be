@@ -3,8 +3,11 @@ import { LessonDto } from "./lesson.dto";
 
 export class UpdateLessonDto {
   @IsNotEmpty()
-  lesson_id: string;
-  section_id: string;
+  lessonId: string;
+
+  sectionId: string;
+  order: number;
+  date: Date;
   url: string;
   title: string;
 }

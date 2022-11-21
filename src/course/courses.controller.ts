@@ -34,7 +34,7 @@ export class CoursesController {
   @Roles(role.teacher)
   async findById(@Body() body): Promise<IResponse> {
     try {
-      const course = await this.courseService.findById(body.id);
+      const course = await this.courseService.findById(body.courseId);
       return new ResponseSuccess("COMMON.SUCCESS", new CourseDto(course));
     } catch (error) {
       return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
@@ -71,7 +71,7 @@ export class CoursesController {
   @Roles(role.teacher)
   async deleteCourse(@Body() body): Promise<IResponse> {
     try {
-      const course = await this.courseService.deleteCourse(body.course_id);
+      const course = await this.courseService.deleteCourse(body.courseId);
       return new ResponseSuccess("COMMON.SUCCESS", null);
     } catch (error) {
       return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);

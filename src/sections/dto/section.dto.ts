@@ -2,13 +2,19 @@ import { LessonDto } from "./lesson.dto";
 
 export class SectionDto {
   constructor(object: any) {
-    this.section_id = object.section_id;
-    this.course_id = object.course_id;
+    this.sectionId = object.sectionId;
+    this.courseId = object.courseId;
+    this.createdAt = object.createdAt;
+    this.updatedAt = object.updatedAt;
     this.title = object.title;
+    this.order = object.order;
     this.lessons = object.lessons;
   }
-  section_id: string;
-  course_id: string;
+  sectionId: string;
+  courseId: string;
+  createdAt: Date;
+  updatedAt: Date;
   title: string;
+  order: number;
   lessons: LessonDto[];
 }

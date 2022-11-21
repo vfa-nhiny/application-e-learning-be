@@ -30,7 +30,7 @@ export class UsersService {
       if (!userRegistered) {
         newUser.password = await bcrypt.hash(newUser.password, saltRounds);
         const createdUser = new this.userModel({ ...newUser });
-        createdUser.user_id = crypto.randomUUID();
+        createdUser.userId = crypto.randomUUID();
         return await createdUser.save();
       } else if (!userRegistered.auth.email.valid) {
         return userRegistered;
