@@ -1,9 +1,9 @@
 import { Controller, Post, HttpStatus, HttpCode, Get, Body, Param } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Login } from "./interfaces/login.interface";
-import { ResponseSuccess, ResponseError } from "../common/dto/response.dto";
-import { IResponse } from "../common/interfaces/response.interface";
-import { UsersService } from "../module/users/users.service";
+import { ResponseSuccess, ResponseError } from "../../common/dto/response.dto";
+import { IResponse } from "../../common/interfaces/response.interface";
+import { UsersService } from "../users/users.service";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { CreateUserDto } from "src/module/users/dto/create-user.dto";
 
@@ -16,9 +16,9 @@ export class AuthController {
   public async login(@Body() login: Login): Promise<IResponse> {
     try {
       const response = await this.authService.validateLogin(login.email, login.password);
-      return new ResponseSuccess("LOGIN.SUCCESS", response);
+      return new ResponseSuccess("Login success", response);
     } catch (error) {
-      return new ResponseError("LOGIN.ERROR", error);
+      return new ResponseError("Login error", error);
     }
   }
 
@@ -31,9 +31,9 @@ export class AuthController {
     // await this.authService.saveUserConsent(newUser.email); //[GDPR user content]
     const sent = await this.authService.sendEmailVerification(newUser.email);
     if (sent) {
-      return new ResponseSuccess("REGISTRATION.USER_REGISTERED_SUCCESSFULLY");
+      return new ResponseSuccess("User registered successfully");
     } else {
-      return new ResponseError("REGISTRATION.ERROR.MAIL_NOT_SENT");
+      return new ResponseError("Error: Mail not send");
     }
   }
 
@@ -41,9 +41,9 @@ export class AuthController {
   public async verifyEmail(@Param() params): Promise<IResponse> {
     try {
       const isEmailVerified = await this.authService.verifyEmail(params.token);
-      return new ResponseSuccess("LOGIN.EMAIL_VERIFIED", isEmailVerified);
+      return new ResponseSuccess("Email verified", isEmailVerified);
     } catch (error) {
-      return new ResponseError("LOGIN.ERROR", error);
+      return new ResponseError("Login error", error);
     }
   }
 
@@ -53,12 +53,12 @@ export class AuthController {
       await this.authService.createEmailToken(body.email);
       const isEmailSent = await this.authService.sendEmailVerification(body.email);
       if (isEmailSent) {
-        return new ResponseSuccess("LOGIN.EMAIL_RESENT", null);
+        return new ResponseSuccess("Email resent");
       } else {
-        return new ResponseError("REGISTRATION.ERROR.MAIL_NOT_SENT");
+        return new ResponseError("Mail not sent");
       }
     } catch (error) {
-      return new ResponseError("LOGIN.ERROR.SEND_EMAIL", error);
+      return new ResponseError("Error send mail", error);
     }
   }
 
@@ -72,12 +72,12 @@ export class AuthController {
 
       console.log(isEmailSent);
       if (isEmailSent) {
-        return new ResponseSuccess("LOGIN.EMAIL_RESENT", null);
+        return new ResponseSuccess("Email resent", null);
       } else {
-        return new ResponseError("REGISTRATION.ERROR.MAIL_NOT_SENT");
+        return new ResponseError("Email not sent");
       }
     } catch (error) {
-      return new ResponseError("LOGIN.ERROR.SEND_EMAIL", error);
+      return new ResponseError("Error send email", error);
     }
   }
 
@@ -91,18 +91,18 @@ export class AuthController {
         if (isValidPassword) {
           isNewPasswordChanged = await this.userService.setPassword(resetPassword.email, resetPassword.newPassword);
         } else {
-          return new ResponseError("RESET_PASSWORD.WRONG_CURRENT_PASSWORD");
+          return new ResponseError("Error reset password: wrong current password");
         }
       } else if (resetPassword.newPasswordToken) {
         const forgottenPasswordModel = await this.authService.getForgottenPasswordModel(resetPassword.newPasswordToken);
         isNewPasswordChanged = await this.userService.setPassword(forgottenPasswordModel.email, resetPassword.newPassword);
         if (isNewPasswordChanged) await forgottenPasswordModel.remove();
       } else {
-        return new ResponseError("RESET_PASSWORD.CHANGE_PASSWORD_ERROR");
+        return new ResponseError("Change password error");
       }
-      return new ResponseSuccess("RESET_PASSWORD.PASSWORD_CHANGED", isNewPasswordChanged);
+      return new ResponseSuccess("Password changed", isNewPasswordChanged);
     } catch (error) {
-      return new ResponseError("RESET_PASSWORD.CHANGE_PASSWORD_ERROR", error);
+      return new ResponseError("Change password error", error);
     }
   }
 }

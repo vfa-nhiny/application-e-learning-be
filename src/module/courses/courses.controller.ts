@@ -8,7 +8,7 @@ import { Roles } from "../../common/decorators/roles.decorator";
 import { LoggingInterceptor } from "../../common/interceptors/logging.interceptor";
 import { TransformInterceptor } from "../../common/interceptors/transform.interceptor";
 import { AuthGuard } from "@nestjs/passport";
-import { role } from "src/auth/constants";
+import { role } from "src/module/auth/constants";
 import { CreateCourseDto } from "./dto/create-course.dto";
 
 @Controller("courses")
@@ -23,9 +23,9 @@ export class CoursesController {
   async findAll(): Promise<IResponse> {
     try {
       const course = await this.courseService.findAll();
-      return new ResponseSuccess("COMMON.SUCCESS", course);
+      return new ResponseSuccess("Success", course);
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -35,9 +35,9 @@ export class CoursesController {
   async findById(@Body() body): Promise<IResponse> {
     try {
       const course = await this.courseService.findById(body.courseId);
-      return new ResponseSuccess("COMMON.SUCCESS", new CourseDto(course));
+      return new ResponseSuccess("Success", new CourseDto(course));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -48,9 +48,9 @@ export class CoursesController {
     console.log(body);
     try {
       const course = await this.courseService.createNewCourse(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new CourseDto(course));
+      return new ResponseSuccess("Course created successfully", new CourseDto(course));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -60,9 +60,9 @@ export class CoursesController {
   async updateCourse(@Body() body): Promise<IResponse> {
     try {
       const course = await this.courseService.updateCourse(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new CourseDto(course));
+      return new ResponseSuccess("Course updated successfully", new CourseDto(course));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -72,9 +72,9 @@ export class CoursesController {
   async deleteCourse(@Body() body): Promise<IResponse> {
     try {
       const course = await this.courseService.deleteCourse(body.courseId);
-      return new ResponseSuccess("COMMON.SUCCESS", null);
+      return new ResponseSuccess("Course deleted successfully", null);
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 }

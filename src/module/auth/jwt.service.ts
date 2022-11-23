@@ -1,9 +1,9 @@
 import * as jwt from "jsonwebtoken";
-import { default as config } from "../config";
+import { default as config } from "../../config";
 import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { User } from "../module/users/interfaces/user.interface";
-import { InjectModel } from "../../node_modules/@nestjs/mongoose";
+import { User } from "../users/interfaces/user.interface";
+import { InjectModel } from "@nestjs/mongoose";
 
 @Injectable()
 export class JWTService {

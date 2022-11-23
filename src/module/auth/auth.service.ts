@@ -1,11 +1,11 @@
 import * as bcrypt from "bcryptjs";
 import * as nodemailer from "nodemailer";
-import { default as config } from "../config";
+import { default as config } from "../../config";
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { JWTService } from "./jwt.service";
 import { Model } from "mongoose";
-import { User } from "../module/users/interfaces/user.interface";
-import { UserDto } from "../module/users/dto/user.dto";
+import { User } from "../users/interfaces/user.interface";
+import { UserDto } from "../users/dto/user.dto";
 import { EmailVerification } from "./interfaces/emailVerification.interface";
 import { ForgottenPassword } from "./interfaces/forgottenPassword.interface";
 import { ConsentRegistry } from "./interfaces/consentRegistry.interface";

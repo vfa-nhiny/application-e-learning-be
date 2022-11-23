@@ -7,7 +7,7 @@ import { Roles } from "../../common/decorators/roles.decorator";
 import { LoggingInterceptor } from "../../common/interceptors/logging.interceptor";
 import { TransformInterceptor } from "../../common/interceptors/transform.interceptor";
 import { AuthGuard } from "@nestjs/passport";
-import { role } from "src/auth/constants";
+import { role } from "src/module/auth/constants";
 import { CommentDto } from "./dto/comment.dto";
 
 @Controller("comments")
@@ -22,9 +22,9 @@ export class CommentsController {
   // async findById(@Body() body): Promise<IResponse> {
   //   try {
   //     const comment = await this.commentsService.findByEmail(body.email);
-  //     return new ResponseSuccess("COMMON.SUCCESS", new CommentDto(comment));
+  //     return new ResponseSuccess("Success", new CommentDto(comment));
   //   } catch (error) {
-  //     return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+  //     return new ResponseError("Error: generic error", error);
   //   }
   // }
 }

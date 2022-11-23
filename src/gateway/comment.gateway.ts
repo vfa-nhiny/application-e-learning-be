@@ -51,38 +51,38 @@ export class CommentGateway {
     this.server.to(message.lessonId).emit("chatToClient", message);
   }
 
-  @SubscribeMessage("joinRoom")
-  handleRoomJoin(client: Socket, roomInfo: { roomId: string; username: string }) {
-    const { roomId, username } = roomInfo;
-    console.log(roomInfo);
-    const room = this.rooms.get(roomId);
+  @SubscribeMessage("joinLesson")
+  handleLessonJoin(client: Socket, lessonInfo: { lessonId: string; userId: string }) {
+    const { lessonId, userId } = lessonInfo;
+    console.log(lessonInfo);
+    const room = this.rooms.get(lessonId);
     if (!room) {
-      const users = [{ clientId: client.id, username: roomInfo.username }];
+      const users = [{ clientId: client.id, userId: lessonInfo.userId }];
       console.log("users: ", users);
 
-      this.rooms.set(roomId, users);
+      this.rooms.set(lessonId, users);
     } else {
       const user = {
         clientId: client.id,
-        username: roomInfo.username,
+        userId: lessonInfo.userId,
       };
       console.log("user: ", user);
       room.push(user);
     }
     // Client join room
-    client.join(roomId);
-    client.emit("joinedRoom", roomId);
+    client.join(lessonId);
+    client.emit("joinedLesson", lessonId);
     // Announcement for user in room know list user in room;
-    this.server.to(roomId).emit("onUserOnline", this.rooms.get(roomId));
+    this.server.to(lessonId).emit("onUserOnline", this.rooms.get(lessonId));
     // Set clients user
-    this.clients.set(client.id, { client, username });
-    console.log("join room", this.rooms.get(roomId));
+    this.clients.set(client.id, { client, userId });
+    console.log("join room", this.rooms.get(lessonId));
   }
 
-  @SubscribeMessage("leaveRoom")
-  handleRoomLeave(client: Socket, roomId: string) {
-    client.emit("leftRoom", roomId);
-    const room = this.rooms.get(roomId);
+  @SubscribeMessage("leaveLesson")
+  handleLessonLeave(client: Socket, lessonId: string) {
+    client.emit("leftLesson", lessonId);
+    const room = this.rooms.get(lessonId);
     if (!room) {
       return;
     }
@@ -90,37 +90,36 @@ export class CommentGateway {
     if (room.length) {
       const browser = this.clients.get(client.id);
 
-      const leaveUser = browser["username"];
-      const newUsers = room.filter(user => user.username !== leaveUser);
-      this.rooms.set(roomId, newUsers);
-      console.log("room", this.rooms.get(roomId));
-      client.to(roomId).emit("userLeaveRoom", leaveUser);
+      const leaveUser = browser["userId"];
+      const newUsers = room.filter(user => user.userId !== leaveUser);
+      this.rooms.set(lessonId, newUsers);
+      console.log("room", this.rooms.get(lessonId));
+      client.to(lessonId).emit("userLeaveLesson", leaveUser);
     } else {
       // if no users in room then delete room
-      this.rooms.delete(roomId);
+      this.rooms.delete(lessonId);
     }
   }
 
-  @SubscribeMessage("messageOfRoom")
-  handleGetMessageOfRoom(client: Socket, roomId: string) {
-    client.leave(roomId);
-    client.emit("messageOfRoom", roomId);
-    const room = this.rooms.get(roomId);
+  @SubscribeMessage("messageOfLesson")
+  handleGetMessageOfLesson(client: Socket, lessonId: string) {
+    client.leave(lessonId);
+    client.emit("messageOfLesson", lessonId);
+    const room = this.rooms.get(lessonId);
     if (!room) {
       return;
     }
     // filter user in room
     if (room.length) {
       const browser = this.clients.get(client.id);
-
-      const leaveUser = browser["username"];
-      const newUsers = room.filter(user => user.username !== leaveUser);
-      this.rooms.set(roomId, newUsers);
-      console.log("room", this.rooms.get(roomId));
-      client.to(roomId).emit("userLeaveRoom", leaveUser);
+      const leaveUser = browser["userId"];
+      const newUsers = room.filter(user => user.userId !== leaveUser);
+      this.rooms.set(lessonId, newUsers);
+      console.log("room", this.rooms.get(lessonId));
+      client.to(lessonId).emit("userLeaveLesson", leaveUser);
     } else {
       // if no users in room then delete room
-      this.rooms.delete(roomId);
+      this.rooms.delete(lessonId);
     }
   }
 }

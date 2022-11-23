@@ -7,7 +7,7 @@ import { Roles } from "../../common/decorators/roles.decorator";
 import { LoggingInterceptor } from "../../common/interceptors/logging.interceptor";
 import { TransformInterceptor } from "../../common/interceptors/transform.interceptor";
 import { AuthGuard } from "@nestjs/passport";
-import { role } from "src/auth/constants";
+import { role } from "src/module/auth/constants";
 import { RateDto } from "./dto/rate.dto";
 
 @Controller("rates")
@@ -22,9 +22,9 @@ export class RatesController {
   // async findById(@Body() body): Promise<IResponse> {
   //   try {
   //     const rate = await this.ratesService.findByEmail(body.email);
-  //     return new ResponseSuccess("COMMON.SUCCESS", new RateDto(rate));
+  //     return new ResponseSuccess("Success", new RateDto(rate));
   //   } catch (error) {
-  //     return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+  //     return new ResponseError("Error: generic error", error);
   //   }
   // }
 }

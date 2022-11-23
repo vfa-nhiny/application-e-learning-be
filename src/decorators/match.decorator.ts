@@ -1,16 +1,9 @@
-import {
-  registerDecorator,
-  ValidationArguments,
-  ValidationOptions,
-} from 'class-validator';
+import { registerDecorator, ValidationArguments, ValidationOptions } from "class-validator";
 
-export function IsEqualTo(
-  property: string,
-  validationOptions?: ValidationOptions,
-) {
+export function IsEqualTo(property: string, validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
     registerDecorator({
-      name: 'isEqualTo',
+      name: "isEqualTo",
       target: object.constructor,
       propertyName,
       constraints: [property],

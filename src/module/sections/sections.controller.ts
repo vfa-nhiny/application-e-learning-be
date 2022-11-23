@@ -8,7 +8,7 @@ import { Roles } from "../../common/decorators/roles.decorator";
 import { LoggingInterceptor } from "../../common/interceptors/logging.interceptor";
 import { TransformInterceptor } from "../../common/interceptors/transform.interceptor";
 import { AuthGuard } from "@nestjs/passport";
-import { role } from "src/auth/constants";
+import { role } from "src/module/auth/constants";
 import { CreateSectionDto } from "./dto/create-section.dto";
 import { UpdateLessonDto } from "./dto/update-lesson.dto";
 import { CreateLessonDto } from "./dto/create-lesson.dto";
@@ -25,9 +25,9 @@ export class SectionsController {
   async findByIdCourse(@Body() body): Promise<IResponse> {
     try {
       const section = await this.sectionService.findSections(body.courseId);
-      return new ResponseSuccess("COMMON.SUCCESS", section);
+      return new ResponseSuccess("Success", section);
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -38,9 +38,9 @@ export class SectionsController {
     console.log(body);
     try {
       const section = await this.sectionService.createNewSection(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new SectionDto(section));
+      return new ResponseSuccess("Section created successfully", new SectionDto(section));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -50,9 +50,9 @@ export class SectionsController {
   async updateSection(@Body() body): Promise<IResponse> {
     try {
       const section = await this.sectionService.updateSection(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new SectionDto(section));
+      return new ResponseSuccess("Section updated successfully", new SectionDto(section));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -62,9 +62,9 @@ export class SectionsController {
   async deleteSection(@Body() body): Promise<IResponse> {
     try {
       await this.sectionService.deleteSection(body.sectionId);
-      return new ResponseSuccess("COMMON.SUCCESS", null);
+      return new ResponseSuccess("Section deleted successfully", null);
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -75,9 +75,9 @@ export class SectionsController {
     console.log(body);
     try {
       const section = await this.sectionService.createNewLesson(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new SectionDto(section));
+      return new ResponseSuccess("Lesson created successfully", new SectionDto(section));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -88,9 +88,9 @@ export class SectionsController {
     console.log(body);
     try {
       const section = await this.sectionService.updateLesson(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new SectionDto(section));
+      return new ResponseSuccess("Lesson updated successfully", new SectionDto(section));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -101,9 +101,9 @@ export class SectionsController {
     console.log(body);
     try {
       const section = await this.sectionService.deleteLesson(body);
-      return new ResponseSuccess("COMMON.SUCCESS", new SectionDto(section));
+      return new ResponseSuccess("Lesson deleted successfully", new SectionDto(section));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 }

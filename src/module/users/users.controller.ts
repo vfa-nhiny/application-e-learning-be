@@ -10,7 +10,7 @@ import { TransformInterceptor } from "../../common/interceptors/transform.interc
 import { AuthGuard } from "@nestjs/passport";
 import { ProfileDto } from "./dto/profile.dto";
 import { SettingsDto } from "./dto/settings.dto";
-import { role } from "src/auth/constants";
+import { role } from "src/module/auth/constants";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Controller("users")
@@ -25,9 +25,9 @@ export class UsersController {
   async findById(@Body() body): Promise<IResponse> {
     try {
       const user = await this.usersService.findByEmail(body.email);
-      return new ResponseSuccess("COMMON.SUCCESS", new UserDto(user));
+      return new ResponseSuccess("Success", new UserDto(user));
     } catch (error) {
-      return new ResponseError("COMMON.ERROR.GENERIC_ERROR", error);
+      return new ResponseError("Error: generic error", error);
     }
   }
 
@@ -38,9 +38,9 @@ export class UsersController {
     console.log(profileDto);
     try {
       const user = await this.usersService.updateProfile(profileDto);
-      return new ResponseSuccess("PROFILE.UPDATE_SUCCESS", new UserDto(user));
+      return new ResponseSuccess("Profile updated successfully", new UserDto(user));
     } catch (error) {
-      return new ResponseError("PROFILE.UPDATE_ERROR", error);
+      return new ResponseError("Profile update error", error);
     }
   }
 
@@ -50,9 +50,9 @@ export class UsersController {
   async updateSettings(@Body() settingsDto: SettingsDto): Promise<IResponse> {
     try {
       const user = await this.usersService.updateSettings(settingsDto);
-      return new ResponseSuccess("SETTINGS.UPDATE_SUCCESS", new UserDto(user));
+      return new ResponseSuccess("Setting updated successfully", new UserDto(user));
     } catch (error) {
-      return new ResponseError("SETTINGS.UPDATE_ERROR", error);
+      return new ResponseError("Setting update error", error);
     }
   }
 }
