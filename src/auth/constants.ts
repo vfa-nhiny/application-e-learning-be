@@ -6,3 +6,5 @@ export const role = {
   student: "student",
   teacher: "teacher",
 };
+
+export const localCurrentTime = new Date();

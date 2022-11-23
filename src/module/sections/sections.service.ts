@@ -21,7 +21,7 @@ export class SectionsService {
   async createNewSection(newSection: CreateSectionDto): Promise<Section> {
     const createdSection = new this.sectionModel({ sectionId: crypto.randomUUID(), ...newSection });
     const sectionArray = await this.sectionModel.find({ courseId: newSection.courseId });
-    if (newSection.order !== sectionArray.length) {
+    if (newSection.order !== sectionArray.length + 1) {
       sectionArray.map(item => {
         if (item.order >= newSection.order) {
           item.order++;
@@ -121,14 +121,12 @@ export class SectionsService {
   }
 
   async getOrderLessonCreated(data, arrayData): Promise<[]> {
-    if (data.order !== arrayData.length) {
+    if (data.order !== arrayData.length + 1) {
       arrayData.map(item => {
         if (item.order >= data.order) {
           item.order++;
         }
       });
-    } else {
-      data.order++;
     }
     arrayData.push({ lessonId: crypto.randomUUID(), ...data });
     arrayData.sort((first, second) => first.order - second.order);

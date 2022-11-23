@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 import { default as config } from "../config";
 import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { User } from "../users/interfaces/user.interface";
+import { User } from "../module/users/interfaces/user.interface";
 import { InjectModel } from "../../node_modules/@nestjs/mongoose";
 
 @Injectable()

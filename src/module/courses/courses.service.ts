@@ -4,7 +4,7 @@ import { Course } from "./interfaces/course.interface";
 import { InjectModel } from "@nestjs/mongoose";
 import * as crypto from "crypto";
 import { CreateCourseDto } from "./dto/create-course.dto";
-import { Section } from "src/sections/interfaces/section.interface";
+import { Section } from "src/module/sections/interfaces/section.interface";
 
 @Injectable()
 export class CoursesService {

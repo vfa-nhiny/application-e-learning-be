@@ -9,7 +9,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: false });
   app.useGlobalPipes(new ValidationPipe());
 
   // app.use("/public", express.static(join(__dirname, "../../public")));

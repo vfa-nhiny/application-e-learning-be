@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, UseGuards, UseInterceptors } from "@nestjs/common";
 import { CourseDto } from "./dto/course.dto";
 import { CoursesService } from "./courses.service";
-import { IResponse } from "../common/interfaces/response.interface";
-import { ResponseSuccess, ResponseError } from "../common/dto/response.dto";
-import { RolesGuard } from "../common/guards/roles.guard";
-import { Roles } from "../common/decorators/roles.decorator";
-import { LoggingInterceptor } from "../common/interceptors/logging.interceptor";
-import { TransformInterceptor } from "../common/interceptors/transform.interceptor";
+import { IResponse } from "../../common/interfaces/response.interface";
+import { ResponseSuccess, ResponseError } from "../../common/dto/response.dto";
+import { RolesGuard } from "../../common/guards/roles.guard";
+import { Roles } from "../../common/decorators/roles.decorator";
+import { LoggingInterceptor } from "../../common/interceptors/logging.interceptor";
+import { TransformInterceptor } from "../../common/interceptors/transform.interceptor";
 import { AuthGuard } from "@nestjs/passport";
 import { role } from "src/auth/constants";
 import { CreateCourseDto } from "./dto/create-course.dto";

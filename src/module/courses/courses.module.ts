@@ -3,9 +3,9 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { CoursesController } from "./courses.controller";
 import { CoursesService } from "./courses.service";
 import { CourseSchema } from "./schemas/course.schema";
-import { LoggerMiddleware } from "../common/middlewares/logger.middleware";
-import { SectionsService } from "src/sections/sections.service";
-import { SectionSchema } from "src/sections/schemas/section.schema";
+import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
+import { SectionsService } from "src/module/sections/sections.service";
+import { SectionSchema } from "src/module/sections/schemas/section.schema";
 
 @Module({
   imports: [

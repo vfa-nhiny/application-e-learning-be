@@ -1,14 +1,25 @@
 import { Module } from "@nestjs/common";
 import { AuthModule } from "./auth/auth.module";
 import { DatabaseModule } from "./database/database.module";
-import { UsersModule } from "./users/users.module";
+import { UsersModule } from "./module/users/users.module";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
-import { CourseModule } from "./course/courses.module";
-import { SectionModule } from "./sections/sections.module";
+import { CourseModule } from "./module/courses/courses.module";
+import { SectionModule } from "./module/sections/sections.module";
+import { CommentGateway } from "./gateway/comment.gateway";
+import { CommentsModule } from "./module/comments/comments.module";
 
 @Module({
-  imports: [ConfigModule.forRoot(), MongooseModule.forRoot(`${process.env.MONGO_CONNECTION}`), UsersModule, AuthModule, CourseModule, SectionModule],
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(`${process.env.MONGO_CONNECTION}`),
+    UsersModule,
+    AuthModule,
+    CourseModule,
+    SectionModule,
+    CommentsModule,
+    // CommentGateway,
+  ],
   controllers: [],
   providers: [],
 })

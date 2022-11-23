@@ -24,6 +24,10 @@ export class UsersService {
     return await this.userModel.findOne({ email: email }).exec();
   }
 
+  async findByUserId(userId: string): Promise<User> {
+    return await this.userModel.findOne({ userId: userId }).exec();
+  }
+
   async createNewUser(newUser: CreateUserDto): Promise<User> {
     if (newUser.email && newUser.password) {
       const userRegistered = await this.findByEmail(newUser.email);

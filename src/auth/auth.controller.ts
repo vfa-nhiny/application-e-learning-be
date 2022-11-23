@@ -3,9 +3,9 @@ import { AuthService } from "./auth.service";
 import { Login } from "./interfaces/login.interface";
 import { ResponseSuccess, ResponseError } from "../common/dto/response.dto";
 import { IResponse } from "../common/interfaces/response.interface";
-import { UsersService } from "../users/users.service";
+import { UsersService } from "../module/users/users.service";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
-import { CreateUserDto } from "src/users/dto/create-user.dto";
+import { CreateUserDto } from "src/module/users/dto/create-user.dto";
 
 @Controller("auth")
 export class AuthController {
