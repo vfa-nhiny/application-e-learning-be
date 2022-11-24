@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res } from "@nestjs/common";
+import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res, Get } from "@nestjs/common";
 import { PaymentsService } from "./payments.service";
 import * as crypto from "crypto";
 import * as querystring from "qs";
@@ -13,26 +13,24 @@ import { AuthGuard } from "@nestjs/passport";
 import { role } from "src/module/auth/constants";
 import { sortObject } from "src/utils";
 
-@Controller("payments")
+@Controller()
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
-  @Post("/createPaymentUrl")
-  @UseGuards(RolesGuard)
-  @Roles(role.student, role.teacher)
-  findById(@Req() req, @Res() res): Promise<IResponse> {
+  @Post("/create_payment_url")
+  // @UseGuards(RolesGuard)
+  // @Roles(role.student, role.teacher)
+  createPaymentUrl(@Req() req, @Res() res): Promise<IResponse> {
     console.log(req);
     try {
-      // const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
-      const ipAddr = "13.160.92.202";
-      console.log(ipAddr);
+      const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+      // const ipAddr = "13.160.92.202";
       const tmnCode = process.env.vnp_TmnCode;
       const secretKey = process.env.vnp_HashSecret;
       let vnpUrl = process.env.vnp_Url;
       const returnUrl = process.env.vnp_ReturnUrl;
-      console.log(tmnCode, secretKey, vnpUrl, returnUrl);
 
       const date = new Date();
 
@@ -71,12 +69,82 @@ export class PaymentsController {
       vnp_Params = sortObject(vnp_Params);
 
       const signData = querystring.stringify(vnp_Params, { encode: false });
+      console.log(signData);
       const hmac = crypto.createHmac("sha512", secretKey);
       const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
       vnp_Params["vnp_SecureHash"] = signed;
       vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
       console.log(vnpUrl);
+      res.status(200).json({ code: "00", data: vnpUrl });
+
       // res.redirect(vnpUrl);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Get("/vnpay_ipn")
+  // @UseGuards(RolesGuard)
+  // @Roles(role.student, role.teacher)
+  vnPayIPN(@Req() req, @Res() res): Promise<IResponse> {
+    console.log(req);
+    try {
+      let vnp_Params = req.query;
+      const secureHash = vnp_Params["vnp_SecureHash"];
+
+      delete vnp_Params["vnp_SecureHash"];
+      delete vnp_Params["vnp_SecureHashType"];
+
+      vnp_Params = sortObject(vnp_Params);
+      const secretKey = process.env.vnp_HashSecret;
+      const signData = querystring.stringify(vnp_Params, { encode: false });
+      const hmac = crypto.createHmac("sha512", secretKey);
+      const signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+
+      if (secureHash === signed) {
+        const orderId = vnp_Params["vnp_TxnRef"];
+        const rspCode = vnp_Params["vnp_ResponseCode"];
+        //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
+        res.status(200).json({ RspCode: "00", Message: "success" });
+      } else {
+        res.status(200).json({ RspCode: "97", Message: "Fail checksum" });
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Get("/vnpay_return")
+  // @UseGuards(RolesGuard)
+  // @Roles(role.student, role.teacher)
+  vnPayReturn(@Req() req, @Res() res): Promise<IResponse> {
+    console.log(req);
+    try {
+      let vnp_Params = req.query;
+
+      const secureHash = vnp_Params["vnp_SecureHash"];
+
+      delete vnp_Params["vnp_SecureHash"];
+      delete vnp_Params["vnp_SecureHashType"];
+
+      vnp_Params = sortObject(vnp_Params);
+
+      const tmnCode = process.env.vnp_TmnCode;
+      const secretKey = process.env.vnp_HashSecret;
+
+      const signData = querystring.stringify(vnp_Params, { encode: false });
+      const hmac = crypto.createHmac("sha512", secretKey);
+      const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
+
+      if (secureHash === signed) {
+        //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+
+        res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
+      } else {
+        res.render("success", { code: "97" });
+      }
     } catch (error) {
       console.log(error);
       return error;
