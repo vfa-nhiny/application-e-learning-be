@@ -8,6 +8,7 @@ import { CourseModule } from "./module/courses/courses.module";
 import { SectionModule } from "./module/sections/sections.module";
 import { CommentGateway } from "./gateway/comment.gateway";
 import { CommentsModule } from "./module/comments/comments.module";
+import { PaymentsModule } from "./module/payment/payments.module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CommentsModule } from "./module/comments/comments.module";
     CourseModule,
     SectionModule,
     CommentsModule,
+    PaymentsModule,
     // CommentGateway,
   ],
   controllers: [],

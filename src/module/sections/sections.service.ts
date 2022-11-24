@@ -8,6 +8,7 @@ import { UpdateLessonDto } from "./dto/update-lesson.dto";
 import { CreateLessonDto } from "./dto/create-lesson.dto";
 import { LessonDto } from "./dto/lesson.dto";
 import { UpdateSectionDto } from "./dto/update-section.dto";
+import { localCurrentTime } from "../auth/constants";
 
 @Injectable()
 export class SectionsService {
@@ -82,7 +83,7 @@ export class SectionsService {
       if (lessonDto.url) {
         sectionDto.lessons[index].url = lessonDto.url;
       }
-      sectionDto.lessons[index].date = new Date();
+      sectionDto.lessons[index].date = localCurrentTime;
     }
     await sectionDto.save();
     return sectionDto;
