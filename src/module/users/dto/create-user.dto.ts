@@ -24,4 +24,6 @@ export class CreateUserDto {
   phone: string;
 
   avatar: string;
+
+  isPremium: boolean;
 }

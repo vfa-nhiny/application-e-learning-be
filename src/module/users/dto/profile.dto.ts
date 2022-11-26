@@ -6,6 +6,7 @@ export class ProfileDto {
     this.phone = object.phone;
     this.avatar = object.avatar;
     this.gender = object.gender;
+    this.isPremium = object.isPremium;
   }
   email: string;
   name: string;
@@ -13,4 +14,5 @@ export class ProfileDto {
   phone: string;
   avatar: string;
   gender: string;
+  isPremium: boolean;
 }

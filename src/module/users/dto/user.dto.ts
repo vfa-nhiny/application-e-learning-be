@@ -11,6 +11,7 @@ export class UserDto {
     this.settings = new SettingsDto(object.settings);
     this.avatar = object.avatar;
     this.role = object.role;
+    this.isPremium = object.isPremium;
   }
 
   readonly userId: string;
@@ -20,6 +21,7 @@ export class UserDto {
   readonly birthday: string;
   readonly gender: string;
   readonly role: string;
+  readonly isPremium: boolean;
   settings: SettingsDto;
   avatar: string;
 }

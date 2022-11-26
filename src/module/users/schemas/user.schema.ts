@@ -13,6 +13,7 @@ export const UserSchema = new mongoose.Schema(
     birthday: { type: String, default: null },
     role: { type: String, default: null },
     gender: { type: String, default: null },
+    isPremium: { type: Boolean, default: false },
     auth: {
       email: {
         valid: { type: Boolean, default: false },

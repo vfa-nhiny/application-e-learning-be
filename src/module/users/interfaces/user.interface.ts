@@ -24,4 +24,5 @@ export interface User extends Document {
     //TODO: add setting
   };
   avatar: string;
+  isPremium: boolean;
 }

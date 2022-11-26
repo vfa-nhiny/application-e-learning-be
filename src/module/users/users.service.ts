@@ -5,7 +5,6 @@ import { Injectable, HttpStatus, HttpException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { User } from "./interfaces/user.interface";
 import { InjectModel } from "@nestjs/mongoose";
-import { ProfileDto } from "./dto/profile.dto";
 import { SettingsDto } from "./dto/settings.dto";
 import * as fs from "fs";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -39,16 +38,16 @@ export class UsersService {
       } else if (!userRegistered.auth.email.valid) {
         return userRegistered;
       } else {
-        throw new HttpException("REGISTRATION.USER_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
+        throw new HttpException("User already registered", HttpStatus.FORBIDDEN);
       }
     } else {
-      throw new HttpException("REGISTRATION.MISSING_MANDATORY_PARAMETERS", HttpStatus.FORBIDDEN);
+      throw new HttpException("Missing mandatory parameters", HttpStatus.FORBIDDEN);
     }
   }
 
   async setPassword(email: string, newPassword: string): Promise<boolean> {
     const userFromDb = await this.userModel.findOne({ email: email });
-    if (!userFromDb) throw new HttpException("LOGIN.USER_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!userFromDb) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
 
     userFromDb.password = await bcrypt.hash(newPassword, saltRounds);
 
@@ -62,7 +61,7 @@ export class UsersService {
     const userFromDb = await this.userModel.findOne({
       email: profileDto.email,
     });
-    if (!userFromDb) throw new HttpException("COMMON.USER_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!userFromDb) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     console.log(userFromDb);
 
     if (profileDto.name) userFromDb.name = profileDto.name;
@@ -70,6 +69,7 @@ export class UsersService {
     if (profileDto.gender) userFromDb.gender = profileDto.gender;
     if (profileDto.birthday) userFromDb.birthday = profileDto.birthday;
     if (profileDto.avatar) userFromDb.avatar = profileDto.avatar;
+    if (profileDto.isPremium) userFromDb.isPremium = profileDto.isPremium;
 
     await userFromDb.save();
     return userFromDb;
@@ -121,7 +121,7 @@ export class UsersService {
     const userFromDb = await this.userModel.findOne({
       email: settingsDto.email,
     });
-    if (!userFromDb) throw new HttpException("COMMON.USER_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!userFromDb) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
 
     userFromDb.settings = userFromDb.settings || {};
     for (const key in settingsDto) {
