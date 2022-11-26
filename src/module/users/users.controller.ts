@@ -22,9 +22,21 @@ export class UsersController {
   @Post("user")
   @UseGuards(RolesGuard)
   @Roles(role.student, role.teacher)
-  async findById(@Body() body): Promise<IResponse> {
+  async findByEmail(@Body() body): Promise<IResponse> {
     try {
       const user = await this.usersService.findByEmail(body.email);
+      return new ResponseSuccess("Success", new UserDto(user));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
+  @Post("userById")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async findById(@Body() body): Promise<IResponse> {
+    try {
+      const user = await this.usersService.findByUserId(body.userId);
       return new ResponseSuccess("Success", new UserDto(user));
     } catch (error) {
       return new ResponseError("Error: generic error", error);

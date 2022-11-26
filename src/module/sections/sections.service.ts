@@ -35,11 +35,11 @@ export class SectionsService {
 
   async updateSection(sectionDto: UpdateSectionDto): Promise<Section> {
     const sectionFromDb = await this.sectionModel.findOne({ sectionId: sectionDto.sectionId }).exec();
-    if (!sectionFromDb) throw new HttpException("COMMON.SECTION_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!sectionFromDb) throw new HttpException("Section not found", HttpStatus.NOT_FOUND);
     if (sectionDto.title) sectionFromDb.title = sectionDto.title;
     if (sectionDto.lessons) sectionFromDb.lessons = sectionDto.lessons;
     if (sectionDto.order) {
-      if (!sectionDto.courseId) throw new HttpException("COMMON.COURSE_NOT_FOUND", HttpStatus.NOT_FOUND);
+      if (!sectionDto.courseId) throw new HttpException("Course not found", HttpStatus.NOT_FOUND);
       if (sectionDto.order < sectionFromDb.order) {
         const sectionArrayFromDb = await this.sectionModel.find({ courseId: sectionDto.courseId });
         sectionArrayFromDb.map(item => {
@@ -66,15 +66,25 @@ export class SectionsService {
 
   async createNewLesson(lessonDto: CreateLessonDto): Promise<Section> {
     const sectionDto = await this.sectionModel.findOne({ sectionId: lessonDto.sectionId }).exec();
-    if (!sectionDto) throw new HttpException("COMMON.SECTION_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!sectionDto) throw new HttpException("Section not found", HttpStatus.NOT_FOUND);
     sectionDto.lessons = await this.getOrderLessonCreated(lessonDto, sectionDto.lessons);
+    console.log(sectionDto.lessons);
+    await sectionDto.save();
+    return sectionDto;
+  }
+
+  async createNewLessonWithoutOrder(lessonDto: CreateLessonDto): Promise<Section> {
+    const sectionDto = await this.sectionModel.findOne({ sectionId: lessonDto.sectionId }).exec();
+    if (!sectionDto) throw new HttpException("Section not found", HttpStatus.NOT_FOUND);
+    sectionDto.lessons.push({ lessonId: crypto.randomUUID(), ...lessonDto });
+    console.log(sectionDto.lessons);
     await sectionDto.save();
     return sectionDto;
   }
 
   async updateLesson(lessonDto: UpdateLessonDto): Promise<Section> {
     const sectionDto = await this.sectionModel.findOne({ sectionId: lessonDto.sectionId }).exec();
-    if (!sectionDto) throw new HttpException("COMMON.SECTION_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!sectionDto) throw new HttpException("Section not found", HttpStatus.NOT_FOUND);
     const index = sectionDto.lessons.findIndex(lesson => lesson.lessonId === lessonDto.lessonId);
     if (index) {
       if (lessonDto.title) {
@@ -91,7 +101,7 @@ export class SectionsService {
 
   async deleteLesson(lessonDto: UpdateLessonDto): Promise<Section> {
     const sectionDto = await this.sectionModel.findOne({ sectionId: lessonDto.sectionId }).exec();
-    if (!sectionDto) throw new HttpException("COMMON.SECTION_NOT_FOUND", HttpStatus.NOT_FOUND);
+    if (!sectionDto) throw new HttpException("Section not found", HttpStatus.NOT_FOUND);
     const lessonDtoFromDb = sectionDto.lessons.find(item => item.lessonId === lessonDto.lessonId);
     const filterLesson = sectionDto.lessons.filter(lesson => lesson.lessonId !== lessonDto.lessonId);
     const newLesson = filterLesson.map(item => {

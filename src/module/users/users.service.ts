@@ -24,7 +24,11 @@ export class UsersService {
   }
 
   async findByUserId(userId: string): Promise<User> {
-    return await this.userModel.findOne({ userId: userId }).exec();
+    const userFromDb = await this.userModel.findOne({ userId: userId }).exec();
+
+    if (!userFromDb) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+
+    return userFromDb;
   }
 
   async createNewUser(newUser: CreateUserDto): Promise<User> {

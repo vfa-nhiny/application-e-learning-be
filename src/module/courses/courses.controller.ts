@@ -10,6 +10,7 @@ import { TransformInterceptor } from "../../common/interceptors/transform.interc
 import { AuthGuard } from "@nestjs/passport";
 import { role } from "src/module/auth/constants";
 import { CreateCourseDto } from "./dto/create-course.dto";
+import { CreateCourseSectionLessonDto } from "./dto/create-course-section-lesson.dto";
 
 @Controller("courses")
 @UseGuards(AuthGuard("jwt"))
@@ -48,6 +49,20 @@ export class CoursesController {
     console.log(body);
     try {
       const course = await this.courseService.createNewCourse(body);
+      return new ResponseSuccess("Course created successfully", new CourseDto(course));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
+  @Post("createCourseWithSectionAndLesson")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher)
+  async createNewCourseWithSectionAndLesson(@Body() body: CreateCourseSectionLessonDto): Promise<IResponse> {
+    console.log(body);
+    try {
+      const course = await this.courseService.createNewCourseWithSectionLesson(body);
+
       return new ResponseSuccess("Course created successfully", new CourseDto(course));
     } catch (error) {
       return new ResponseError("Error: generic error", error);
