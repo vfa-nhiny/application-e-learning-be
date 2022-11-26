@@ -3,14 +3,14 @@ import * as mongoose from "mongoose";
 
 export const CommentSchema = new mongoose.Schema(
   {
-    lessonId: String,
+    lessonId: { type: String, default: null },
     comment: [
       {
-        commentId: String,
-        userId: String,
-        clientId: String,
-        image: { type: String, default: "" },
-        content: String,
+        commentId: { type: String, default: null },
+        userId: { type: String, default: null },
+        clientId: { type: String, default: null },
+        image: { type: String, default: null },
+        content: { type: String, default: null },
         createdAt: { type: Date, default: Date.now() },
       },
     ],

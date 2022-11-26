@@ -5,14 +5,14 @@ export const UserSchema = new mongoose.Schema(
   {
     userId: String,
     date: { type: Date, default: Date.now },
-    name: String,
-    email: String,
-    phone: String,
-    password: String,
-    avatar: String,
-    birthday: String,
-    role: String,
-    gender: String,
+    name: { type: String, default: null },
+    email: { type: String, default: null },
+    phone: { type: String, default: null },
+    password: { type: String, default: null },
+    avatar: { type: String, default: null },
+    birthday: { type: String, default: null },
+    role: { type: String, default: null },
+    gender: { type: String, default: null },
     auth: {
       email: {
         valid: { type: Boolean, default: false },

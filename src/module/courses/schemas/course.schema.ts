@@ -3,16 +3,16 @@ import * as mongoose from "mongoose";
 
 export const CourseSchema = new mongoose.Schema(
   {
-    courseId: String,
-    title: String,
-    description: String,
-    ratingScore: Number,
-    ratingNumber: Number,
-    image: String,
-    category: [],
-    price: Number,
-    sale: Number,
-    authorId: String,
+    courseId: { type: String, default: null },
+    title: { type: String, default: null },
+    description: { type: String, default: null },
+    ratingScore: { type: Number, default: null },
+    ratingNumber: { type: Number, default: null },
+    image: { type: String, default: null },
+    category: { type: [], default: null },
+    price: { type: Number, default: null },
+    sale: { type: Number, default: null },
+    authorId: { type: String, default: null },
   },
   {
     timestamps: true,

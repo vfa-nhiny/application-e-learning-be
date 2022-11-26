@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res, Get } from "@nestjs/common";
+import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res, Get, Redirect } from "@nestjs/common";
 import { PaymentsService } from "./payments.service";
 import * as crypto from "crypto";
 import * as querystring from "qs";
@@ -14,8 +14,6 @@ import { role } from "src/module/auth/constants";
 import { sortObject } from "src/utils";
 
 @Controller()
-@UseGuards(AuthGuard("jwt"))
-@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
@@ -83,6 +81,7 @@ export class PaymentsController {
   }
 
   @Get("/vnpay_ipn")
+  // @Redirect("https://docs.nestjs.com", 301)
   // @UseGuards(RolesGuard)
   // @Roles(role.student, role.teacher)
   vnPayIPN(@Req() req, @Res() res) {
@@ -97,20 +96,27 @@ export class PaymentsController {
     const secretKey = process.env.vnp_HashSecret;
     const signData = querystring.stringify(vnp_Params, { encode: false });
     const hmac = crypto.createHmac("sha512", secretKey);
-    const signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+    const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
     if (secureHash === signed) {
       const orderId = vnp_Params["vnp_TxnRef"];
       const rspCode = vnp_Params["vnp_ResponseCode"];
       //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
-      res.status(200).json({ RspCode: "00", Message: "success" });
+      new ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
+      console.log("success ipn");
+      // res.redirect();
     } else {
-      res.status(200).json({ RspCode: "97", Message: "Fail checksum" });
+      new ResponseError("Success", { code: vnp_Params["vnp_ResponseCode"] });
+      console.log("success ipn", { code: vnp_Params["vnp_ResponseCode"] });
+
+      // return { url: "https://docs.nestjs.com/v5/", statusCode: 301 };
+      // res.status(200).json({ RspCode: "97", Message: "Fail checksum" });
     }
   }
 
   @Get("/vnpay_return")
   // @UseGuards(RolesGuard)
+  // @Redirect("https://docs.nestjs.com", 301)
   // @Roles(role.student, role.teacher)
   vnPayReturn(@Req() req, @Res() res) {
     console.log(req);
@@ -124,7 +130,7 @@ export class PaymentsController {
     vnp_Params = sortObject(vnp_Params);
 
     const tmnCode = process.env.vnp_TmnCode;
-    const secretKey = process.env.vnp_HaxshSecret;
+    const secretKey = process.env.vnp_HashSecret;
 
     const signData = querystring.stringify(vnp_Params, { encode: false });
     const hmac = crypto.createHmac("sha512", secretKey);
@@ -132,10 +138,13 @@ export class PaymentsController {
 
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-
-      res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
+      new ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
+      //TODO: redirect ve man hinh payment successfully
     } else {
-      res.render("success", { code: "97" });
+      //TODO: redirect ve man hinh payment successfully
+
+      new ResponseSuccess("Success", { code: "97" });
+      return { url: "https://docs.nestjs.com/v5/", statusCode: 301 };
     }
   }
 }

@@ -3,11 +3,11 @@ import * as mongoose from "mongoose";
 
 export const HistorySchema = new mongoose.Schema(
   {
-    historyId: String,
-    userId: String,
-    recentCourseId: Array<string>,
-    recentCommentId: Array<string>,
-    recentRateId: Array<string>,
+    historyId: { type: String, default: null },
+    userId: { type: String, default: null },
+    recentCourseId: { type: String, default: null },
+    recentCommentId: { type: String, default: null },
+    recentRateId: { type: String, default: null },
   },
   {
     timestamps: true,

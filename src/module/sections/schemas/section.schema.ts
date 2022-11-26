@@ -6,8 +6,8 @@ export const SectionSchema = new mongoose.Schema(
   {
     sectionId: String,
     courseId: String,
-    title: String,
-    order: Number,
+    title: { type: String, default: null },
+    order: { type: Number, default: null },
     lessons: { type: Array<LessonDto>, default: [] },
   },
   {
