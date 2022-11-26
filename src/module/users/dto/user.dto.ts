@@ -12,6 +12,7 @@ export class UserDto {
     this.avatar = object.avatar;
     this.role = object.role;
     this.isPremium = object.isPremium;
+    this.startUsingPremiumDate = object.startUsingPremiumDate;
   }
 
   readonly userId: string;
@@ -22,6 +23,7 @@ export class UserDto {
   readonly gender: string;
   readonly role: string;
   readonly isPremium: boolean;
+  readonly startUsingPremiumDate: string;
   settings: SettingsDto;
   avatar: string;
 }

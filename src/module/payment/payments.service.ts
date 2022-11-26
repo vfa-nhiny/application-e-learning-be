@@ -1,20 +1,18 @@
-import { Model } from "mongoose";
-import * as bcrypt from "bcryptjs";
-import * as crypto from "crypto";
-import { Injectable, HttpStatus, HttpException } from "@nestjs/common";
-import { Payment } from "./interfaces/payment.interface";
-import { InjectModel } from "@nestjs/mongoose";
-import * as fs from "fs";
-import { CreatePaymentDto } from "./dto/create-payment.dto";
-
-const saltRounds = 10;
+import { Injectable } from "@nestjs/common";
+import { UpdateUserPremiumDto } from "./dto/update-user-premium.dto";
+import { UsersService } from "../users/users.service";
+import { UserDto } from "../users/dto/user.dto";
 
 @Injectable()
 export class PaymentsService {
-  // constructor(@InjectModel("Payment") private readonly paymentModel: Model<Payment>, @InjectModel("History") private readonly historyModel: Model<Payment>) {}
-  // async createNewPayment(newPayment: CreatePaymentDto): Promise<Payment> {
-  //   const paymentDto = new this.paymentModel({ paymentId: crypto.randomUUID(), ...newPayment });
-  //   const historyDto =
-  //   return await paymentDto.save();
-  // }
+  constructor(private readonly usersService: UsersService) {}
+
+  async updateUserPremium(updateUserPremium: UpdateUserPremiumDto): Promise<UserDto> {
+    const userDto = await this.usersService.updateProfile({
+      userId: updateUserPremium.userId,
+      isPremium: updateUserPremium.isPremium,
+      startUsingPremiumDate: updateUserPremium.startUsingPremiumDate,
+    });
+    return new UserDto(userDto);
+  }
 }

@@ -14,6 +14,7 @@ export const UserSchema = new mongoose.Schema(
     role: { type: String, default: null },
     gender: { type: String, default: null },
     isPremium: { type: Boolean, default: false },
+    startUsingPremiumDate: { type: String, default: null },
     auth: {
       email: {
         valid: { type: Boolean, default: false },

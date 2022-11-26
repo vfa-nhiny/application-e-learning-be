@@ -26,4 +26,6 @@ export class CreateUserDto {
   avatar: string;
 
   isPremium: boolean;
+
+  startUsingPremiumDate: string;
 }

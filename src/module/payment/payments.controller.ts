@@ -67,13 +67,13 @@ export class PaymentsController {
 
     vnp_Params = sortObject(vnp_Params);
 
-    const signData = querystring.stringify(vnp_Params, { encode: false });
+    const signData = querystring.stringify(vnp_Params, { encode: true });
     console.log(signData);
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
     console.log(signData);
     vnp_Params["vnp_SecureHash"] = signed;
-    vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
+    vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: true });
     console.log(vnpUrl);
     // res.status(200).json({ code: "00", data: vnpUrl });
 
@@ -123,6 +123,8 @@ export class PaymentsController {
     let vnp_Params = req.query;
 
     const secureHash = vnp_Params["vnp_SecureHash"];
+    const orderInfo = vnp_Params["vnp_OrderInfo"];
+    const payDate = vnp_Params["vnp_PayDate"];
 
     delete vnp_Params["vnp_SecureHash"];
     delete vnp_Params["vnp_SecureHashType"];
@@ -132,17 +134,17 @@ export class PaymentsController {
     const tmnCode = process.env.vnp_TmnCode;
     const secretKey = process.env.vnp_HashSecret;
 
-    const signData = querystring.stringify(vnp_Params, { encode: false });
+    const signData = querystring.stringify(vnp_Params, { encode: true });
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
       new ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
+      this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
       //TODO: redirect ve man hinh payment successfully
     } else {
-      //TODO: redirect ve man hinh payment successfully
-
+      //TODO: redirect ve man hinh payment unsuccessfully
       new ResponseSuccess("Success", { code: "97" });
       return { url: "https://docs.nestjs.com/v5/", statusCode: 301 };
     }

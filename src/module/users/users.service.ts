@@ -59,10 +59,9 @@ export class UsersService {
     console.log(profileDto);
 
     const userFromDb = await this.userModel.findOne({
-      email: profileDto.email,
+      userId: profileDto.userId,
     });
     if (!userFromDb) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
-    console.log(userFromDb);
 
     if (profileDto.name) userFromDb.name = profileDto.name;
     if (profileDto.phone) userFromDb.phone = profileDto.phone;
@@ -70,6 +69,7 @@ export class UsersService {
     if (profileDto.birthday) userFromDb.birthday = profileDto.birthday;
     if (profileDto.avatar) userFromDb.avatar = profileDto.avatar;
     if (profileDto.isPremium) userFromDb.isPremium = profileDto.isPremium;
+    if (profileDto.startUsingPremiumDate) userFromDb.startUsingPremiumDate = profileDto.startUsingPremiumDate;
 
     await userFromDb.save();
     return userFromDb;
