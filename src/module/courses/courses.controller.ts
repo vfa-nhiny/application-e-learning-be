@@ -20,7 +20,7 @@ export class CoursesController {
 
   @Get("courses")
   @UseGuards(RolesGuard)
-  @Roles(role.teacher)
+  @Roles(role.teacher, role.student)
   async findAll(): Promise<IResponse> {
     try {
       const course = await this.courseService.findAll();
@@ -32,7 +32,7 @@ export class CoursesController {
 
   @Post("course")
   @UseGuards(RolesGuard)
-  @Roles(role.teacher)
+  @Roles(role.teacher, role.student)
   async findById(@Body() body): Promise<IResponse> {
     try {
       const course = await this.courseService.findById(body.courseId);
