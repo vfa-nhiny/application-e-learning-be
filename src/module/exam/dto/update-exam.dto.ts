@@ -15,7 +15,7 @@ export class UpdateExamDto {
 
   lessonId: string;
 
-  questions: [{ question: string; answer: string }];
+  questions: [{ question: string; answer: [string] }];
 
   results: [ResultExamDto];
 }

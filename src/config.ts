@@ -1,7 +1,7 @@
 export default {
   host: {
     url: "https://e-learning-hehe.herokuapp.com",
-    port: "3000",
+    port: "8080",
   },
   jwt: {
     secretOrKey: "secret",

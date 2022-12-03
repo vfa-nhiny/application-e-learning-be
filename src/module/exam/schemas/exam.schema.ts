@@ -7,7 +7,7 @@ export const ExamSchema = new mongoose.Schema(
     examId: String,
     lessonId: String,
     userId: String,
-    questions: [{ question: String, answer: String }],
+    questions: [{ question: String, answer: [String] }],
     results: {
       type: [ResultExamDto],
       default: null,

@@ -19,7 +19,7 @@ export class CreateExamDto {
   lessonId: string;
 
   @IsNotEmpty()
-  questions: [{ question: string; answer: string }];
+  questions: [{ question: string; answer: [string] }];
 
   results: [ResultExamDto];
 }
