@@ -31,12 +31,12 @@ async function bootstrap() {
   );
   const createAccountLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour window
-    max: 3, // start blocking after 3 requests
+    max: 100, // start blocking after 3 requests
     message: "Too many accounts created from this IP, please try again after an hour",
   });
   app.use("/auth/email/register", createAccountLimiter);
   /******/
 
-  await app.listen(process.env.PORT || 8080);
+  await app.listen(process.env.PORT || 8080, "0.0.0.0");
 }
 bootstrap();
