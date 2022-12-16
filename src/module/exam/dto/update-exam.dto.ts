@@ -1,8 +1,10 @@
+import { QuestionDto } from "./question-exam.dto";
 import { ResultExamDto } from "./result-exam.dto";
 
 export class UpdateExamDto {
   constructor(object: any) {
     this.examId = object.examId;
+    this.examTitle = object.examTitle;
     this.userId = object.userId;
     this.lessonId = object.lessonId;
     this.questions = object.questions;
@@ -11,11 +13,13 @@ export class UpdateExamDto {
 
   examId: string;
 
+  examTitle: string;
+
   userId: string;
 
   lessonId: string;
 
-  questions: [{ question: string; answer: [string] }];
+  questions: [QuestionDto];
 
   results: [ResultExamDto];
 }

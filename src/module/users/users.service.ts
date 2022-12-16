@@ -8,6 +8,8 @@ import { InjectModel } from "@nestjs/mongoose";
 import { SettingsDto } from "./dto/settings.dto";
 import * as fs from "fs";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { role } from "../auth/constants";
+import { UserTeacherDto } from "./dto/user-teacher.dto";
 
 const saltRounds = 10;
 
@@ -21,6 +23,11 @@ export class UsersService {
 
   async findByEmail(email: string): Promise<User> {
     return await this.userModel.findOne({ email: email }).exec();
+  }
+
+  async findTeacher() {
+    const users = await this.userModel.find({ role: role.teacher }).exec();
+    return users.map(user => new UserTeacherDto(user));
   }
 
   async findByUserId(userId: string): Promise<User> {

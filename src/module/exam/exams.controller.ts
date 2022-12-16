@@ -21,7 +21,7 @@ export class ExamsController {
   @Roles(role.student, role.teacher)
   async findExamByLessonId(@Body() body): Promise<IResponse> {
     try {
-      const exam = await this.examsService.findExamByLessonId(body.lessonId);
+      const exam = await this.examsService.findExamById(body.lessonId);
       return new ResponseSuccess("Success", new ExamDto(exam));
     } catch (error) {
       return new ResponseError("Error: generic error", error);
@@ -40,12 +40,12 @@ export class ExamsController {
     }
   }
 
-  @Post("update")
+  @Post("updateExam")
   @UseGuards(RolesGuard)
   @Roles(role.teacher)
   async updateExam(@Body() body): Promise<IResponse> {
     try {
-      const exam = await this.examsService.createNewExam(body.lessonId);
+      const exam = await this.examsService.updateExam(body.examId);
       return new ResponseSuccess("Success", new ExamDto(exam));
     } catch (error) {
       return new ResponseError("Error: generic error", error);

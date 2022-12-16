@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Controller, Post, Body, UseGuards, UseInterceptors, Get } from "@nestjs/common";
 import { UserDto } from "./dto/user.dto";
 import { UsersService } from "./users.service";
 import { IResponse } from "../../common/interfaces/response.interface";
@@ -12,6 +12,7 @@ import { ProfileDto } from "./dto/profile.dto";
 import { SettingsDto } from "./dto/settings.dto";
 import { role } from "src/module/auth/constants";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { ListTeacherDto } from "./dto/list-teacher";
 
 @Controller("users")
 @UseGuards(AuthGuard("jwt"))
@@ -38,6 +39,19 @@ export class UsersController {
     try {
       const user = await this.usersService.findByUserId(body.userId);
       return new ResponseSuccess("Success", new UserDto(user));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
+  @Get("teacher")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async findTeacher(): Promise<IResponse> {
+    try {
+      const users = await this.usersService.findTeacher();
+      console.log(users);
+      return new ResponseSuccess("Success", users);
     } catch (error) {
       return new ResponseError("Error: generic error", error);
     }
