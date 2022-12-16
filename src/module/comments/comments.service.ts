@@ -23,6 +23,7 @@ export class CommentsService {
 
   public async createNewCommentLesson(lessonId: string, newCommentLesson: UpdateCommentLessonDto): Promise<Comment> {
     const commentDto = await this.getCommentOfLesson(lessonId);
-    return await commentDto.update({ comment: commentDto.comment.push({ commentId: crypto.randomUUID(), ...newCommentLesson }) });
+    commentDto.comment.push({ commentId: crypto.randomUUID(), ...newCommentLesson });
+    return await commentDto.save();
   }
 }

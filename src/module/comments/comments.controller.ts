@@ -8,7 +8,6 @@ import { LoggingInterceptor } from "../../common/interceptors/logging.intercepto
 import { TransformInterceptor } from "../../common/interceptors/transform.interceptor";
 import { AuthGuard } from "@nestjs/passport";
 import { role } from "src/module/auth/constants";
-import { CommentDto } from "./dto/comment.dto";
 
 @Controller("comments")
 @UseGuards(AuthGuard("jwt"))
@@ -16,15 +15,15 @@ import { CommentDto } from "./dto/comment.dto";
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  // @Post("comment")
-  // @UseGuards(RolesGuard)
-  // @Roles(role.student, role.teacher)
-  // async findById(@Body() body): Promise<IResponse> {
-  //   try {
-  //     const comment = await this.commentsService.findByEmail(body.email);
-  //     return new ResponseSuccess("Success", new CommentDto(comment));
-  //   } catch (error) {
-  //     return new ResponseError("Error: generic error", error);
-  //   }
-  // }
+  @Post("comments")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async getCommentOfLesson(@Body() body): Promise<IResponse> {
+    try {
+      const comment = await this.commentsService.getCommentOfLesson(body.lessonId);
+      return new ResponseSuccess("Success", comment.comment);
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
 }

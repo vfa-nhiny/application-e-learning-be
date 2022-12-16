@@ -26,8 +26,6 @@ export class CommentGateway {
     },
   ) {
     // message["stamp"] = format(localCurrentTime, "YYYY-MM-DD HH:mm:ss");
-    console.log("message", message);
-    console.log("room id:", message.lessonId);
     const commentDtoFromDb = await this.commentService.getCommentOfLesson(message.lessonId);
     const commentDto = {
       userId: message.comment.userId,
@@ -37,9 +35,7 @@ export class CommentGateway {
       createdAt: new Date(),
     };
     if (commentDtoFromDb) {
-      const comment = await this.commentService.createNewCommentLesson(message.lessonId, commentDto);
-
-      console.log("comment added: ", comment);
+      await this.commentService.createNewCommentLesson(message.lessonId, commentDto);
     } else {
       const newCommentDto = new CreateCommentDto({
         lessonId: message.lessonId,
