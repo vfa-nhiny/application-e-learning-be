@@ -25,13 +25,19 @@ export class CommentsService {
   public async getCommentOfLessonHaveUsername(lessonId: string) {
     const commentDtoFromDb = await this.commentModel.findOne({ lessonId: lessonId });
     if (!commentDtoFromDb) return null;
-    const commentWithUsername = await commentDtoFromDb.comment.map(async data => {
-      const user = await this.userModel.findOne({ userId: data.userId });
-      return {
-        ...data,
-        username: user.name,
-      };
-    });
+    const commentWithUsername = await Promise.all(
+      commentDtoFromDb.comment.map(async data => {
+        const user = await this.userModel.findOne({ userId: data.userId });
+        return {
+          username: user.name,
+          commentId: data.commentId,
+          userId: data.userId,
+          clientId: data.clientId,
+          content: data.content,
+          createdAt: data.createdAt,
+        };
+      }),
+    );
 
     return commentWithUsername;
   }
