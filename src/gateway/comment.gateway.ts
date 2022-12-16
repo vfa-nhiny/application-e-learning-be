@@ -20,6 +20,8 @@ export class CommentGateway {
       lessonId: string;
       comment: {
         userId: string;
+        username: string;
+        avatar: string;
         image: string;
         content: string;
       };
