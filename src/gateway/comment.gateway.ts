@@ -46,7 +46,7 @@ export class CommentGateway {
       await this.commentService.createNewComment(newCommentDto);
     }
 
-    this.server.to(message.lessonId).emit("chatToClient", message);
+    this.server.to(message.lessonId).emit("chatToClient", { createAt: commentDto.createdAt, ...message });
   }
 
   @SubscribeMessage("joinLesson")
