@@ -16,15 +16,39 @@ import { RateDto } from "./dto/rate.dto";
 export class RatesController {
   constructor(private readonly ratesService: RatesService) {}
 
-  // @Post("rate")
-  // @UseGuards(RolesGuard)
-  // @Roles(role.student, role.teacher)
-  // async findById(@Body() body): Promise<IResponse> {
-  //   try {
-  //     const rate = await this.ratesService.findByEmail(body.email);
-  //     return new ResponseSuccess("Success", new RateDto(rate));
-  //   } catch (error) {
-  //     return new ResponseError("Error: generic error", error);
-  //   }
-  // }
+  @Post("rate")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async findRateByUserId(@Body() body): Promise<IResponse> {
+    try {
+      const rate = await this.ratesService.findRateByUserId(body.userId, body.courseId);
+      return new ResponseSuccess("Success", new RateDto(rate));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
+  @Post("rateByCourse")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async findRateByCourseId(@Body() body): Promise<IResponse> {
+    try {
+      const rate = await this.ratesService.findRateByCourseId(body.courseId);
+      return new ResponseSuccess("Success", new RateDto(rate));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
+  @Post("create")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async createNewRate(@Body() body): Promise<IResponse> {
+    try {
+      const rate = await this.ratesService.createNewRate(body);
+      return new ResponseSuccess("Success", new RateDto(rate));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
 }

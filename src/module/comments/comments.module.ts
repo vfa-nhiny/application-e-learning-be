@@ -6,9 +6,15 @@ import { CommentSchema } from "./schemas/comment.schema";
 import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
 import { HistorySchema } from "src/module/histories/schemas/history.schema";
 import { CommentGateway } from "src/gateway/comment.gateway";
+import { UserSchema } from "../users/schemas/user.schema";
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: "Comment", schema: CommentSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: "Comment", schema: CommentSchema },
+      { name: "User", schema: UserSchema },
+    ]),
+  ],
   controllers: [CommentsController],
   providers: [CommentsService, CommentGateway],
 })

@@ -5,7 +5,6 @@ export class RateDto {
     this.courseId = object.courseId;
     this.teacherId = object.teacherId;
     this.score = object.score;
-    this.comment = object.comment;
   }
 
   rateId: string;
@@ -13,5 +12,4 @@ export class RateDto {
   courseId: string;
   teacherId: string;
   score: number;
-  comment: string;
 }

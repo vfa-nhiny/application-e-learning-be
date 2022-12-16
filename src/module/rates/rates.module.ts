@@ -4,13 +4,15 @@ import { RatesController } from "./rates.controller";
 import { RatesService } from "./rates.service";
 import { RateSchema } from "./schemas/rate.schema";
 import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
-import { HistorySchema } from "src/module/histories/schemas/history.schema";
+import { CourseSchema } from "../courses/schemas/course.schema";
+import { UserSchema } from "../users/schemas/user.schema";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: "Rate", schema: RateSchema },
-      { name: "History", schema: HistorySchema },
+      { name: "Course", schema: CourseSchema },
+      { name: "User", schema: UserSchema },
     ]),
   ],
   controllers: [RatesController],

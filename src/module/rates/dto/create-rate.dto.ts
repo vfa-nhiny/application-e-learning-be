@@ -7,7 +7,6 @@ export class CreateRateDto {
     this.courseId = object.courseId;
     this.teacherId = object.teacherId;
     this.score = object.score;
-    this.comment = object.comment;
   }
 
   readonly rateId: string;
@@ -15,13 +14,10 @@ export class CreateRateDto {
   @IsNotEmpty()
   readonly userId: string;
 
-  @IsNotEmpty()
   readonly courseId: string;
 
-  @IsNotEmpty()
   readonly teacherId: string;
 
   @IsNotEmpty()
   readonly score: number;
-  readonly comment: string;
 }

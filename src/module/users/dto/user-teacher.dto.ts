@@ -8,6 +8,8 @@ export class UserTeacherDto {
     this.gender = object.gender;
     this.avatar = object.avatar;
     this.role = object.role;
+    this.ratingNumber = object.ratingNumber;
+    this.ratingScore = object.ratingScore;
   }
 
   readonly userId: string;
@@ -16,6 +18,9 @@ export class UserTeacherDto {
   readonly phone: string;
   readonly birthday: string;
   readonly gender: string;
+  readonly numberRa: string;
+  readonly ratingNumber: number;
+  readonly ratingScore: number;
   readonly role: string;
   avatar: string;
 }

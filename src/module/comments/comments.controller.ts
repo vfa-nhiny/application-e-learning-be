@@ -20,8 +20,8 @@ export class CommentsController {
   @Roles(role.student, role.teacher)
   async getCommentOfLesson(@Body() body): Promise<IResponse> {
     try {
-      const comment = await this.commentsService.getCommentOfLesson(body.lessonId);
-      return new ResponseSuccess("Success", comment.comment);
+      const comment = await this.commentsService.getCommentOfLessonHaveUsername(body.lessonId);
+      return new ResponseSuccess("Success", comment);
     } catch (error) {
       return new ResponseError("Error: generic error", error);
     }

@@ -23,6 +23,8 @@ export interface User extends Document {
   settings: {
     //TODO: add setting
   };
+  ratingNumber: number;
+  ratingScore: number;
   avatar: string;
   isPremium: boolean;
   startUsingPremiumDate: string;
