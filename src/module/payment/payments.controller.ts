@@ -115,7 +115,7 @@ export class PaymentsController {
 
   @Get("/vnpay_return")
   // @UseGuards(RolesGuard)
-  @Redirect("http://localhost:3000/success-payment", 301)
+  @Redirect("https://ehehe-webview.netlify.app/success-payment", 301)
   // @Roles(role.student, role.teacher)
   vnPayReturn(@Req() req, @Res() res) {
     console.log(req);
@@ -145,7 +145,7 @@ export class PaymentsController {
     } else {
       //TODO: redirect ve man hinh payment unsuccessfully
       new ResponseSuccess("Success", { code: "97" });
-      return { url: "http://localhost:3000/success-payment", statusCode: 301 };
+      return { url: "https://ehehe-webview.netlify.app/success-payment", statusCode: 301 };
     }
   }
 }
