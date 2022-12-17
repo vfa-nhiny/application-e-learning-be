@@ -75,9 +75,8 @@ export class PaymentsController {
     vnp_Params["vnp_SecureHash"] = signed;
     vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: true });
     console.log(vnpUrl);
-    // res.status(200).json({ code: "00", data: vnpUrl });
-
-    res.redirect(vnpUrl);
+    return res.status(200).json({ code: "00", data: vnpUrl });
+    // return new ResponseSuccess("Create PaymentURL success", vnpUrl);
   }
 
   @Get("/vnpay_ipn")
@@ -116,7 +115,7 @@ export class PaymentsController {
 
   @Get("/vnpay_return")
   // @UseGuards(RolesGuard)
-  // @Redirect("https://docs.nestjs.com", 301)
+  @Redirect("http://localhost:3000/success-payment", 301)
   // @Roles(role.student, role.teacher)
   vnPayReturn(@Req() req, @Res() res) {
     console.log(req);
@@ -146,7 +145,7 @@ export class PaymentsController {
     } else {
       //TODO: redirect ve man hinh payment unsuccessfully
       new ResponseSuccess("Success", { code: "97" });
-      return { url: "https://docs.nestjs.com/v5/", statusCode: 301 };
+      return { url: "http://localhost:3000/success-payment", statusCode: 301 };
     }
   }
 }

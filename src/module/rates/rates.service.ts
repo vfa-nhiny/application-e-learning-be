@@ -20,11 +20,15 @@ export class RatesService {
   ) {}
 
   async createNewRate(newRate: CreateRateDto): Promise<Rate> {
+    console.log(newRate);
     const rateDto = await new this.rateModel({ rateId: crypto.randomUUID(), ...newRate });
+    console.log(rateDto);
+
     if (newRate?.courseId) {
       const courseDto = await this.courseModel.findOne({ courseId: newRate.courseId });
       courseDto.ratingScore = (courseDto.ratingScore * courseDto.ratingNumber + newRate.score) / (courseDto.ratingNumber + 1);
       courseDto.ratingNumber = courseDto.ratingNumber + 1;
+      console.log(courseDto);
       await courseDto.save();
     } else if (newRate?.teacherId) {
       const userDto = await this.userModel.findOne({ userId: newRate.userId });

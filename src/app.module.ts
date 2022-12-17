@@ -9,6 +9,7 @@ import { SectionModule } from "./module/sections/sections.module";
 import { CommentGateway } from "./gateway/comment.gateway";
 import { CommentsModule } from "./module/comments/comments.module";
 import { PaymentsModule } from "./module/payment/payments.module";
+import { RatesModule } from "./module/rates/rates.module";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PaymentsModule } from "./module/payment/payments.module";
     SectionModule,
     CommentsModule,
     PaymentsModule,
+    RatesModule,
     // CommentGateway,
   ],
   controllers: [],
