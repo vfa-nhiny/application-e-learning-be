@@ -7,6 +7,8 @@ export declare class CoursesController {
     constructor(courseService: CoursesService);
     findAll(): Promise<IResponse>;
     findById(body: any): Promise<IResponse>;
+    joinCourse(body: any): Promise<IResponse>;
+    publishCourse(body: any): Promise<IResponse>;
     createNewCourse(body: CreateCourseDto): Promise<IResponse>;
     createNewCourseWithSectionAndLesson(body: CreateCourseSectionLessonDto): Promise<IResponse>;
     updateCourse(body: any): Promise<IResponse>;

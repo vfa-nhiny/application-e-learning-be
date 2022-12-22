@@ -8,6 +8,7 @@ class CourseDto {
         this.description = object.description;
         this.ratingScore = object.ratingScore;
         this.ratingNumber = object.ratingNumber;
+        this.joinNumber = object.joinNumber;
         this.image = object.image;
         this.createdAt = object.createdAt;
         this.updatedAt = object.updatedAt;

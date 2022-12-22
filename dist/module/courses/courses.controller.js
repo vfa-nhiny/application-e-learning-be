@@ -47,6 +47,24 @@ let CoursesController = class CoursesController {
             return new response_dto_1.ResponseError("Error: generic error", error);
         }
     }
+    async joinCourse(body) {
+        try {
+            const course = await this.courseService.joinCourse(body.courseId);
+            return new response_dto_1.ResponseSuccess("Success", new course_dto_1.CourseDto(course));
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
+    async publishCourse(body) {
+        try {
+            const course = await this.courseService.publishCourse(body.courseId, body.isPublished);
+            return new response_dto_1.ResponseSuccess("Success", new course_dto_1.CourseDto(course));
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
     async createNewCourse(body) {
         console.log(body);
         try {
@@ -103,6 +121,24 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CoursesController.prototype, "findById", null);
+__decorate([
+    (0, common_1.Post)("join"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "joinCourse", null);
+__decorate([
+    (0, common_1.Post)("publish"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "publishCourse", null);
 __decorate([
     (0, common_1.Post)("create"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

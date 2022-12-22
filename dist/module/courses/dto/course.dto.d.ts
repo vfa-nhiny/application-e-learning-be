@@ -5,6 +5,7 @@ export declare class CourseDto {
     readonly description: string;
     readonly ratingScore: number;
     readonly ratingNumber: number;
+    readonly joinNumber: number;
     readonly image: string;
     readonly date: Date;
     readonly createdAt: Date;

@@ -8,6 +8,7 @@ import { Section } from "src/module/sections/interfaces/section.interface";
 import { CreateCourseSectionLessonDto } from "./dto/create-course-section-lesson.dto";
 import { SectionsService } from "../sections/sections.service";
 import { UsersService } from "../users/users.service";
+import { create } from "domain";
 
 @Injectable()
 export class CoursesService {
@@ -34,7 +35,7 @@ export class CoursesService {
   async createNewCourseWithSectionLesson(newCourse: CreateCourseSectionLessonDto): Promise<Course> {
     const userFromDb = await this.userService.findByUserId(newCourse.authorId);
     const newCourseDto = {
-      courseId: crypto.randomUUID(),
+      courseId: await crypto.randomUUID(),
       title: newCourse.title,
       description: newCourse.description,
       authorId: newCourse.authorId,
@@ -49,7 +50,7 @@ export class CoursesService {
     if (newCourse.category) newCourseDto.category = newCourse.category;
     if (newCourse.price) newCourseDto.price = newCourse.price;
     if (newCourse.sale) newCourseDto.sale = newCourse.sale;
-    const createdCourse = new this.courseModel(newCourse);
+    const createdCourse = new this.courseModel(newCourseDto);
     if (newCourse.sections) {
       newCourse.sections.map(async section => {
         const newSection = { courseId: newCourseDto.courseId, ...section };
@@ -61,7 +62,6 @@ export class CoursesService {
         });
       });
     }
-
     return await createdCourse.save();
   }
 

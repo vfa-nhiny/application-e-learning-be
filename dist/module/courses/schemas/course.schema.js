@@ -8,11 +8,13 @@ exports.CourseSchema = new mongoose.Schema({
     description: { type: String, default: null },
     ratingScore: { type: Number, default: 0 },
     ratingNumber: { type: Number, default: 0 },
+    joinNumber: { type: Number, default: 0 },
     image: { type: String, default: null },
     category: { type: [], default: null },
     price: { type: Number, default: null },
     sale: { type: Number, default: null },
     authorId: { type: String, default: null },
+    isPublished: { type: Boolean, default: false },
 }, {
     timestamps: true,
 });

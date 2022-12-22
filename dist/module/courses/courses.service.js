@@ -39,7 +39,7 @@ let CoursesService = class CoursesService {
     async createNewCourseWithSectionLesson(newCourse) {
         const userFromDb = await this.userService.findByUserId(newCourse.authorId);
         const newCourseDto = {
-            courseId: crypto.randomUUID(),
+            courseId: await crypto.randomUUID(),
             title: newCourse.title,
             description: newCourse.description,
             authorId: newCourse.authorId,
@@ -59,7 +59,7 @@ let CoursesService = class CoursesService {
             newCourseDto.price = newCourse.price;
         if (newCourse.sale)
             newCourseDto.sale = newCourse.sale;
-        const createdCourse = new this.courseModel(newCourse);
+        const createdCourse = new this.courseModel(newCourseDto);
         if (newCourse.sections) {
             newCourse.sections.map(async (section) => {
                 const newSection = Object.assign({ courseId: newCourseDto.courseId }, section);
@@ -108,6 +108,20 @@ let CoursesService = class CoursesService {
             item.remove();
         });
         return await courseFromDb.remove();
+    }
+    async joinCourse(id) {
+        const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
+        if (!courseFromDb)
+            throw new common_1.HttpException("Course not found", common_1.HttpStatus.NOT_FOUND);
+        courseFromDb.joinNumber++;
+        return await courseFromDb.save();
+    }
+    async publishCourse(id, isPublished) {
+        const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
+        if (!courseFromDb)
+            throw new common_1.HttpException("Course not found", common_1.HttpStatus.NOT_FOUND);
+        courseFromDb.isPublished = isPublished;
+        return await courseFromDb.save();
     }
 };
 CoursesService = __decorate([
