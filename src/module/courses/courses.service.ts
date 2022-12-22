@@ -93,4 +93,11 @@ export class CoursesService {
     });
     return await courseFromDb.remove();
   }
+
+  async joinCourse(id: string) {
+    const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
+    if (!courseFromDb) throw new HttpException("Course not found", HttpStatus.NOT_FOUND);
+    courseFromDb.joinNumber++;
+    return await courseFromDb.save();
+  }
 }

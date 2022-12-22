@@ -5,6 +5,7 @@ export class CourseDto {
     this.description = object.description;
     this.ratingScore = object.ratingScore;
     this.ratingNumber = object.ratingNumber;
+    this.joinNumber = object.joinNumber;
     this.image = object.image;
     this.createdAt = object.createdAt;
     this.updatedAt = object.updatedAt;
@@ -18,6 +19,7 @@ export class CourseDto {
   readonly description: string;
   readonly ratingScore: number;
   readonly ratingNumber: number;
+  readonly joinNumber: number;
   readonly image: string;
   readonly date: Date;
   readonly createdAt: Date;

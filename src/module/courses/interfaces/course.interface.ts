@@ -6,6 +6,7 @@ export interface Course extends Document {
   description: string;
   ratingScore: number;
   ratingNumber: number;
+  joinNumber: number;
   createdAt: Date;
   updatedAt: Date;
   image: string;

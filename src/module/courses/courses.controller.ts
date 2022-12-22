@@ -42,6 +42,18 @@ export class CoursesController {
     }
   }
 
+  @Post("join")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher, role.student)
+  async joinCourse(@Body() body): Promise<IResponse> {
+    try {
+      const course = await this.courseService.joinCourse(body.courseId);
+      return new ResponseSuccess("Success", new CourseDto(course));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
   @Post("create")
   @UseGuards(RolesGuard)
   @Roles(role.teacher)
