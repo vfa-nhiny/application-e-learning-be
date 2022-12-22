@@ -2,7 +2,7 @@ import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res, Get, Redi
 import { PaymentsService } from "./payments.service";
 import * as crypto from "crypto";
 import * as querystring from "qs";
-import * as moment from "moment";
+import moment from "moment";
 import { IResponse } from "../../common/interfaces/response.interface";
 import { ResponseSuccess, ResponseError } from "../../common/dto/response.dto";
 import { RolesGuard } from "../../common/guards/roles.guard";
