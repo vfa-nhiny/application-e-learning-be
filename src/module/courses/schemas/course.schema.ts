@@ -14,6 +14,7 @@ export const CourseSchema = new mongoose.Schema(
     price: { type: Number, default: null },
     sale: { type: Number, default: null },
     authorId: { type: String, default: null },
+    isPublished: { type: Boolean, default: false },
   },
   {
     timestamps: true,

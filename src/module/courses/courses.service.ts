@@ -100,4 +100,11 @@ export class CoursesService {
     courseFromDb.joinNumber++;
     return await courseFromDb.save();
   }
+
+  async publishCourse(id: string, isPublished: boolean) {
+    const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
+    if (!courseFromDb) throw new HttpException("Course not found", HttpStatus.NOT_FOUND);
+    courseFromDb.isPublished = isPublished;
+    return await courseFromDb.save();
+  }
 }

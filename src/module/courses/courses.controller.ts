@@ -54,6 +54,18 @@ export class CoursesController {
     }
   }
 
+  @Post("publish")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher, role.student)
+  async publishCourse(@Body() body): Promise<IResponse> {
+    try {
+      const course = await this.courseService.publishCourse(body.courseId, body.isPublished);
+      return new ResponseSuccess("Success", new CourseDto(course));
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
   @Post("create")
   @UseGuards(RolesGuard)
   @Roles(role.teacher)
