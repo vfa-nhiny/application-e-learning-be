@@ -13,7 +13,7 @@ export declare class CoursesService {
     constructor(courseModel: Model<Course>, sectionModel: Model<Section>, sectionService: SectionsService, userService: UsersService);
     findAll(): Promise<Course[]>;
     findById(id: string): Promise<Course>;
-    findByUserId(id: string): Promise<Course>;
+    findByUserId(id: string): Promise<Course[]>;
     createNewCourse(newCourse: CreateCourseDto): Promise<Course>;
     createNewCourseWithSectionLesson(newCourse: CreateCourseSectionLessonDto): Promise<Course>;
     updateCourse(courseDto: CreateCourseDto): Promise<Course>;

@@ -26,8 +26,8 @@ export class CoursesService {
   async findById(id: string): Promise<Course> {
     return await this.courseModel.findOne({ courseId: id }).exec();
   }
-  async findByUserId(id: string): Promise<Course> {
-    return await this.courseModel.findOne({ authorId: id }).exec();
+  async findByUserId(id: string): Promise<Course[]> {
+    return await this.courseModel.find({ authorId: id }).exec();
   }
 
   async createNewCourse(newCourse: CreateCourseDto): Promise<Course> {

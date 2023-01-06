@@ -33,7 +33,7 @@ let CoursesService = class CoursesService {
         return await this.courseModel.findOne({ courseId: id }).exec();
     }
     async findByUserId(id) {
-        return await this.courseModel.findOne({ authorId: id }).exec();
+        return await this.courseModel.find({ authorId: id }).exec();
     }
     async createNewCourse(newCourse) {
         const createdCourse = new this.courseModel(Object.assign({ courseId: crypto.randomUUID() }, newCourse));
