@@ -10,6 +10,7 @@ import { CommentGateway } from "./gateway/comment.gateway";
 import { CommentsModule } from "./module/comments/comments.module";
 import { PaymentsModule } from "./module/payment/payments.module";
 import { RatesModule } from "./module/rates/rates.module";
+import { LivestreamsModule } from "./module/livestreams/livestreams.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RatesModule } from "./module/rates/rates.module";
     CommentsModule,
     PaymentsModule,
     RatesModule,
+    LivestreamsModule,
     // CommentGateway,
   ],
   controllers: [],

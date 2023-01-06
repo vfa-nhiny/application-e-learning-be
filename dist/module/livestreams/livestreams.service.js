@@ -27,6 +27,7 @@ let LivestreamsService = class LivestreamsService {
         return livestreamFromDb;
     }
     async createNewLivestream(newLivestream) {
+        console.log(newLivestream);
         const livestreamFromDb = await this.livestreamModel.findOne({ userId: newLivestream.userId }).exec();
         if (livestreamFromDb) {
             throw new common_1.HttpException("Livestream already registered", common_1.HttpStatus.FORBIDDEN);

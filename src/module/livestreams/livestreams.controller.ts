@@ -16,6 +16,7 @@ export class LivestreamsController {
   @Roles(role.student, role.teacher)
   async createLivestream(@Body() body): Promise<IResponse> {
     try {
+      console.log(body);
       const livestream = await this.livestreamsService.createNewLivestream(body);
       return new ResponseSuccess("Success", new LivestreamDto(livestream));
     } catch (error) {

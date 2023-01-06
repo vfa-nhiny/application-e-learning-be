@@ -26,6 +26,7 @@ let LivestreamsController = class LivestreamsController {
     }
     async createLivestream(body) {
         try {
+            console.log(body);
             const livestream = await this.livestreamsService.createNewLivestream(body);
             return new response_dto_1.ResponseSuccess("Success", new livestream_dto_1.LivestreamDto(livestream));
         }

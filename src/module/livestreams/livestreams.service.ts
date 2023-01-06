@@ -1,11 +1,16 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UseGuards, UseInterceptors } from "@nestjs/common";
 import { LivestreamDto } from "../livestreams/dto/livestream.dto";
 import { Livestream } from "./interfaces/livestream.interface";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateLiveStreamDto } from "./dto/create-user-livestream.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { LoggingInterceptor } from "src/common/interceptors/logging.interceptor";
+import { TransformInterceptor } from "src/common/interceptors/transform.interceptor";
 
 @Injectable()
+@UseGuards(AuthGuard("jwt"))
+@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class LivestreamsService {
   constructor(@InjectModel("Livestream") private readonly livestreamModel: Model<Livestream>) {}
 
@@ -16,6 +21,7 @@ export class LivestreamsService {
   }
 
   async createNewLivestream(newLivestream: CreateLiveStreamDto): Promise<Livestream> {
+    console.log(newLivestream);
     const livestreamFromDb = await this.livestreamModel.findOne({ userId: newLivestream.userId }).exec();
     if (livestreamFromDb) {
       throw new HttpException("Livestream already registered", HttpStatus.FORBIDDEN);

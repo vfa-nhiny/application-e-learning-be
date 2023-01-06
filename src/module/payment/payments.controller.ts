@@ -38,7 +38,7 @@ export class PaymentsController {
     const createDate = moment(date).format("YYYYMMDDHHmmss");
     console.log(createDate);
 
-    const expiredDate = moment(date).add(1, "h").format("YYYYMMDDHHmmss");
+    const expiredDate = moment(date).add(24, "h").format("YYYYMMDDHHmmss");
     console.log(expiredDate);
 
     const orderId = moment(date).format("HHmmss");
