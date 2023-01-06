@@ -2,7 +2,7 @@ import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res, Get, Redi
 import { PaymentsService } from "./payments.service";
 import * as crypto from "crypto";
 import * as querystring from "qs";
-import moment from "moment";
+import moment, * as moments from "moment";
 import { IResponse } from "../../common/interfaces/response.interface";
 import { ResponseSuccess, ResponseError } from "../../common/dto/response.dto";
 import { RolesGuard } from "../../common/guards/roles.guard";
@@ -21,7 +21,9 @@ export class PaymentsController {
   // @UseGuards(RolesGuard)
   // @Roles(role.student, role.teacher)
   createPaymentUrl(@Req() req, @Res() res) {
-    console.log(req);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const moment = require("moment");
+    // console.log(req);
     const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
     // const ipAddr = "13.160.92.202";
     const tmnCode = process.env.vnp_TmnCode;
@@ -32,10 +34,14 @@ export class PaymentsController {
     const date = new Date();
 
     const createDate = moment(date).format("YYYYMMDDHHmmss");
-    const expiredDate = moment(date).add(1, "h").format("YYYYMMDDHHmmss");
-    const orderId = moment(date).format("HHmmss");
+    console.log(createDate);
 
-    console.log(createDate, orderId);
+    const expiredDate = moment(date).add(1, "h").format("YYYYMMDDHHmmss");
+    console.log(expiredDate);
+
+    const orderId = moment(date).format("HHmmss");
+    console.log(orderId);
+
     const amount = req.body.amount;
     const bankCode = req.body.bankCode;
 

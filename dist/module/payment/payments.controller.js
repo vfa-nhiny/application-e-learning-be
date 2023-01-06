@@ -25,7 +25,6 @@ let PaymentsController = class PaymentsController {
         this.paymentsService = paymentsService;
     }
     createPaymentUrl(req, res) {
-        console.log(req);
         const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
         const tmnCode = process.env.vnp_TmnCode;
         const secretKey = process.env.vnp_HashSecret;
@@ -33,9 +32,11 @@ let PaymentsController = class PaymentsController {
         const returnUrl = process.env.vnp_ReturnUrl;
         const date = new Date();
         const createDate = (0, moment_1.default)(date).format("YYYYMMDDHHmmss");
+        console.log(createDate);
         const expiredDate = (0, moment_1.default)(date).add(1, "h").format("YYYYMMDDHHmmss");
+        console.log(expiredDate);
         const orderId = (0, moment_1.default)(date).format("HHmmss");
-        console.log(createDate, orderId);
+        console.log(orderId);
         const amount = req.body.amount;
         const bankCode = req.body.bankCode;
         const orderInfo = req.body.orderDescription;

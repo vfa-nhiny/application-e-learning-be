@@ -16,7 +16,7 @@ export class LivestreamsController {
   @Roles(role.student, role.teacher)
   async createLivestream(@Body() body): Promise<IResponse> {
     try {
-      const livestream = await this.livestreamsService.createNewLivestream(body.email);
+      const livestream = await this.livestreamsService.createNewLivestream(body.userId);
       return new ResponseSuccess("Success", new LivestreamDto(livestream));
     } catch (error) {
       return new ResponseError("Error: generic error", error);

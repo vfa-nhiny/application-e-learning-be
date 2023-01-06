@@ -33,10 +33,10 @@ let LivestreamsController = class LivestreamsController {
             return new response_dto_1.ResponseError("Error: generic error", error);
         }
     }
-    async getLivestream(body) {
+    async getLivestream() {
         try {
-            const livestream = await this.livestreamsService.findByLivestreamId(body.userId);
-            return new response_dto_1.ResponseSuccess("Success", new livestream_dto_1.LivestreamDto(livestream));
+            const livestream = await this.livestreamsService.findLivestream();
+            return new response_dto_1.ResponseSuccess("Success", livestream);
         }
         catch (error) {
             return new response_dto_1.ResponseError("Error: generic error", error);
@@ -62,12 +62,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LivestreamsController.prototype, "createLivestream", null);
 __decorate([
-    (0, common_1.Post)("get"),
+    (0, common_1.Get)("get"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(constants_1.role.student, constants_1.role.teacher),
-    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], LivestreamsController.prototype, "getLivestream", null);
 __decorate([

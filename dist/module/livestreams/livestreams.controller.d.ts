@@ -4,6 +4,6 @@ export declare class LivestreamsController {
     private readonly livestreamsService;
     constructor(livestreamsService: LivestreamsService);
     createLivestream(body: any): Promise<IResponse>;
-    getLivestream(body: any): Promise<IResponse>;
+    getLivestream(): Promise<IResponse>;
     deleteCourse(body: any): Promise<IResponse>;
 }

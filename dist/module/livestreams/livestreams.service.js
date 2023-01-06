@@ -20,8 +20,8 @@ let LivestreamsService = class LivestreamsService {
     constructor(livestreamModel) {
         this.livestreamModel = livestreamModel;
     }
-    async findByLivestreamId(userId) {
-        const livestreamFromDb = await this.livestreamModel.findOne({ userId: userId }).exec();
+    async findLivestream() {
+        const livestreamFromDb = await this.livestreamModel.find().exec();
         if (!livestreamFromDb)
             throw new common_1.HttpException("Livestream not found", common_1.HttpStatus.NOT_FOUND);
         return livestreamFromDb;
