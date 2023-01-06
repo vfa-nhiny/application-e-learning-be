@@ -31,6 +31,7 @@ let PaymentsController = class PaymentsController {
         let vnpUrl = process.env.vnp_Url;
         const returnUrl = process.env.vnp_ReturnUrl;
         const date = new Date();
+        console.log(date);
         const createDate = moment(date).format("YYYYMMDDHHmmss");
         console.log(createDate);
         const expiredDate = moment(date).add(1, "h").format("YYYYMMDDHHmmss");
