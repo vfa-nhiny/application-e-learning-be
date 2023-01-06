@@ -42,6 +42,18 @@ export class CoursesController {
     }
   }
 
+  @Post("getCourseByTeacher")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher, role.student)
+  async findByUserId(@Body() body): Promise<IResponse> {
+    try {
+      const course = await this.courseService.findByUserId(body.authorId);
+      return new ResponseSuccess("Success", course);
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
   @Post("join")
   @UseGuards(RolesGuard)
   @Roles(role.teacher, role.student)
