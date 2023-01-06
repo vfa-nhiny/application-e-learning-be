@@ -23,13 +23,13 @@ export class LivestreamsController {
     }
   }
 
-  @Post("get")
+  @Get("get")
   @UseGuards(RolesGuard)
   @Roles(role.student, role.teacher)
-  async getLivestream(@Body() body): Promise<IResponse> {
+  async getLivestream(): Promise<IResponse> {
     try {
-      const livestream = await this.livestreamsService.findByLivestreamId(body.userId);
-      return new ResponseSuccess("Success", new LivestreamDto(livestream));
+      const livestream = await this.livestreamsService.findLivestream();
+      return new ResponseSuccess("Success", livestream);
     } catch (error) {
       return new ResponseError("Error: generic error", error);
     }

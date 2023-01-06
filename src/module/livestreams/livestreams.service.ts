@@ -9,8 +9,8 @@ import { CreateLiveStreamDto } from "./dto/create-user-livestream.dto";
 export class LivestreamsService {
   constructor(@InjectModel("Livestream") private readonly livestreamModel: Model<Livestream>) {}
 
-  async findByLivestreamId(userId: string): Promise<Livestream> {
-    const livestreamFromDb = await this.livestreamModel.findOne({ userId: userId }).exec();
+  async findLivestream(): Promise<Livestream[]> {
+    const livestreamFromDb = await this.livestreamModel.find().exec();
     if (!livestreamFromDb) throw new HttpException("Livestream not found", HttpStatus.NOT_FOUND);
     return livestreamFromDb;
   }
