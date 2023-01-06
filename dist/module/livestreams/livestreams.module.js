@@ -13,7 +13,6 @@ const livestreams_controller_1 = require("./livestreams.controller");
 const livestreams_service_1 = require("./livestreams.service");
 const livestream_schema_1 = require("./schemas/livestream.schema");
 const logger_middleware_1 = require("../../common/middlewares/logger.middleware");
-const users_service_1 = require("../users/users.service");
 let LivestreamsModule = class LivestreamsModule {
     configure(consumer) {
         consumer
@@ -25,7 +24,7 @@ LivestreamsModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([{ name: "Livestream", schema: livestream_schema_1.LivestreamSchema }])],
         controllers: [livestreams_controller_1.LivestreamsController],
-        providers: [livestreams_service_1.LivestreamsService, users_service_1.UsersService],
+        providers: [livestreams_service_1.LivestreamsService],
     })
 ], LivestreamsModule);
 exports.LivestreamsModule = LivestreamsModule;

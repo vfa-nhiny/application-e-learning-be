@@ -6,8 +6,13 @@ import { RolesGuard } from "../../common/guards/roles.guard";
 import { Roles } from "../../common/decorators/roles.decorator";
 import { role } from "src/module/auth/constants";
 import { LivestreamDto } from "./dto/livestream.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { LoggingInterceptor } from "src/common/interceptors/logging.interceptor";
+import { TransformInterceptor } from "src/common/interceptors/transform.interceptor";
 
 @Controller("livestreams")
+@UseGuards(AuthGuard("jwt"))
+@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class LivestreamsController {
   constructor(private readonly livestreamsService: LivestreamsService) {}
 

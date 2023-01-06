@@ -4,13 +4,8 @@ import { Livestream } from "./interfaces/livestream.interface";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateLiveStreamDto } from "./dto/create-user-livestream.dto";
-import { AuthGuard } from "@nestjs/passport";
-import { LoggingInterceptor } from "src/common/interceptors/logging.interceptor";
-import { TransformInterceptor } from "src/common/interceptors/transform.interceptor";
 
 @Injectable()
-@UseGuards(AuthGuard("jwt"))
-@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class LivestreamsService {
   constructor(@InjectModel("Livestream") private readonly livestreamModel: Model<Livestream>) {}
 

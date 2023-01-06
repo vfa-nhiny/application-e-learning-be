@@ -20,6 +20,9 @@ const roles_guard_1 = require("../../common/guards/roles.guard");
 const roles_decorator_1 = require("../../common/decorators/roles.decorator");
 const constants_1 = require("../auth/constants");
 const livestream_dto_1 = require("./dto/livestream.dto");
+const passport_1 = require("@nestjs/passport");
+const logging_interceptor_1 = require("../../common/interceptors/logging.interceptor");
+const transform_interceptor_1 = require("../../common/interceptors/transform.interceptor");
 let LivestreamsController = class LivestreamsController {
     constructor(livestreamsService) {
         this.livestreamsService = livestreamsService;
@@ -81,6 +84,8 @@ __decorate([
 ], LivestreamsController.prototype, "deleteCourse", null);
 LivestreamsController = __decorate([
     (0, common_1.Controller)("livestreams"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
+    (0, common_1.UseInterceptors)(logging_interceptor_1.LoggingInterceptor, transform_interceptor_1.TransformInterceptor),
     __metadata("design:paramtypes", [livestreams_service_1.LivestreamsService])
 ], LivestreamsController);
 exports.LivestreamsController = LivestreamsController;

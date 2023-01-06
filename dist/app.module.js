@@ -17,6 +17,7 @@ const sections_module_1 = require("./module/sections/sections.module");
 const comments_module_1 = require("./module/comments/comments.module");
 const payments_module_1 = require("./module/payment/payments.module");
 const rates_module_1 = require("./module/rates/rates.module");
+const livestreams_module_1 = require("./module/livestreams/livestreams.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -31,6 +32,7 @@ AppModule = __decorate([
             comments_module_1.CommentsModule,
             payments_module_1.PaymentsModule,
             rates_module_1.RatesModule,
+            livestreams_module_1.LivestreamsModule,
         ],
         controllers: [],
         providers: [],

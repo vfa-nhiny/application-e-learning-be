@@ -4,12 +4,11 @@ import { LivestreamsController } from "./livestreams.controller";
 import { LivestreamsService } from "./livestreams.service";
 import { LivestreamSchema } from "./schemas/livestream.schema";
 import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
-import { UsersService } from "../users/users.service";
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: "Livestream", schema: LivestreamSchema }])],
   controllers: [LivestreamsController],
-  providers: [LivestreamsService, UsersService],
+  providers: [LivestreamsService],
 })
 export class LivestreamsModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
