@@ -43,7 +43,7 @@ export class LivestreamsController {
 
   @Post("delete")
   @UseGuards(RolesGuard)
-  @Roles(role.teacher)
+  @Roles(role.teacher, role.student)
   async deleteCourse(@Body() body): Promise<IResponse> {
     try {
       const livestream = await this.livestreamsService.deleteLivestream(body.userId);
