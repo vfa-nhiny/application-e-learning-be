@@ -11,14 +11,10 @@ import { role } from "src/module/auth/constants";
 import { ExamDto } from "./dto/exam.dto";
 
 @Controller("exams")
-@UseGuards(AuthGuard("jwt"))
-@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class ExamsController {
   constructor(private readonly examsService: ExamsService) {}
 
   @Post("exam")
-  @UseGuards(RolesGuard)
-  @Roles(role.student, role.teacher)
   async findExamByLessonId(@Body() body): Promise<IResponse> {
     try {
       const exam = await this.examsService.findExamById(body.lessonId);
@@ -29,8 +25,6 @@ export class ExamsController {
   }
 
   @Post("create")
-  @UseGuards(RolesGuard)
-  @Roles(role.teacher)
   async createNewExam(@Body() body): Promise<IResponse> {
     try {
       const exam = await this.examsService.createNewExam(body);
@@ -41,8 +35,6 @@ export class ExamsController {
   }
 
   @Post("updateExam")
-  @UseGuards(RolesGuard)
-  @Roles(role.teacher)
   async updateExam(@Body() body): Promise<IResponse> {
     try {
       const exam = await this.examsService.updateExam(body.examId);
