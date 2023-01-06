@@ -33,6 +33,8 @@ export class PaymentsController {
 
     const date = new Date();
 
+    console.log(date);
+
     const createDate = moment(date).format("YYYYMMDDHHmmss");
     console.log(createDate);
 

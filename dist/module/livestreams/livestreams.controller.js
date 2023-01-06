@@ -26,7 +26,7 @@ let LivestreamsController = class LivestreamsController {
     }
     async createLivestream(body) {
         try {
-            const livestream = await this.livestreamsService.createNewLivestream(body.email);
+            const livestream = await this.livestreamsService.createNewLivestream(body.userId);
             return new response_dto_1.ResponseSuccess("Success", new livestream_dto_1.LivestreamDto(livestream));
         }
         catch (error) {

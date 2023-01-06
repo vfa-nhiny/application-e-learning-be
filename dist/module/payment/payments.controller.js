@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const payments_service_1 = require("./payments.service");
 const crypto = require("crypto");
 const querystring = require("qs");
-const moment_1 = require("moment");
 const response_dto_1 = require("../../common/dto/response.dto");
 const utils_1 = require("../../utils");
 let PaymentsController = class PaymentsController {
@@ -25,17 +24,18 @@ let PaymentsController = class PaymentsController {
         this.paymentsService = paymentsService;
     }
     createPaymentUrl(req, res) {
+        const moment = require("moment");
         const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
         const tmnCode = process.env.vnp_TmnCode;
         const secretKey = process.env.vnp_HashSecret;
         let vnpUrl = process.env.vnp_Url;
         const returnUrl = process.env.vnp_ReturnUrl;
         const date = new Date();
-        const createDate = (0, moment_1.default)(date).format("YYYYMMDDHHmmss");
+        const createDate = moment(date).format("YYYYMMDDHHmmss");
         console.log(createDate);
-        const expiredDate = (0, moment_1.default)(date).add(1, "h").format("YYYYMMDDHHmmss");
+        const expiredDate = moment(date).add(1, "h").format("YYYYMMDDHHmmss");
         console.log(expiredDate);
-        const orderId = (0, moment_1.default)(date).format("HHmmss");
+        const orderId = moment(date).format("HHmmss");
         console.log(orderId);
         const amount = req.body.amount;
         const bankCode = req.body.bankCode;
