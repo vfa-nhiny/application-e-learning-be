@@ -16,12 +16,6 @@ exports.ExamsController = void 0;
 const common_1 = require("@nestjs/common");
 const exams_service_1 = require("./exams.service");
 const response_dto_1 = require("../../common/dto/response.dto");
-const roles_guard_1 = require("../../common/guards/roles.guard");
-const roles_decorator_1 = require("../../common/decorators/roles.decorator");
-const logging_interceptor_1 = require("../../common/interceptors/logging.interceptor");
-const transform_interceptor_1 = require("../../common/interceptors/transform.interceptor");
-const passport_1 = require("@nestjs/passport");
-const constants_1 = require("../auth/constants");
 const exam_dto_1 = require("./dto/exam.dto");
 let ExamsController = class ExamsController {
     constructor(examsService) {
@@ -57,8 +51,6 @@ let ExamsController = class ExamsController {
 };
 __decorate([
     (0, common_1.Post)("exam"),
-    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)(constants_1.role.student, constants_1.role.teacher),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -66,8 +58,6 @@ __decorate([
 ], ExamsController.prototype, "findExamByLessonId", null);
 __decorate([
     (0, common_1.Post)("create"),
-    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)(constants_1.role.teacher),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -75,8 +65,6 @@ __decorate([
 ], ExamsController.prototype, "createNewExam", null);
 __decorate([
     (0, common_1.Post)("updateExam"),
-    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)(constants_1.role.teacher),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -84,8 +72,6 @@ __decorate([
 ], ExamsController.prototype, "updateExam", null);
 ExamsController = __decorate([
     (0, common_1.Controller)("exams"),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
-    (0, common_1.UseInterceptors)(logging_interceptor_1.LoggingInterceptor, transform_interceptor_1.TransformInterceptor),
     __metadata("design:paramtypes", [exams_service_1.ExamsService])
 ], ExamsController);
 exports.ExamsController = ExamsController;
