@@ -11,6 +11,7 @@ import { CommentsModule } from "./module/comments/comments.module";
 import { PaymentsModule } from "./module/payment/payments.module";
 import { RatesModule } from "./module/rates/rates.module";
 import { LivestreamsModule } from "./module/livestreams/livestreams.module";
+import { ExamsModule } from "./module/exam/exams.module";
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { LivestreamsModule } from "./module/livestreams/livestreams.module";
     PaymentsModule,
     RatesModule,
     LivestreamsModule,
+    ExamsModule,
     // CommentGateway,
   ],
   controllers: [],

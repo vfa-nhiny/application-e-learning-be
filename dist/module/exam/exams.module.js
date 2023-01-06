@@ -13,7 +13,6 @@ const exams_controller_1 = require("./exams.controller");
 const exams_service_1 = require("./exams.service");
 const exam_schema_1 = require("./schemas/exam.schema");
 const logger_middleware_1 = require("../../common/middlewares/logger.middleware");
-const history_schema_1 = require("../histories/schemas/history.schema");
 let ExamsModule = class ExamsModule {
     configure(consumer) {
         consumer
@@ -23,12 +22,7 @@ let ExamsModule = class ExamsModule {
 };
 ExamsModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forFeature([
-                { name: "Exam", schema: exam_schema_1.ExamSchema },
-                { name: "History", schema: history_schema_1.HistorySchema },
-            ]),
-        ],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: "Exam", schema: exam_schema_1.ExamSchema }])],
         controllers: [exams_controller_1.ExamsController],
         providers: [exams_service_1.ExamsService],
     })

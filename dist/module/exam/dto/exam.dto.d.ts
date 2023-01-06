@@ -1,5 +1,3 @@
-import { QuestionDto } from "./question-exam.dto";
-import { ResultExamDto } from "./result-exam.dto";
 export declare class ExamDto {
     constructor(object: any);
     examId: string;
@@ -7,6 +5,16 @@ export declare class ExamDto {
     lessonId: string;
     userId: string;
     time: number;
-    questions: [QuestionDto];
-    results: [ResultExamDto];
+    questions: [
+        {
+            id: string;
+            title: string;
+            options: string[];
+            answer: string;
+        }
+    ];
+    results: [{
+        userId: string;
+        score: number;
+    }];
 }

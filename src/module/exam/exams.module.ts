@@ -7,12 +7,7 @@ import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
 import { HistorySchema } from "src/module/histories/schemas/history.schema";
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: "Exam", schema: ExamSchema },
-      { name: "History", schema: HistorySchema },
-    ]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: "Exam", schema: ExamSchema }])],
   controllers: [ExamsController],
   providers: [ExamsService],
 })

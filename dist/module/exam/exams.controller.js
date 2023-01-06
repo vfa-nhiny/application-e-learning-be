@@ -38,7 +38,7 @@ let ExamsController = class ExamsController {
     }
     async createNewExam(body) {
         try {
-            const exam = await this.examsService.createNewExam(body.lessonId);
+            const exam = await this.examsService.createNewExam(body);
             return new response_dto_1.ResponseSuccess("Success", new exam_dto_1.ExamDto(exam));
         }
         catch (error) {

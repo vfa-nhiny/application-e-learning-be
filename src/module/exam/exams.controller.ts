@@ -33,7 +33,7 @@ export class ExamsController {
   @Roles(role.teacher)
   async createNewExam(@Body() body): Promise<IResponse> {
     try {
-      const exam = await this.examsService.createNewExam(body.lessonId);
+      const exam = await this.examsService.createNewExam(body);
       return new ResponseSuccess("Success", new ExamDto(exam));
     } catch (error) {
       return new ResponseError("Error: generic error", error);

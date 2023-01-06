@@ -9,10 +9,17 @@ export const ExamSchema = new mongoose.Schema(
     examTitle: String,
     lessonId: String,
     userId: String,
-    questions: [QuestionDto],
+    questions: [
+      {
+        id: String,
+        title: String,
+        options: [String],
+        answer: String,
+      },
+    ],
     results: {
-      type: [ResultExamDto],
-      default: null,
+      type: [{ userId: String, score: Number }],
+      default: [],
     },
     time: Number,
   },

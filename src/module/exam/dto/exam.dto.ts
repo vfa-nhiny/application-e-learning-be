@@ -17,6 +17,13 @@ export class ExamDto {
   lessonId: string;
   userId: string;
   time: number;
-  questions: [QuestionDto];
-  results: [ResultExamDto];
+  questions: [
+    {
+      id: string;
+      title: string;
+      options: string[];
+      answer: string;
+    },
+  ];
+  results: [{ userId: string; score: number }];
 }

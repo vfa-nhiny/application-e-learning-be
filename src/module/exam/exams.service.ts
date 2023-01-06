@@ -18,6 +18,7 @@ export class ExamsService {
   constructor(@InjectModel("Exam") private readonly examModel: Model<Exam>) {}
 
   async createNewExam(newExam: CreateExamDto): Promise<Exam> {
+    console.log(newExam);
     const examDto = new this.examModel({ examId: crypto.randomUUID(), ...newExam });
     return await examDto.save();
   }
@@ -38,8 +39,8 @@ export class ExamsService {
     return result.results[result.results.length - 1];
   }
 
-  async findExamById(examId: string): Promise<Exam> {
-    const examFromDB = await this.examModel.findOne({ examId: examId });
+  async findExamById(lessonId: string): Promise<Exam> {
+    const examFromDB = await this.examModel.findOne({ lessonId: lessonId });
     if (!examFromDB) throw new HttpException("Exam not found", HttpStatus.NOT_FOUND);
     return examFromDB;
   }

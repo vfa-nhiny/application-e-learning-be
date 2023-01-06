@@ -23,6 +23,7 @@ let ExamsService = class ExamsService {
         this.examModel = examModel;
     }
     async createNewExam(newExam) {
+        console.log(newExam);
         const examDto = new this.examModel(Object.assign({ examId: crypto.randomUUID() }, newExam));
         return await examDto.save();
     }
@@ -45,8 +46,8 @@ let ExamsService = class ExamsService {
         const result = await examFromDB.save();
         return result.results[result.results.length - 1];
     }
-    async findExamById(examId) {
-        const examFromDB = await this.examModel.findOne({ examId: examId });
+    async findExamById(lessonId) {
+        const examFromDB = await this.examModel.findOne({ lessonId: lessonId });
         if (!examFromDB)
             throw new common_1.HttpException("Exam not found", common_1.HttpStatus.NOT_FOUND);
         return examFromDB;

@@ -7,6 +7,6 @@ export class QuestionDto {
   }
   id: string;
   title: string;
-  options: [string];
+  options: string[];
   answer: string;
 }

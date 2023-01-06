@@ -19,7 +19,14 @@ export class UpdateExamDto {
 
   lessonId: string;
 
-  questions: [QuestionDto];
+  questions: [
+    {
+      id: string;
+      title: string;
+      options: string[];
+      answer: string;
+    },
+  ];
 
-  results: [ResultExamDto];
+  results: [{ userId: string; score: number }];
 }
