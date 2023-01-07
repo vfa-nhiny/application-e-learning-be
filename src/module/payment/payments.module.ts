@@ -7,9 +7,15 @@ import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
 import { HistorySchema } from "src/module/histories/schemas/history.schema";
 import { UserSchema } from "../users/schemas/user.schema";
 import { UsersService } from "../users/users.service";
+import { CourseSchema } from "../courses/schemas/course.schema";
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: "User", schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: "User", schema: UserSchema },
+      { name: "Course", schema: CourseSchema },
+    ]),
+  ],
   controllers: [PaymentsController],
   providers: [PaymentsService, UsersService],
 })

@@ -20,6 +20,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const logger_middleware_1 = require("../../common/middlewares/logger.middleware");
 const axios_1 = require("@nestjs/axios");
 const emailVerification_schema_1 = require("./schemas/emailVerification.schema");
+const course_schema_1 = require("../courses/schemas/course.schema");
 let AuthModule = class AuthModule {
     configure(consumer) {
         consumer
@@ -35,6 +36,7 @@ AuthModule = __decorate([
                 { name: "EmailVerification", schema: emailVerification_schema_1.EmailVerificationSchema },
                 { name: "ForgottenPassword", schema: forgottenPassword_schema_1.ForgottenPasswordSchema },
                 { name: "ConsentRegistry", schema: consentRegistry_schema_1.ConsentRegistrySchema },
+                { name: "Course", schema: course_schema_1.CourseSchema },
             ]),
             axios_1.HttpModule,
         ],

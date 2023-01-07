@@ -12,4 +12,5 @@ export declare class UserDto {
     readonly startUsingPremiumDate: string;
     settings: SettingsDto;
     avatar: string;
+    courseJoined: string[];
 }

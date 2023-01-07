@@ -10,4 +10,5 @@ export declare class CreateUserDto {
     avatar: string;
     isPremium: boolean;
     startUsingPremiumDate: string;
+    courseJoined: string[];
 }

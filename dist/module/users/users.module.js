@@ -13,6 +13,7 @@ const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
 const user_schema_1 = require("./schemas/user.schema");
 const logger_middleware_1 = require("../../common/middlewares/logger.middleware");
+const course_schema_1 = require("../courses/schemas/course.schema");
 let UsersModule = class UsersModule {
     configure(consumer) {
         consumer
@@ -22,7 +23,12 @@ let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: "User", schema: user_schema_1.UserSchema }])],
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: "User", schema: user_schema_1.UserSchema },
+                { name: "Course", schema: course_schema_1.CourseSchema },
+            ]),
+        ],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService],
     })

@@ -28,4 +28,5 @@ export interface User extends Document {
   avatar: string;
   isPremium: boolean;
   startUsingPremiumDate: string;
+  courseJoined: string[];
 }

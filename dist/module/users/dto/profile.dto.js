@@ -11,6 +11,7 @@ class ProfileDto {
         this.gender = object.gender;
         this.isPremium = object.isPremium;
         this.startUsingPremiumDate = object.startUsingPremiumDate;
+        this.courseJoined = object.courseJoined;
     }
 }
 exports.ProfileDto = ProfileDto;

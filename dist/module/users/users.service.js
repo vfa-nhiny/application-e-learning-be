@@ -23,8 +23,9 @@ const constants_1 = require("../auth/constants");
 const user_teacher_dto_1 = require("./dto/user-teacher.dto");
 const saltRounds = 10;
 let UsersService = class UsersService {
-    constructor(userModel) {
+    constructor(userModel, courseModel) {
         this.userModel = userModel;
+        this.courseModel = courseModel;
     }
     async findAll() {
         return await this.userModel.find().exec();
@@ -94,6 +95,21 @@ let UsersService = class UsersService {
         await userFromDb.save();
         return userFromDb;
     }
+    async updateCourse(userId, courseId) {
+        const userFromDb = await this.userModel.findOne({
+            userId: userId,
+        });
+        const courseFromDb = await this.courseModel.findOne({ courseId: courseId });
+        if (!userFromDb)
+            throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+        if (!userFromDb.isPremium)
+            throw new common_1.HttpException("User not premium", common_1.HttpStatus.NOT_FOUND);
+        courseFromDb.joinNumber++;
+        userFromDb.courseJoined.push(courseId);
+        await userFromDb.save();
+        await courseFromDb.save();
+        return userFromDb;
+    }
     async writeFile(dir, filename, base64Data) {
         return new Promise(function (resolve, reject) {
             if (!fs.existsSync(dir)) {
@@ -156,7 +172,8 @@ let UsersService = class UsersService {
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)("User")),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __param(1, (0, mongoose_2.InjectModel)("Course")),
+    __metadata("design:paramtypes", [mongoose_1.Model, mongoose_1.Model])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

@@ -16,6 +16,7 @@ exports.UserSchema = new mongoose.Schema({
     ratingNumber: { type: String, default: 0 },
     ratingScore: { type: String, default: 0 },
     isPremium: { type: Boolean, default: false },
+    courseJoined: { type: [String], default: [] },
     startUsingPremiumDate: { type: String, default: null },
     auth: {
         email: {

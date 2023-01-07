@@ -11,6 +11,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
 import { HttpModule } from "@nestjs/axios";
 import { EmailVerificationSchema } from "./schemas/emailVerification.schema";
+import { CourseSchema } from "../courses/schemas/course.schema";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { EmailVerificationSchema } from "./schemas/emailVerification.schema";
       { name: "EmailVerification", schema: EmailVerificationSchema },
       { name: "ForgottenPassword", schema: ForgottenPasswordSchema },
       { name: "ConsentRegistry", schema: ConsentRegistrySchema },
+      { name: "Course", schema: CourseSchema },
     ]),
     HttpModule,
   ],

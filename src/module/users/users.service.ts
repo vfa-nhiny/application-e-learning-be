@@ -10,12 +10,13 @@ import * as fs from "fs";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { role } from "../auth/constants";
 import { UserTeacherDto } from "./dto/user-teacher.dto";
+import { Course } from "../courses/interfaces/course.interface";
 
 const saltRounds = 10;
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
+  constructor(@InjectModel("User") private readonly userModel: Model<User>, @InjectModel("Course") private readonly courseModel: Model<Course>) {}
 
   async findAll(): Promise<User[]> {
     return await this.userModel.find().exec();
@@ -81,8 +82,25 @@ export class UsersService {
     if (profileDto.avatar) userFromDb.avatar = profileDto.avatar;
     if (profileDto.isPremium) userFromDb.isPremium = profileDto.isPremium;
     if (profileDto.startUsingPremiumDate) userFromDb.startUsingPremiumDate = profileDto.startUsingPremiumDate;
+    await userFromDb.save();
+    return userFromDb;
+  }
+
+  async updateCourse(userId: string, courseId: string): Promise<User> {
+    const userFromDb = await this.userModel.findOne({
+      userId: userId,
+    });
+
+    const courseFromDb = await this.courseModel.findOne({ courseId: courseId });
+    if (!userFromDb) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+
+    if (!userFromDb.isPremium) throw new HttpException("User not premium", HttpStatus.NOT_FOUND);
+
+    courseFromDb.joinNumber++;
+    userFromDb.courseJoined.push(courseId);
 
     await userFromDb.save();
+    await courseFromDb.save();
     return userFromDb;
   }
 

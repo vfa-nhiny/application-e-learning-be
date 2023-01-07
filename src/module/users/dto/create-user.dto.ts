@@ -28,4 +28,6 @@ export class CreateUserDto {
   isPremium: boolean;
 
   startUsingPremiumDate: string;
+
+  courseJoined: string[];
 }

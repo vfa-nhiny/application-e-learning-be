@@ -4,9 +4,15 @@ import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
 import { UserSchema } from "./schemas/user.schema";
 import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
+import { CourseSchema } from "../courses/schemas/course.schema";
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: "User", schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: "User", schema: UserSchema },
+      { name: "Course", schema: CourseSchema },
+    ]),
+  ],
   controllers: [UsersController],
   providers: [UsersService],
 })

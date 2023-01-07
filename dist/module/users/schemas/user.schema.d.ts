@@ -13,6 +13,7 @@ export declare const UserSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     avatar: string;
     isPremium: boolean;
     startUsingPremiumDate: string;
+    courseJoined: string[];
     userId?: string;
     auth?: {
         email?: {

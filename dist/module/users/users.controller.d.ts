@@ -9,5 +9,6 @@ export declare class UsersController {
     findById(body: any): Promise<IResponse>;
     findTeacher(): Promise<IResponse>;
     updateProfile(profileDto: UpdateUserDto): Promise<IResponse>;
+    updateJoinCourse(body: any): Promise<IResponse>;
     updateSettings(settingsDto: SettingsDto): Promise<IResponse>;
 }

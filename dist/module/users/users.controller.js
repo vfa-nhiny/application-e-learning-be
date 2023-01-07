@@ -67,6 +67,15 @@ let UsersController = class UsersController {
             return new response_dto_1.ResponseError("Profile update error", error);
         }
     }
+    async updateJoinCourse(body) {
+        try {
+            const user = await this.usersService.updateCourse(body.userId, body.courseId);
+            return new response_dto_1.ResponseSuccess("Profile updated successfully", new user_dto_1.UserDto(user));
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Profile update error", error);
+        }
+    }
     async updateSettings(settingsDto) {
         try {
             const user = await this.usersService.updateSettings(settingsDto);
@@ -112,6 +121,15 @@ __decorate([
     __metadata("design:paramtypes", [update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateProfile", null);
+__decorate([
+    (0, common_1.Post)("joinCourse"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.student, constants_1.role.teacher),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "updateJoinCourse", null);
 __decorate([
     (0, common_1.Post)("settings/update"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

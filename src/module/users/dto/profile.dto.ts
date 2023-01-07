@@ -8,6 +8,7 @@ export class ProfileDto {
     this.gender = object.gender;
     this.isPremium = object.isPremium;
     this.startUsingPremiumDate = object.startUsingPremiumDate;
+    this.courseJoined = object.courseJoined;
   }
   email: string;
   name: string;
@@ -17,4 +18,5 @@ export class ProfileDto {
   gender: string;
   isPremium: boolean;
   startUsingPremiumDate: string;
+  courseJoined: string[];
 }

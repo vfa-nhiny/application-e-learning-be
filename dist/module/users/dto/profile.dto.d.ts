@@ -8,4 +8,5 @@ export declare class ProfileDto {
     gender: string;
     isPremium: boolean;
     startUsingPremiumDate: string;
+    courseJoined: string[];
 }

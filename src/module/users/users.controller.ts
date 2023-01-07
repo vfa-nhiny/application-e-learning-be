@@ -70,6 +70,18 @@ export class UsersController {
     }
   }
 
+  @Post("joinCourse")
+  @UseGuards(RolesGuard)
+  @Roles(role.student, role.teacher)
+  async updateJoinCourse(@Body() body): Promise<IResponse> {
+    try {
+      const user = await this.usersService.updateCourse(body.userId, body.courseId);
+      return new ResponseSuccess("Profile updated successfully", new UserDto(user));
+    } catch (error) {
+      return new ResponseError("Profile update error", error);
+    }
+  }
+
   @Post("settings/update")
   @UseGuards(RolesGuard)
   @Roles(role.student, role.teacher)
