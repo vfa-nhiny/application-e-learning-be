@@ -14,7 +14,9 @@ export declare class CoursesService {
     findAll(): Promise<Course[]>;
     findById(id: string): Promise<Course>;
     findByUserId(id: string): Promise<Course[]>;
-    findByListCourseId(listCourseId: string[]): Promise<Course[]>;
+    findByListCourseId(listCourseId: string[]): Promise<(Course & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
     createNewCourse(newCourse: CreateCourseDto): Promise<Course>;
     createNewCourseWithSectionLesson(newCourse: CreateCourseSectionLessonDto): Promise<Course>;
     updateCourse(courseDto: CreateCourseDto): Promise<Course>;

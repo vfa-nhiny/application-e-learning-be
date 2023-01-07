@@ -29,15 +29,8 @@ export class CoursesService {
   async findByUserId(id: string): Promise<Course[]> {
     return await this.courseModel.find({ authorId: id }).exec();
   }
-  async findByListCourseId(listCourseId: string[]): Promise<Course[]> {
-    const arr = [];
-    await listCourseId.map(async id => {
-      const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
-      console.log(courseFromDb);
-      await arr.push(courseFromDb);
-    });
-    console.log(arr);
-    return arr;
+  async findByListCourseId(listCourseId: string[]) {
+    return await this.courseModel.find({ courseId: listCourseId }).exec();
   }
 
   async createNewCourse(newCourse: CreateCourseDto): Promise<Course> {

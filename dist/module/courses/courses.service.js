@@ -36,14 +36,7 @@ let CoursesService = class CoursesService {
         return await this.courseModel.find({ authorId: id }).exec();
     }
     async findByListCourseId(listCourseId) {
-        const arr = [];
-        await listCourseId.map(async (id) => {
-            const courseFromDb = await this.courseModel.findOne({ courseId: id }).exec();
-            console.log(courseFromDb);
-            await arr.push(courseFromDb);
-        });
-        console.log(arr);
-        return arr;
+        return await this.courseModel.find({ courseId: listCourseId }).exec();
     }
     async createNewCourse(newCourse) {
         const createdCourse = new this.courseModel(Object.assign({ courseId: crypto.randomUUID() }, newCourse));
