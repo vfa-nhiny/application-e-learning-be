@@ -153,7 +153,7 @@ export class PaymentsController {
     } else {
       //TODO: redirect ve man hinh payment unsuccessfully
       new ResponseSuccess("Success", { code: "97" });
-      return { url: "https://ehehe-webview.netlify.app/success-payment", statusCode: 301 };
+      return { url: "https://ehehe-webview.netlify.app/", statusCode: 301 };
     }
   }
 }
