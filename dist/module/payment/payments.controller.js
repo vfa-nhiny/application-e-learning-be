@@ -117,7 +117,7 @@ let PaymentsController = class PaymentsController {
         }
         else {
             new response_dto_1.ResponseSuccess("Success", { code: "97" });
-            return { url: "https://ehehe-webview.netlify.app/success-payment", statusCode: 301 };
+            return { url: "https://ehehe-webview.netlify.app/", statusCode: 301 };
         }
     }
 };

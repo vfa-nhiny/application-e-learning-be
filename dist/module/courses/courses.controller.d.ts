@@ -8,6 +8,7 @@ export declare class CoursesController {
     findAll(): Promise<IResponse>;
     findById(body: any): Promise<IResponse>;
     findByUserId(body: any): Promise<IResponse>;
+    findByListCourseId(body: any): Promise<IResponse>;
     joinCourse(body: any): Promise<IResponse>;
     publishCourse(body: any): Promise<IResponse>;
     createNewCourse(body: CreateCourseDto): Promise<IResponse>;

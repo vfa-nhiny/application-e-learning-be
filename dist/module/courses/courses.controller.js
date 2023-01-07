@@ -56,6 +56,15 @@ let CoursesController = class CoursesController {
             return new response_dto_1.ResponseError("Error: generic error", error);
         }
     }
+    async findByListCourseId(body) {
+        try {
+            const course = await this.courseService.findByListCourseId(body.listCourseId);
+            return new response_dto_1.ResponseSuccess("Success", course);
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
     async joinCourse(body) {
         try {
             const course = await this.courseService.joinCourse(body.courseId);
@@ -139,6 +148,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CoursesController.prototype, "findByUserId", null);
+__decorate([
+    (0, common_1.Post)("getCourseByList"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "findByListCourseId", null);
 __decorate([
     (0, common_1.Post)("join"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
