@@ -136,7 +136,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentGateway.prototype, "handleGetMessageOfLesson", null);
 CommentGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)(80, { transports: ["websocket"] }),
+    (0, websockets_1.WebSocketGateway)(),
     __metadata("design:paramtypes", [comments_service_1.CommentsService])
 ], CommentGateway);
 exports.CommentGateway = CommentGateway;
