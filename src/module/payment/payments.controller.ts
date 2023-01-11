@@ -123,7 +123,7 @@ export class PaymentsController {
 
   @Get("/vnpay_return")
   // @UseGuards(RolesGuard)
-  @Redirect("https://ehehe-webview.netlify.app/success-payment", 301)
+  @Redirect("https://ehehe-webview.netlify.app/", 301)
   // @Roles(role.student, role.teacher)
   vnPayReturn(@Req() req, @Res() res) {
     console.log(req);
