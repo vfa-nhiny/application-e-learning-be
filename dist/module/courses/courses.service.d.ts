@@ -5,12 +5,14 @@ import { Section } from "src/module/sections/interfaces/section.interface";
 import { CreateCourseSectionLessonDto } from "./dto/create-course-section-lesson.dto";
 import { SectionsService } from "../sections/sections.service";
 import { UsersService } from "../users/users.service";
+import { HttpService } from "@nestjs/axios";
 export declare class CoursesService {
     private readonly courseModel;
     private readonly sectionModel;
     private readonly sectionService;
     private readonly userService;
-    constructor(courseModel: Model<Course>, sectionModel: Model<Section>, sectionService: SectionsService, userService: UsersService);
+    private readonly httpService;
+    constructor(courseModel: Model<Course>, sectionModel: Model<Section>, sectionService: SectionsService, userService: UsersService, httpService: HttpService);
     findAll(): Promise<Course[]>;
     findById(id: string): Promise<Course>;
     findByUserId(id: string): Promise<Course[]>;
@@ -29,4 +31,7 @@ export declare class CoursesService {
     publishCourse(id: string, isPublished: boolean): Promise<Course & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    recommendationCourse(id: string): Promise<(Course & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
 }

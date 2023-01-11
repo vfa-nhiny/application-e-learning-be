@@ -112,6 +112,15 @@ let CoursesController = class CoursesController {
             return new response_dto_1.ResponseError("Error: generic error", error);
         }
     }
+    async recommendationCourse(body) {
+        try {
+            const course = await this.courseService.recommendationCourse(body.userId);
+            return new response_dto_1.ResponseSuccess("Success", course);
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
     async deleteCourse(body) {
         try {
             const course = await this.courseService.deleteCourse(body.courseId);
@@ -202,6 +211,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CoursesController.prototype, "updateCourse", null);
+__decorate([
+    (0, common_1.Post)("recommend"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "recommendationCourse", null);
 __decorate([
     (0, common_1.Post)("delete"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

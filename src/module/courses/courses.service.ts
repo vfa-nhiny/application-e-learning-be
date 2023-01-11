@@ -9,6 +9,10 @@ import { CreateCourseSectionLessonDto } from "./dto/create-course-section-lesson
 import { SectionsService } from "../sections/sections.service";
 import { UsersService } from "../users/users.service";
 import { create } from "domain";
+import * as querystring from "qs";
+import { HttpService } from "@nestjs/axios";
+import { catchError, firstValueFrom } from "rxjs";
+import { AxiosError } from "axios";
 
 @Injectable()
 export class CoursesService {
@@ -17,6 +21,7 @@ export class CoursesService {
     @InjectModel("Section") private readonly sectionModel: Model<Section>,
     private readonly sectionService: SectionsService,
     private readonly userService: UsersService,
+    private readonly httpService: HttpService,
   ) {}
 
   async findAll(): Promise<Course[]> {
@@ -112,5 +117,26 @@ export class CoursesService {
     if (!courseFromDb) throw new HttpException("Course not found", HttpStatus.NOT_FOUND);
     courseFromDb.isPublished = isPublished;
     return await courseFromDb.save();
+  }
+
+  async recommendationCourse(id: string) {
+    const testingURL = `http://127.0.0.1:8000/items/${id}`;
+
+    const { data } = await firstValueFrom(
+      this.httpService.get(testingURL).pipe(
+        catchError(error => {
+          throw "An error happened!";
+        }),
+      ),
+    );
+
+    const result = data.list.map(item => {
+      return item.id;
+    });
+
+    console.log(result);
+
+    const courseFromDb = await this.courseModel.find({ courseId: result }).exec();
+    return courseFromDb;
   }
 }

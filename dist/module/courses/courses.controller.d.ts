@@ -14,5 +14,6 @@ export declare class CoursesController {
     createNewCourse(body: CreateCourseDto): Promise<IResponse>;
     createNewCourseWithSectionAndLesson(body: CreateCourseSectionLessonDto): Promise<IResponse>;
     updateCourse(body: any): Promise<IResponse>;
+    recommendationCourse(body: any): Promise<IResponse>;
     deleteCourse(body: any): Promise<IResponse>;
 }

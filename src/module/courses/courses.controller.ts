@@ -128,6 +128,17 @@ export class CoursesController {
       return new ResponseError("Error: generic error", error);
     }
   }
+  @Post("recommend")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher)
+  async recommendationCourse(@Body() body): Promise<IResponse> {
+    try {
+      const course = await this.courseService.recommendationCourse(body.userId);
+      return new ResponseSuccess("Success", course);
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
 
   @Post("delete")
   @UseGuards(RolesGuard)

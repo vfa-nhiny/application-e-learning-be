@@ -8,6 +8,7 @@ import { SectionsService } from "src/module/sections/sections.service";
 import { SectionSchema } from "src/module/sections/schemas/section.schema";
 import { UsersService } from "../users/users.service";
 import { UserSchema } from "../users/schemas/user.schema";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserSchema } from "../users/schemas/user.schema";
       { name: "Section", schema: SectionSchema },
       { name: "User", schema: UserSchema },
     ]),
+    HttpModule,
   ],
   controllers: [CoursesController],
   providers: [CoursesService, SectionsService, UsersService],

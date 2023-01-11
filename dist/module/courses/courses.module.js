@@ -17,6 +17,7 @@ const sections_service_1 = require("../sections/sections.service");
 const section_schema_1 = require("../sections/schemas/section.schema");
 const users_service_1 = require("../users/users.service");
 const user_schema_1 = require("../users/schemas/user.schema");
+const axios_1 = require("@nestjs/axios");
 let CourseModule = class CourseModule {
     configure(consumer) {
         consumer
@@ -32,6 +33,7 @@ CourseModule = __decorate([
                 { name: "Section", schema: section_schema_1.SectionSchema },
                 { name: "User", schema: user_schema_1.UserSchema },
             ]),
+            axios_1.HttpModule,
         ],
         controllers: [courses_controller_1.CoursesController],
         providers: [courses_service_1.CoursesService, sections_service_1.SectionsService, users_service_1.UsersService],

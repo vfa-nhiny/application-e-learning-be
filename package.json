@@ -39,6 +39,7 @@
     "@nestjs/websockets": "^9.2.0",
     "@types/cookie": "^0.5.1",
     "@types/passport-local": "^1.0.34",
+    "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "cl": "^0.0.1",
     "class-transformer": "^0.5.1",

@@ -19,12 +19,15 @@ const mongoose_2 = require("@nestjs/mongoose");
 const crypto = require("crypto");
 const sections_service_1 = require("../sections/sections.service");
 const users_service_1 = require("../users/users.service");
+const axios_1 = require("@nestjs/axios");
+const rxjs_1 = require("rxjs");
 let CoursesService = class CoursesService {
-    constructor(courseModel, sectionModel, sectionService, userService) {
+    constructor(courseModel, sectionModel, sectionService, userService, httpService) {
         this.courseModel = courseModel;
         this.sectionModel = sectionModel;
         this.sectionService = sectionService;
         this.userService = userService;
+        this.httpService = httpService;
     }
     async findAll() {
         return await this.courseModel.find().exec();
@@ -129,6 +132,18 @@ let CoursesService = class CoursesService {
         courseFromDb.isPublished = isPublished;
         return await courseFromDb.save();
     }
+    async recommendationCourse(id) {
+        const testingURL = `http://127.0.0.1:8000/items/${id}`;
+        const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(testingURL).pipe((0, rxjs_1.catchError)(error => {
+            throw "An error happened!";
+        })));
+        const result = data.list.map(item => {
+            return item.id;
+        });
+        console.log(result);
+        const courseFromDb = await this.courseModel.find({ courseId: result }).exec();
+        return courseFromDb;
+    }
 };
 CoursesService = __decorate([
     (0, common_1.Injectable)(),
@@ -137,7 +152,8 @@ CoursesService = __decorate([
     __metadata("design:paramtypes", [mongoose_1.Model,
         mongoose_1.Model,
         sections_service_1.SectionsService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        axios_1.HttpService])
 ], CoursesService);
 exports.CoursesService = CoursesService;
 //# sourceMappingURL=courses.service.js.map
