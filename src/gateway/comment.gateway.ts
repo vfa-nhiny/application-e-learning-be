@@ -3,7 +3,7 @@ import { Socket, Server } from "socket.io";
 import { CommentsService } from "src/module/comments/comments.service";
 import { CreateCommentDto } from "src/module/comments/dto/create-comment.dto";
 
-@WebSocketGateway()
+@WebSocketGateway(80, { transports: ["websocket"] })
 export class CommentGateway {
   private rooms = new Map();
   private clients = new Map();
