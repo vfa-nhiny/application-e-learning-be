@@ -139,7 +139,7 @@ __decorate([
 ], PaymentsController.prototype, "vnPayIPN", null);
 __decorate([
     (0, common_1.Get)("/vnpay_return"),
-    (0, common_1.Redirect)("https://ehehe-webview.netlify.app/success-payment", 301),
+    (0, common_1.Redirect)("https://ehehe-webview.netlify.app/", 301),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
