@@ -17,6 +17,13 @@ import { sortObject } from "src/utils";
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
+  @Get("/")
+  get(@Req() req, @Res() res) {
+    const PORT = process.env.PORT || 8080;
+    res.write(`Port: ${PORT}`);
+    res.end();
+  }
+
   @Post("/create_payment_url")
   // @UseGuards(RolesGuard)
   // @Roles(role.student, role.teacher)

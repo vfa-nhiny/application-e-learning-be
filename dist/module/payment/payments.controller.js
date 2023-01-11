@@ -23,6 +23,11 @@ let PaymentsController = class PaymentsController {
     constructor(paymentsService) {
         this.paymentsService = paymentsService;
     }
+    get(req, res) {
+        const PORT = process.env.PORT || 8080;
+        res.write(`Port: ${PORT}`);
+        res.end();
+    }
     createPaymentUrl(req, res) {
         const moment = require("moment");
         const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
@@ -121,6 +126,14 @@ let PaymentsController = class PaymentsController {
         }
     }
 };
+__decorate([
+    (0, common_1.Get)("/"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], PaymentsController.prototype, "get", null);
 __decorate([
     (0, common_1.Post)("/create_payment_url"),
     __param(0, (0, common_1.Req)()),
