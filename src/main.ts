@@ -9,7 +9,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: false });
   app.useGlobalPipes(new ValidationPipe());
 
   // app.use("/public", express.static(join(__dirname, "../../public")));
@@ -19,11 +19,11 @@ async function bootstrap() {
   // app.useGlobalFilters(new AllExceptionsFilter());
 
   /* SECURITY */
-  app.enableCors({
-    allowedHeaders: "*",
-    origin: "*",
-    credentials: true,
-  });
+  // app.enableCors({
+  //   allowedHeaders: "*",
+  //   origin: "*",
+  //   credentials: true,
+  // });
   app.use(helmet());
 
   app.use(
