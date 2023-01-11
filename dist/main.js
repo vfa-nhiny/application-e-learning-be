@@ -8,7 +8,6 @@ const express_rate_limit_1 = require("express-rate-limit");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, { cors: false });
     app.useGlobalPipes(new common_1.ValidationPipe());
-    app.enable("trust proxy");
     app.enableCors({
         allowedHeaders: "*",
         origin: "*",

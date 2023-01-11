@@ -19,7 +19,6 @@ async function bootstrap() {
   // app.useGlobalFilters(new AllExceptionsFilter());
 
   /* SECURITY */
-  app.enable("trust proxy");
   app.enableCors({
     allowedHeaders: "*",
     origin: "*",
