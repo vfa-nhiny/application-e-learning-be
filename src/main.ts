@@ -20,6 +20,11 @@ async function bootstrap() {
 
   /* SECURITY */
   app.enable("trust proxy");
+  app.enableCors({
+    allowedHeaders: "*",
+    origin: "*",
+    credentials: true,
+  });
   app.use(helmet());
 
   app.use(
