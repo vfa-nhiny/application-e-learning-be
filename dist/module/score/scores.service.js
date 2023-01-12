@@ -34,8 +34,8 @@ let ScoresService = class ScoresService {
             return await scoreDto.save();
         }
     }
-    async findScoreByUserId(userId, courseId) {
-        const scoreDto = await this.scoreModel.findOne({ courseId: courseId, userId: userId });
+    async findScoreByUserId(userId, lessonId) {
+        const scoreDto = await this.scoreModel.findOne({ lessonId: lessonId, userId: userId });
         return scoreDto;
     }
     async findScoreByCourseId(courseId) {

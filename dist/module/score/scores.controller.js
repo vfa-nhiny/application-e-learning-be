@@ -29,7 +29,7 @@ let ScoresController = class ScoresController {
     }
     async findScoreByUserId(body) {
         try {
-            const score = await this.scoresService.findScoreByUserId(body.userId, body.courseId);
+            const score = await this.scoresService.findScoreByUserId(body.userId, body.lessonId);
             return new response_dto_1.ResponseSuccess("Success", new score_dto_1.ScoreDto(score));
         }
         catch (error) {

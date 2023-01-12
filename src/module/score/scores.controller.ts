@@ -21,7 +21,7 @@ export class ScoresController {
   @Roles(role.student, role.teacher)
   async findScoreByUserId(@Body() body): Promise<IResponse> {
     try {
-      const score = await this.scoresService.findScoreByUserId(body.userId, body.courseId);
+      const score = await this.scoresService.findScoreByUserId(body.userId, body.lessonId);
       return new ResponseSuccess("Success", new ScoreDto(score));
     } catch (error) {
       return new ResponseError("Error: generic error", error);

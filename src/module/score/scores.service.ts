@@ -30,8 +30,8 @@ export class ScoresService {
     }
   }
 
-  async findScoreByUserId(userId: string, courseId: string): Promise<Score> {
-    const scoreDto = await this.scoreModel.findOne({ courseId: courseId, userId: userId });
+  async findScoreByUserId(userId: string, lessonId: string): Promise<Score> {
+    const scoreDto = await this.scoreModel.findOne({ lessonId: lessonId, userId: userId });
     return scoreDto;
   }
 
