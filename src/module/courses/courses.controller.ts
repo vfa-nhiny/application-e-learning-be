@@ -130,8 +130,9 @@ export class CoursesController {
   }
   @Post("recommend")
   @UseGuards(RolesGuard)
-  @Roles(role.teacher)
+  @Roles(role.teacher, role.student)
   async recommendationCourse(@Body() body): Promise<IResponse> {
+    console.log("in");
     try {
       const course = await this.courseService.recommendationCourse(body.userId);
       return new ResponseSuccess("Success", course);
