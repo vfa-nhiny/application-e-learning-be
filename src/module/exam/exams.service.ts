@@ -32,7 +32,7 @@ export class ExamsService {
   }
 
   async updateResultExam(exam: UpdateResultExamDto) {
-    const examFromDB = await this.examModel.findOne({ examId: exam.examId });
+    const examFromDB = await this.examModel.findOne({ lessonId: exam.lessonId });
     if (!examFromDB) throw new HttpException("Exam not found", HttpStatus.NOT_FOUND);
     if (examFromDB.results) await examFromDB.results.push({ userId: exam.userId, score: exam.score });
     const result = await examFromDB.save();

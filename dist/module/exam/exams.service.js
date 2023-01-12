@@ -38,7 +38,7 @@ let ExamsService = class ExamsService {
         return await examFromDB.save();
     }
     async updateResultExam(exam) {
-        const examFromDB = await this.examModel.findOne({ examId: exam.examId });
+        const examFromDB = await this.examModel.findOne({ lessonId: exam.lessonId });
         if (!examFromDB)
             throw new common_1.HttpException("Exam not found", common_1.HttpStatus.NOT_FOUND);
         if (examFromDB.results)
