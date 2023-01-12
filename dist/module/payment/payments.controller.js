@@ -119,11 +119,13 @@ let PaymentsController = class PaymentsController {
         console.log("secureHash: ", secureHash);
         console.log("signed: ", signed);
         if (secureHash === signed) {
-            new response_dto_1.ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
             this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
+            res.write("secureHash: ", secureHash.toString(), "\n", "signed: ", signed.toString());
+            res.end();
         }
         else {
-            new response_dto_1.ResponseSuccess("Unsuccess", { code: "97" });
+            res.write(`secureHash: ${secureHash} `, "\n", `signed: ${signed}`);
+            res.end();
         }
     }
 };
@@ -153,7 +155,6 @@ __decorate([
 ], PaymentsController.prototype, "vnPayIPN", null);
 __decorate([
     (0, common_1.Get)("/vnpay_return"),
-    (0, common_1.Redirect)("https://ehehe-webview.netlify.app/", 301),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
