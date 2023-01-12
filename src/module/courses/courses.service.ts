@@ -122,7 +122,6 @@ export class CoursesService {
   }
 
   async recommendationCourse(id: string) {
-    console.log("in");
     const testingURL = `http://127.0.0.1:8000/items/${id}`;
 
     const courseFromDb = await this.courseModel.find().sort({ ratingNumber: -1, ratingScore: -1 }).limit(10);
