@@ -34,7 +34,7 @@ export class RatesController {
   async findRateByCourseId(@Body() body): Promise<IResponse> {
     try {
       const rate = await this.ratesService.findRateByCourseId(body.courseId);
-      return new ResponseSuccess("Success", new RateDto(rate));
+      return new ResponseSuccess("Success", rate);
     } catch (error) {
       return new ResponseError("Error: generic error", error);
     }
@@ -46,7 +46,7 @@ export class RatesController {
   async createNewRate(@Body() body): Promise<IResponse> {
     try {
       const rate = await this.ratesService.createNewRate(body);
-      return new ResponseSuccess("Success", new RateDto(rate));
+      return new ResponseSuccess("Success", rate);
     } catch (error) {
       return new ResponseError("Error: generic error", error);
     }

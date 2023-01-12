@@ -48,7 +48,7 @@ let RatesService = class RatesService {
         return rateDto;
     }
     async findRateByCourseId(courseId) {
-        const rateDto = await this.rateModel.findOne({ courseId: courseId });
+        const rateDto = await this.rateModel.find({ courseId: courseId });
         return rateDto;
     }
 };

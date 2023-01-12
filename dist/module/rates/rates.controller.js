@@ -39,7 +39,7 @@ let RatesController = class RatesController {
     async findRateByCourseId(body) {
         try {
             const rate = await this.ratesService.findRateByCourseId(body.courseId);
-            return new response_dto_1.ResponseSuccess("Success", new rate_dto_1.RateDto(rate));
+            return new response_dto_1.ResponseSuccess("Success", rate);
         }
         catch (error) {
             return new response_dto_1.ResponseError("Error: generic error", error);
@@ -48,7 +48,7 @@ let RatesController = class RatesController {
     async createNewRate(body) {
         try {
             const rate = await this.ratesService.createNewRate(body);
-            return new response_dto_1.ResponseSuccess("Success", new rate_dto_1.RateDto(rate));
+            return new response_dto_1.ResponseSuccess("Success", rate);
         }
         catch (error) {
             return new response_dto_1.ResponseError("Error: generic error", error);

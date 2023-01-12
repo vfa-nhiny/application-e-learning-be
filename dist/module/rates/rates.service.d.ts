@@ -10,5 +10,5 @@ export declare class RatesService {
     constructor(rateModel: Model<Rate>, courseModel: Model<Course>, userModel: Model<User>);
     createNewRate(newRate: CreateRateDto): Promise<Rate>;
     findRateByUserId(userId: string, courseId: string): Promise<Rate>;
-    findRateByCourseId(courseId: string): Promise<Rate>;
+    findRateByCourseId(courseId: string): Promise<Rate[]>;
 }

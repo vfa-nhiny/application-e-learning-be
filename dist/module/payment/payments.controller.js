@@ -118,9 +118,9 @@ let PaymentsController = class PaymentsController {
         const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
         console.log("secureHash: ", secureHash);
         console.log("signed: ", signed);
-        this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
         if (secureHash === signed) {
             new response_dto_1.ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
+            this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
         }
         else {
             new response_dto_1.ResponseSuccess("Unsuccess", { code: "97" });

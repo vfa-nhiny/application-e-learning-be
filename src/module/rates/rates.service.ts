@@ -45,8 +45,8 @@ export class RatesService {
     return rateDto;
   }
 
-  async findRateByCourseId(courseId: string): Promise<Rate> {
-    const rateDto = await this.rateModel.findOne({ courseId: courseId });
+  async findRateByCourseId(courseId: string): Promise<Rate[]> {
+    const rateDto = await this.rateModel.find({ courseId: courseId });
     return rateDto;
   }
 }
