@@ -116,13 +116,14 @@ let PaymentsController = class PaymentsController {
         const signData = querystring.stringify(vnp_Params, { encode: true });
         const hmac = crypto.createHmac("sha512", secretKey);
         const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
+        console.log("secureHash: ", secureHash);
+        console.log("signed: ", signed);
         if (secureHash === signed) {
             new response_dto_1.ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
             this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
         }
         else {
-            new response_dto_1.ResponseSuccess("Success", { code: "97" });
-            return { url: "https://ehehe-webview.netlify.app/", statusCode: 301 };
+            new response_dto_1.ResponseSuccess("Unsuccess", { code: "97" });
         }
     }
 };

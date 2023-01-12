@@ -5,8 +5,5 @@ export declare class PaymentsController {
     get(req: any, res: any): void;
     createPaymentUrl(req: any, res: any): any;
     vnPayIPN(req: any, res: any): void;
-    vnPayReturn(req: any, res: any): {
-        url: string;
-        statusCode: number;
-    };
+    vnPayReturn(req: any, res: any): void;
 }

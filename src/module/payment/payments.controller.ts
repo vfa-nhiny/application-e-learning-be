@@ -152,6 +152,8 @@ export class PaymentsController {
     const hmac = crypto.createHmac("sha512", secretKey);
     const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
+    console.log("secureHash: ", secureHash);
+    console.log("signed: ", signed);
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
       new ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
@@ -159,8 +161,7 @@ export class PaymentsController {
       //TODO: redirect ve man hinh payment successfully
     } else {
       //TODO: redirect ve man hinh payment unsuccessfully
-      new ResponseSuccess("Success", { code: "97" });
-      return { url: "https://ehehe-webview.netlify.app/", statusCode: 301 };
+      new ResponseSuccess("Unsuccess", { code: "97" });
     }
   }
 }
