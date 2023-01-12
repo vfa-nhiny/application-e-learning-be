@@ -18,6 +18,7 @@ class CreateRateDto {
         this.courseId = object.courseId;
         this.teacherId = object.teacherId;
         this.score = object.score;
+        this.comment = object.comment;
     }
 }
 __decorate([

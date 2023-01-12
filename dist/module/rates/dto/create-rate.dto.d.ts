@@ -5,4 +5,5 @@ export declare class CreateRateDto {
     readonly courseId: string;
     readonly teacherId: string;
     readonly score: number;
+    readonly comment: string;
 }

@@ -4,5 +4,6 @@ export declare class RateDto {
     userId: string;
     courseId: string;
     teacherId: string;
+    comment: string;
     score: number;
 }

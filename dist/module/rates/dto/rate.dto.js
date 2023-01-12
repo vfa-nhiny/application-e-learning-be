@@ -7,6 +7,7 @@ class RateDto {
         this.userId = object.userId;
         this.courseId = object.courseId;
         this.teacherId = object.teacherId;
+        this.comment = object.comment;
         this.score = object.score;
     }
 }
