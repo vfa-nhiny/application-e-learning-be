@@ -133,16 +133,20 @@ let CoursesService = class CoursesService {
         return await courseFromDb.save();
     }
     async recommendationCourse(id) {
+        var _a;
         const testingURL = `http://127.0.0.1:8000/items/${id}`;
+        const courseFromDb = await this.courseModel.find().sort({ ratingNumber: -1, ratingScore: -1 }).limit(10);
         const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(testingURL).pipe((0, rxjs_1.catchError)(error => {
             throw "An error happened!";
         })));
-        const result = data.list.map(item => {
+        console.log(data);
+        const result = (_a = data.list) === null || _a === void 0 ? void 0 : _a.map(item => {
             return item.id;
         });
-        console.log(result);
-        const courseFromDb = await this.courseModel.find({ courseId: result }).exec();
-        return courseFromDb;
+        const courses = await this.courseModel.find({ courseId: result });
+        const coursesResults = courses.concat(courseFromDb);
+        console.log(coursesResults);
+        return coursesResults;
     }
 };
 CoursesService = __decorate([
