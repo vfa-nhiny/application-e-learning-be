@@ -130,7 +130,7 @@ export class PaymentsController {
 
   @Get("/vnpay_return")
   // @UseGuards(RolesGuard)
-  // @Redirect("https://ehehe-webview.netlify.app/", 301)
+  @Redirect("https://ehehe-webview.netlify.app/", 301)
   // @Roles(role.student, role.teacher)
   vnPayReturn(@Req() req, @Res() res) {
     console.log(req);
@@ -154,19 +154,15 @@ export class PaymentsController {
 
     console.log("secureHash: ", secureHash);
     console.log("signed: ", signed);
+    this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
+
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-      // new ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
-      this.paymentsService.updateUserPremium({ userId: orderInfo, isPremium: true, startUsingPremiumDate: payDate });
+      new ResponseSuccess("Success", { code: vnp_Params["vnp_ResponseCode"] });
       //TODO: redirect ve man hinh payment successfully
-      res.write("secureHash: ", secureHash.toString(), "\n", "signed: ", signed.toString());
-
-      res.end();
     } else {
       //TODO: redirect ve man hinh payment unsuccessfully
-      // new ResponseSuccess("Unsuccess", { code: "97" });
-      res.write(`secureHash: ${secureHash} `, "\n", `signed: ${signed}`);
-      res.end();
+      new ResponseSuccess("Unsuccess", { code: "97" });
     }
   }
 }
