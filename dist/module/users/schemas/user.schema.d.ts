@@ -1,28 +1,28 @@
 import * as mongoose from "mongoose";
 export declare const UserSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     date: Date;
-    ratingScore: string;
-    ratingNumber: string;
     name: string;
     email: string;
     phone: string;
-    birthday: string;
     password: string;
+    avatar: string;
+    birthday: string;
     role: string;
     gender: string;
-    avatar: string;
+    ratingNumber: string;
+    ratingScore: string;
     isPremium: boolean;
-    startUsingPremiumDate: string;
     courseJoined: string[];
+    startUsingPremiumDate: string;
     userId?: string;
     auth?: {
+        gmail?: {
+            userid?: string;
+        };
         email?: {
             valid: boolean;
         };
         facebook?: {
-            userid?: string;
-        };
-        gmail?: {
             userid?: string;
         };
     };

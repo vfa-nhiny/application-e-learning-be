@@ -3,7 +3,7 @@ export declare const RateSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     comment: string;
     userId?: string;
     courseId?: string;
-    teacherId?: string;
     score?: number;
     rateId?: string;
+    teacherId?: string;
 }>;

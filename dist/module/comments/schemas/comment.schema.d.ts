@@ -3,10 +3,10 @@ export declare const CommentSchema: mongoose.Schema<any, mongoose.Model<any, any
     comment: {
         userId: string;
         image: string;
+        createdAt: Date;
         commentId: string;
         clientId: string;
         content: string;
-        createdAt: Date;
     }[];
     lessonId: string;
 }>;
