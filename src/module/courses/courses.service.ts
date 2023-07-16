@@ -33,6 +33,11 @@ export class CoursesService {
     return courses;
   }
 
+  async getTopRateCourses(): Promise<Course[]> {
+    const courses = await this.courseModel.find().sort({ ratingScore: -1, ratingNumber: -1 }).exec();
+    return courses;
+  }
+
   async findById(id: string): Promise<Course> {
     return await this.courseModel.findOne({ courseId: id }).exec();
   }

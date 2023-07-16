@@ -47,6 +47,15 @@ let CoursesController = class CoursesController {
             return new response_dto_1.ResponseError("Error: generic error", error);
         }
     }
+    async getTopRateCourses() {
+        try {
+            const course = await this.courseService.getTopRateCourses();
+            return new response_dto_1.ResponseSuccess("Success", course);
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
     async findById(body) {
         try {
             const course = await this.courseService.findById(body.courseId);
@@ -175,6 +184,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CoursesController.prototype, "getLastedCourse", null);
+__decorate([
+    (0, common_1.Get)("topRateCourses"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "getTopRateCourses", null);
 __decorate([
     (0, common_1.Post)("course"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

@@ -39,6 +39,7 @@ export declare class CoursesService {
     constructor(courseModel: Model<Course>, sectionModel: Model<Section>, sectionService: SectionsService, userService: UsersService, httpService: HttpService);
     findAll(): Promise<Course[]>;
     getLastedCourses(): Promise<Course[]>;
+    getTopRateCourses(): Promise<Course[]>;
     findById(id: string): Promise<Course>;
     findByUserId(id: string): Promise<Course[]>;
     findByListCourseId(listCourseId: string[]): Promise<(Course & {

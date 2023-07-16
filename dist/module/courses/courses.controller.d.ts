@@ -7,6 +7,7 @@ export declare class CoursesController {
     constructor(courseService: CoursesService);
     findAll(): Promise<IResponse>;
     getLastedCourse(): Promise<IResponse>;
+    getTopRateCourses(): Promise<IResponse>;
     findById(body: any): Promise<IResponse>;
     findByUserId(body: any): Promise<IResponse>;
     findByListCourseId(body: any): Promise<IResponse>;

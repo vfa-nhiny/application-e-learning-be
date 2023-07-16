@@ -36,6 +36,10 @@ let CoursesService = class CoursesService {
         const courses = await this.courseModel.find().sort({ createdAt: -1 }).exec();
         return courses;
     }
+    async getTopRateCourses() {
+        const courses = await this.courseModel.find().sort({ ratingScore: -1, ratingNumber: -1 }).exec();
+        return courses;
+    }
     async findById(id) {
         return await this.courseModel.findOne({ courseId: id }).exec();
     }
