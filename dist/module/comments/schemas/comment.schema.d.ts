@@ -2,10 +2,10 @@ import * as mongoose from "mongoose";
 export declare const CommentSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     comment: {
         userId: string;
-        image: string;
         createdAt: Date;
-        commentId: string;
+        image: string;
         clientId: string;
+        commentId: string;
         content: string;
     }[];
     lessonId: string;

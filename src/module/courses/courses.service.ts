@@ -28,6 +28,11 @@ export class CoursesService {
     return await this.courseModel.find().exec();
   }
 
+  async getLastedCourses(): Promise<Course[]> {
+    const courses = await this.courseModel.find().sort({ createdAt: -1 }).exec();
+    return courses;
+  }
+
   async findById(id: string): Promise<Course> {
     return await this.courseModel.findOne({ courseId: id }).exec();
   }

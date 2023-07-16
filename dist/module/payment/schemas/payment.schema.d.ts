@@ -1,9 +1,9 @@
 import * as mongoose from "mongoose";
 export declare const PaymentSchema: mongoose.Schema<any, mongoose.Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
     userId: string;
-    courseId: string;
     comment: string;
-    score: number;
+    courseId: string;
     rateId: string;
     teacherId: string;
+    score: number;
 }>;

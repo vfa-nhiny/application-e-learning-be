@@ -3,14 +3,15 @@ export declare const UserSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     name: string;
     email: string;
     phone: string;
-    password: string;
-    avatar: string;
     birthday: string;
+    password: string;
     role: string;
     gender: string;
     ratingNumber: string;
     ratingScore: string;
+    avatar: string;
     isPremium: boolean;
+    startUsingPremiumDate: string;
     courseJoined: string[];
     date: Date;
     userId?: string;

@@ -32,6 +32,10 @@ let CoursesService = class CoursesService {
     async findAll() {
         return await this.courseModel.find().exec();
     }
+    async getLastedCourses() {
+        const courses = await this.courseModel.find().sort({ createdAt: -1 }).exec();
+        return courses;
+    }
     async findById(id) {
         return await this.courseModel.findOne({ courseId: id }).exec();
     }
@@ -42,12 +46,13 @@ let CoursesService = class CoursesService {
         return await this.courseModel.find({ courseId: listCourseId }).exec();
     }
     async searchCourses(content) {
-        console.log(content);
+        const filter = { $or: [{ title: { $regex: new RegExp(content, "i") } }, { description: { $regex: new RegExp(content, "i") } }, { categories: { $in: [content] } }] };
+        return await this.courseModel.find(filter).exec();
+    }
+    async filterCourseByCategories(content) {
         const filter = {
-            title: { $regex: new RegExp(content, "i") },
-            description: { $regex: new RegExp(content, "i") },
+            categories: { $in: [content] },
         };
-        console.log(await this.courseModel.find().exec());
         return await this.courseModel.find(filter).exec();
     }
     async createNewCourse(newCourse) {

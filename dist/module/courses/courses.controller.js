@@ -38,6 +38,15 @@ let CoursesController = class CoursesController {
             return new response_dto_1.ResponseError("Error: generic error", error);
         }
     }
+    async getLastedCourse() {
+        try {
+            const course = await this.courseService.getLastedCourses();
+            return new response_dto_1.ResponseSuccess("Success", course);
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
     async findById(body) {
         try {
             const course = await this.courseService.findById(body.courseId);
@@ -68,6 +77,15 @@ let CoursesController = class CoursesController {
     async searchCourses(body) {
         try {
             const course = await this.courseService.searchCourses(body.content);
+            return new response_dto_1.ResponseSuccess("Success", course);
+        }
+        catch (error) {
+            return new response_dto_1.ResponseError("Error: generic error", error);
+        }
+    }
+    async filterCourseByCategories(body) {
+        try {
+            const course = await this.courseService.filterCourseByCategories(body.content);
             return new response_dto_1.ResponseSuccess("Success", course);
         }
         catch (error) {
@@ -150,6 +168,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CoursesController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.Get)("lastedCourses"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "getLastedCourse", null);
+__decorate([
     (0, common_1.Post)("course"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
@@ -185,6 +211,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CoursesController.prototype, "searchCourses", null);
+__decorate([
+    (0, common_1.Post)("searchCategories"),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(constants_1.role.teacher, constants_1.role.student),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CoursesController.prototype, "filterCourseByCategories", null);
 __decorate([
     (0, common_1.Post)("join"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

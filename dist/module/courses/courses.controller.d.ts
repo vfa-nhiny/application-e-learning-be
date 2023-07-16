@@ -6,10 +6,12 @@ export declare class CoursesController {
     private readonly courseService;
     constructor(courseService: CoursesService);
     findAll(): Promise<IResponse>;
+    getLastedCourse(): Promise<IResponse>;
     findById(body: any): Promise<IResponse>;
     findByUserId(body: any): Promise<IResponse>;
     findByListCourseId(body: any): Promise<IResponse>;
     searchCourses(body: any): Promise<IResponse>;
+    filterCourseByCategories(body: any): Promise<IResponse>;
     joinCourse(body: any): Promise<IResponse>;
     publishCourse(body: any): Promise<IResponse>;
     createNewCourse(body: CreateCourseDto): Promise<IResponse>;

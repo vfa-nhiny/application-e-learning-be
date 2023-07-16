@@ -30,6 +30,18 @@ export class CoursesController {
     }
   }
 
+  @Get("lastedCourses")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher, role.student)
+  async getLastedCourse(): Promise<IResponse> {
+    try {
+      const course = await this.courseService.getLastedCourses();
+      return new ResponseSuccess("Success", course);
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
   @Post("course")
   @UseGuards(RolesGuard)
   @Roles(role.teacher, role.student)
