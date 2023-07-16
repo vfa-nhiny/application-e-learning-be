@@ -7,7 +7,7 @@ exports.default = {
     },
     jwt: {
         secretOrKey: "secret",
-        expiresIn: 3600,
+        expiresIn: "365d",
     },
     mail: {
         host: "gmail",

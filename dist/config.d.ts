@@ -5,7 +5,7 @@ declare const _default: {
     };
     jwt: {
         secretOrKey: string;
-        expiresIn: number;
+        expiresIn: string;
     };
     mail: {
         host: string;

@@ -16,7 +16,7 @@ export declare class AuthService {
     constructor(userModel: Model<User>, emailVerificationModel: Model<EmailVerification>, forgottenPasswordModel: Model<ForgottenPassword>, consentRegistryModel: Model<ConsentRegistry>, jwtService: JWTService, httpService: HttpService);
     validateLogin(email: any, password: any): Promise<{
         token: {
-            expires_in: number;
+            expires_in: string;
             access_token: string;
         };
         user: UserDto;
