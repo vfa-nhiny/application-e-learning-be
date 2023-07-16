@@ -1,1 +1,0 @@
-{"version":3,"file":"score.schema.js","sourceRoot":"","sources":["../../../../src/module/score/schemas/score.schema.ts"],"names":[],"mappings":";;;AAAA,qCAAqC;AAGxB,QAAA,WAAW,GAAG,IAAI,QAAQ,CAAC,MAAM,CAC5C;IACE,QAAQ,EAAE,MAAM;IAChB,MAAM,EAAE,MAAM;IACd,KAAK,EAAE,MAAM;CACd,EACD;IACE,UAAU,EAAE,IAAI;CACjB,CACF,CAAC"}

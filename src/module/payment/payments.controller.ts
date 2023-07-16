@@ -40,7 +40,7 @@ export class PaymentsController {
     const createDate = moment().tz("Asia/Ho_Chi_Minh").format("YYYYMMDDHHmmss");
     console.log(createDate);
 
-    const expiredDate = moment().tz("Asia/Bangkok").add(1, "day").format("YYYYMMddHHmmss");
+    const expiredDate = moment().tz("Asia/Bangkok").add(1, "day").format("YYYYMMDDHHmmss");
     console.log(expiredDate);
 
     const orderId = moment().tz("Asia/Ho_Chi_Minh").format("HHmmss");
