@@ -10,8 +10,11 @@ import rateLimit from "express-rate-limit";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: false });
-  app.useGlobalPipes(new ValidationPipe());
-
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidUnknownValues: false,
+    }),
+  );
   // app.use("/public", express.static(join(__dirname, "../../public")));
   // const bodyParser = require("body-parser");
   // app.use(bodyParser.json({ limit: "5mb" }));
