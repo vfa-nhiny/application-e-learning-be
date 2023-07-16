@@ -19,6 +19,7 @@ const crypto = require("crypto");
 const querystring = require("qs");
 const response_dto_1 = require("../../common/dto/response.dto");
 const utils_1 = require("../../utils");
+const moment = require("moment-timezone");
 let PaymentsController = class PaymentsController {
     constructor(paymentsService) {
         this.paymentsService = paymentsService;
@@ -29,19 +30,16 @@ let PaymentsController = class PaymentsController {
         res.end();
     }
     createPaymentUrl(req, res) {
-        const moment = require("moment");
         const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
         const tmnCode = process.env.vnp_TmnCode;
         const secretKey = process.env.vnp_HashSecret;
         let vnpUrl = process.env.vnp_Url;
         const returnUrl = process.env.vnp_ReturnUrl;
-        const date = new Date();
-        console.log(date);
-        const createDate = moment(date).format("YYYYMMDDHHmmss");
+        const createDate = moment().tz("Asia/Ho_Chi_Minh").format("YYYYMMDDHHmmss");
         console.log(createDate);
-        const expiredDate = moment(date).add(24, "h").format("YYYYMMDDHHmmss");
+        const expiredDate = moment().tz("Asia/Bangkok").add(1, "day").format("YYYYMMddHHmmss");
         console.log(expiredDate);
-        const orderId = moment(date).format("HHmmss");
+        const orderId = moment().tz("Asia/Ho_Chi_Minh").format("HHmmss");
         console.log(orderId);
         const amount = req.body.amount;
         const bankCode = req.body.bankCode;

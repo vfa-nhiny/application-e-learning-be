@@ -52,6 +52,7 @@
     "express-rate-limit": "^6.6.0",
     "helmet": "^6.0.0",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "mongoose": "^6.6.3",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",

@@ -2,7 +2,6 @@ import { Controller, Post, Body, UseGuards, UseInterceptors, Req, Res, Get, Redi
 import { PaymentsService } from "./payments.service";
 import * as crypto from "crypto";
 import * as querystring from "qs";
-import moment, * as moments from "moment";
 import { IResponse } from "../../common/interfaces/response.interface";
 import { ResponseSuccess, ResponseError } from "../../common/dto/response.dto";
 import { RolesGuard } from "../../common/guards/roles.guard";
@@ -12,6 +11,7 @@ import { TransformInterceptor } from "../../common/interceptors/transform.interc
 import { AuthGuard } from "@nestjs/passport";
 import { role } from "src/module/auth/constants";
 import { sortObject } from "src/utils";
+import * as moment from "moment-timezone";
 
 @Controller()
 export class PaymentsController {
@@ -29,7 +29,6 @@ export class PaymentsController {
   // @Roles(role.student, role.teacher)
   createPaymentUrl(@Req() req, @Res() res) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const moment = require("moment");
     // console.log(req);
     const ipAddr = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
     // const ipAddr = "13.160.92.202";
@@ -38,17 +37,13 @@ export class PaymentsController {
     let vnpUrl = process.env.vnp_Url;
     const returnUrl = process.env.vnp_ReturnUrl;
 
-    const date = new Date();
-
-    console.log(date);
-
-    const createDate = moment(date).format("YYYYMMDDHHmmss");
+    const createDate = moment().tz("Asia/Ho_Chi_Minh").format("YYYYMMDDHHmmss");
     console.log(createDate);
 
-    const expiredDate = moment(date).add(24, "h").format("YYYYMMDDHHmmss");
+    const expiredDate = moment().tz("Asia/Bangkok").add(1, "day").format("YYYYMMddHHmmss");
     console.log(expiredDate);
 
-    const orderId = moment(date).format("HHmmss");
+    const orderId = moment().tz("Asia/Ho_Chi_Minh").format("HHmmss");
     console.log(orderId);
 
     const amount = req.body.amount;
