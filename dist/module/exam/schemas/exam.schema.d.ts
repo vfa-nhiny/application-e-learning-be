@@ -10,9 +10,9 @@ export declare const ExamSchema: mongoose.Schema<any, mongoose.Model<any, any, a
         userId?: string;
         score?: number;
     }[];
-    examId?: string;
-    examTitle?: string;
-    lessonId?: string;
     userId?: string;
+    lessonId?: string;
+    examTitle?: string;
     time?: number;
+    examId?: string;
 }>;

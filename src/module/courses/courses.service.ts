@@ -38,6 +38,18 @@ export class CoursesService {
     return await this.courseModel.find({ courseId: listCourseId }).exec();
   }
 
+  async searchCourses(content: string): Promise<Course[]> {
+    const filter = { $or: [{ title: { $regex: new RegExp(content, "i") } }, { description: { $regex: new RegExp(content, "i") } }, { categories: { $in: [content] } }] };
+    return await this.courseModel.find(filter).exec();
+  }
+
+  async filterCourseByCategories(content: string): Promise<Course[]> {
+    const filter = {
+      categories: { $in: [content] },
+    };
+    return await this.courseModel.find(filter).exec();
+  }
+
   async createNewCourse(newCourse: CreateCourseDto): Promise<Course> {
     const createdCourse = new this.courseModel({ courseId: crypto.randomUUID(), ...newCourse });
     return await createdCourse.save();

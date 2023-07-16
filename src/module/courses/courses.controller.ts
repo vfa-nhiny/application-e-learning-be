@@ -66,6 +66,30 @@ export class CoursesController {
     }
   }
 
+  @Post("search")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher, role.student)
+  async searchCourses(@Body() body): Promise<IResponse> {
+    try {
+      const course = await this.courseService.searchCourses(body.content);
+      return new ResponseSuccess("Success", course);
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
+  @Post("searchCategories")
+  @UseGuards(RolesGuard)
+  @Roles(role.teacher, role.student)
+  async filterCourseByCategories(@Body() body): Promise<IResponse> {
+    try {
+      const course = await this.courseService.filterCourseByCategories(body.content);
+      return new ResponseSuccess("Success", course);
+    } catch (error) {
+      return new ResponseError("Error: generic error", error);
+    }
+  }
+
   @Post("join")
   @UseGuards(RolesGuard)
   @Roles(role.teacher, role.student)

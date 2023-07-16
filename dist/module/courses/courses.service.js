@@ -41,6 +41,15 @@ let CoursesService = class CoursesService {
     async findByListCourseId(listCourseId) {
         return await this.courseModel.find({ courseId: listCourseId }).exec();
     }
+    async searchCourses(content) {
+        console.log(content);
+        const filter = {
+            title: { $regex: new RegExp(content, "i") },
+            description: { $regex: new RegExp(content, "i") },
+        };
+        console.log(await this.courseModel.find().exec());
+        return await this.courseModel.find(filter).exec();
+    }
     async createNewCourse(newCourse) {
         const createdCourse = new this.courseModel(Object.assign({ courseId: crypto.randomUUID() }, newCourse));
         return await createdCourse.save();
