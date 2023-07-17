@@ -1,0 +1,1 @@
+{"version":3,"file":"score.dto.js","sourceRoot":"","sources":["../../../../src/module/score/dto/score.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,QAAQ;IACnB,YAAY,MAAW;QACrB,IAAI,CAAC,QAAQ,GAAG,MAAM,CAAC,QAAQ,CAAC;QAChC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC,MAAM,CAAC;QAC5B,IAAI,CAAC,KAAK,GAAG,MAAM,CAAC,KAAK,CAAC;IAC5B,CAAC;CAKF;AAVD,4BAUC"}
