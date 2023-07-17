@@ -50,12 +50,12 @@ let CoursesService = class CoursesService {
         return await this.courseModel.find({ courseId: listCourseId }).exec();
     }
     async searchCourses(content) {
-        const filter = { $or: [{ title: { $regex: new RegExp(content, "i") } }, { description: { $regex: new RegExp(content, "i") } }] };
+        const filter = { $or: [{ title: { $regex: new RegExp(content, "i") } }, { description: { $regex: new RegExp(content, "i") } }, { category: { $in: [content] } }] };
         return await this.courseModel.find(filter).exec();
     }
     async filterCourseByCategories(content) {
         const filter = {
-            categories: { $in: [content] },
+            category: { $in: [content] },
         };
         return await this.courseModel.find(filter).exec();
     }

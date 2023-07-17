@@ -49,13 +49,13 @@ export class CoursesService {
   }
 
   async searchCourses(content: string): Promise<Course[]> {
-    const filter = { $or: [{ title: { $regex: new RegExp(content, "i") } }, { description: { $regex: new RegExp(content, "i") } }] };
+    const filter = { $or: [{ title: { $regex: new RegExp(content, "i") } }, { description: { $regex: new RegExp(content, "i") } }, { category: { $in: [content] } }] };
     return await this.courseModel.find(filter).exec();
   }
 
   async filterCourseByCategories(content: string): Promise<Course[]> {
     const filter = {
-      categories: { $in: [content] },
+      category: { $in: [content] },
     };
     return await this.courseModel.find(filter).exec();
   }
