@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 export interface Course extends Document {
+    recommendationScore: number;
     courseId: string;
     title: string;
     description: string;

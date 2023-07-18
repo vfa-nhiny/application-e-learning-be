@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, UseInterceptors, Get } from "@nestjs/common";
+import { Controller, Post, Body, UseGuards, UseInterceptors, Get, Param } from "@nestjs/common";
 import { UserDto } from "./dto/user.dto";
 import { UsersService } from "./users.service";
 import { IResponse } from "../../common/interfaces/response.interface";
@@ -13,13 +13,26 @@ import { SettingsDto } from "./dto/settings.dto";
 import { role } from "src/module/auth/constants";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { ListTeacherDto } from "./dto/list-teacher";
+import { RecommendationService } from "./recommendation.service";
+import { Course } from "../courses/interfaces/course.interface";
+import { Rate } from "../rates/interfaces/rate.interface";
 
 @Controller("users")
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly recommendationService: RecommendationService) {}
 
+  @Get(":userId/recommendations")
+  async getRecommendations(@Param("userId") userId: string): Promise<Course[]> {
+    const courses = await this.recommendationService.getAllCourses();
+    const userRatings = await this.recommendationService.getUserRatings(userId);
+    const userSimilarityMatrix = await this.recommendationService.getUserSimilarityMatrix();
+
+    const recommendedCourses = this.recommendationService.recommendCoursesForUser(userId, courses, userRatings, userSimilarityMatrix);
+
+    return recommendedCourses;
+  }
   @Post("user")
   @UseGuards(RolesGuard)
   @Roles(role.student, role.teacher)

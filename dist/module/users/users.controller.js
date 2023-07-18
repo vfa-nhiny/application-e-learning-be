@@ -25,9 +25,18 @@ const passport_1 = require("@nestjs/passport");
 const settings_dto_1 = require("./dto/settings.dto");
 const constants_1 = require("../auth/constants");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const recommendation_service_1 = require("./recommendation.service");
 let UsersController = class UsersController {
-    constructor(usersService) {
+    constructor(usersService, recommendationService) {
         this.usersService = usersService;
+        this.recommendationService = recommendationService;
+    }
+    async getRecommendations(userId) {
+        const courses = await this.recommendationService.getAllCourses();
+        const userRatings = await this.recommendationService.getUserRatings(userId);
+        const userSimilarityMatrix = await this.recommendationService.getUserSimilarityMatrix();
+        const recommendedCourses = this.recommendationService.recommendCoursesForUser(userId, courses, userRatings, userSimilarityMatrix);
+        return recommendedCourses;
     }
     async findByEmail(body) {
         try {
@@ -87,6 +96,13 @@ let UsersController = class UsersController {
     }
 };
 __decorate([
+    (0, common_1.Get)(":userId/recommendations"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "getRecommendations", null);
+__decorate([
     (0, common_1.Post)("user"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(constants_1.role.student, constants_1.role.teacher),
@@ -143,7 +159,7 @@ UsersController = __decorate([
     (0, common_1.Controller)("users"),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
     (0, common_1.UseInterceptors)(logging_interceptor_1.LoggingInterceptor, transform_interceptor_1.TransformInterceptor),
-    __metadata("design:paramtypes", [users_service_1.UsersService])
+    __metadata("design:paramtypes", [users_service_1.UsersService, recommendation_service_1.RecommendationService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map
