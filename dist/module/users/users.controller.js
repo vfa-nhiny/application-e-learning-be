@@ -33,9 +33,10 @@ let UsersController = class UsersController {
     }
     async getRecommendations(userId) {
         const courses = await this.recommendationService.getAllCourses();
-        const userRatings = await this.recommendationService.getUserRatings(userId);
-        const userSimilarityMatrix = await this.recommendationService.getUserSimilarityMatrix();
-        const recommendedCourses = this.recommendationService.recommendCoursesForUser(userId, courses, userRatings, userSimilarityMatrix);
+        const rates = await this.recommendationService.getAllRating();
+        const userRatings = await this.recommendationService.getUserRatings(courses, rates, userId);
+        this.recommendationService.train({ courses, rates });
+        const recommendedCourses = this.recommendationService.recommendCoursesForUser(userId, courses, userRatings);
         return recommendedCourses;
     }
     async findByEmail(body) {

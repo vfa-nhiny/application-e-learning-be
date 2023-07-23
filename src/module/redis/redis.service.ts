@@ -4,7 +4,7 @@ import Redis, { RedisKey } from "ioredis";
 import { Observable, Observer } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
-import { REDIS_EXPIRE_TIME_IN_SECONDS, userRatings, userSimilarity } from "./redis.constants";
+import { REDIS_EXPIRE_TIME_IN_SECONDS, REDIS_PUBLISHER_CLIENT, REDIS_SUBSCRIBER_CLIENT } from "./redis.constants";
 
 export interface IRedisSubscribeMessage {
   readonly message: string;

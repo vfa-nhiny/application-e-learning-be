@@ -7,8 +7,6 @@ import { LoggerMiddleware } from "../../common/middlewares/logger.middleware";
 import { CourseSchema } from "../courses/schemas/course.schema";
 import { RecommendationService } from "./recommendation.service";
 import { RateSchema } from "../rates/schemas/rate.schema";
-import { RedisModule, RedisService } from "nestjs-redis";
-import { ModuleRef } from "@nestjs/core";
 
 @Module({
   imports: [
@@ -19,8 +17,8 @@ import { ModuleRef } from "@nestjs/core";
     ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, RecommendationService, RedisService],
-  exports: [RedisService],
+  providers: [UsersService, RecommendationService],
+  exports: [UsersService],
 })
 export class UsersModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {

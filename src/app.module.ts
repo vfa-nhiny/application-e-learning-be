@@ -14,7 +14,7 @@ import { LivestreamsModule } from "./module/livestreams/livestreams.module";
 import { ExamsModule } from "./module/exam/exams.module";
 import { ScoresModule } from "./module/score/scores.module";
 import { CategoriesModule } from "./module/categories/categories.module";
-import { RedisModule } from "./module/redis/redis.module";
+import { RedisModule } from "@liaoliaots/nestjs-redis";
 
 @Module({
   imports: [
@@ -32,7 +32,13 @@ import { RedisModule } from "./module/redis/redis.module";
     ScoresModule,
     CategoriesModule,
     // CommentGateway,
-    RedisModule,
+    RedisModule.forRoot({
+      config: {
+        host: "localhost" || process.env.URL,
+        port: 6379,
+        password: "authpassword",
+      },
+    }),
   ],
   controllers: [],
   providers: [],

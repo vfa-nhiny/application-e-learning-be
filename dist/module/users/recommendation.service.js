@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecommendationService = void 0;
 const common_1 = require("@nestjs/common");
-const nestjs_redis_1 = require("nestjs-redis");
+const nestjs_redis_1 = require("@liaoliaots/nestjs-redis");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let RecommendationService = class RecommendationService {
@@ -22,16 +22,40 @@ let RecommendationService = class RecommendationService {
         this.courseModel = courseModel;
         this.rateModel = rateModel;
         this.redisService = redisService;
+        this.splitToObject = inputObj => {
+            const result = {};
+            for (const key in inputObj) {
+                const [userId1, userId2] = key.split(":");
+                const score = parseFloat(inputObj[key]);
+                if (!result[userId1]) {
+                    result[userId1] = {};
+                }
+                result[userId1][userId2] = score;
+            }
+            return result;
+        };
+        this.calculateAverageRating = (userRatings, userId) => {
+            const userRatingsForUser = userRatings[userId];
+            if (!userRatingsForUser || Object.keys(userRatingsForUser).length === 0) {
+                return 0;
+            }
+            const ratingValues = Object.values(userRatingsForUser);
+            const sum = ratingValues.reduce((acc, rating) => Number(acc) + Number(rating), 0);
+            const average = Number(sum) / ratingValues.length;
+            return average;
+        };
         this.redisClient = this.redisService.getClient();
     }
-    async getUserRatings(userId) {
+    async getUserRatings(courses, rates, userId) {
         const userRatings = {};
-        const ratings = await this.rateModel.find({ userId }).exec();
-        for (const rating of ratings) {
-            if (!userRatings[rating.userId]) {
-                userRatings[rating.userId] = {};
+        for (const rate of rates) {
+            if (!userRatings[rate.userId]) {
+                userRatings[rate.userId] = {};
             }
-            userRatings[rating.userId][rating.courseId] = rating.score;
+            const course = courses.find(c => c.courseId === rate.courseId);
+            if (course) {
+                userRatings[rate.userId][rate.courseId] = rate.score;
+            }
         }
         return userRatings;
     }
@@ -39,19 +63,13 @@ let RecommendationService = class RecommendationService {
         const courses = await this.courseModel.find().exec();
         return courses;
     }
+    async getAllRating() {
+        const rates = await this.rateModel.find().exec();
+        return rates;
+    }
     async getUserSimilarityMatrix() {
-        const userSimilarityMatrix = {};
         const similarityMatrix = await this.redisClient.hgetall("userSimilarity");
-        for (const user1 in similarityMatrix) {
-            if (!userSimilarityMatrix[user1]) {
-                userSimilarityMatrix[user1] = {};
-            }
-            for (const user2 in similarityMatrix[user1]) {
-                const similarity = parseFloat(similarityMatrix[user1][user2]);
-                userSimilarityMatrix[user1][user2] = similarity;
-            }
-        }
-        return userSimilarityMatrix;
+        return this.splitToObject(similarityMatrix);
     }
     train(data) {
         const { courses, rates } = data;
@@ -71,28 +89,79 @@ let RecommendationService = class RecommendationService {
                 userRatings[rate.userId][rate.courseId] = rate.score;
             }
         }
-        return userRatings;
-    }
-    recommendCoursesForUser(userId, courses, userRatings, userSimilarityMatrix) {
-        const userCourses = userRatings[userId];
-        const similarUsers = userSimilarityMatrix[userId];
-        const recommendedCourses = [];
-        for (const user in similarUsers) {
-            if (user !== userId) {
-                const similarity = similarUsers[user];
-                const ratedCourses = userRatings[user];
-                for (const courseId in ratedCourses) {
-                    if (!userCourses.hasOwnProperty(courseId) && ratedCourses[courseId] > 0) {
-                        const course = courses.find(c => c.courseId === courseId);
-                        if (course && course.isPublished && course.joinNumber > 0) {
-                            course.recommendationScore = similarity * ratedCourses[courseId];
-                            recommendedCourses.push(course);
-                        }
-                    }
+        const userIds = Object.keys(userRatings);
+        const courseIds = Object.values(userRatings)
+            .map(courseObj => Object.keys(courseObj))
+            .flat()
+            .filter((value, index, self) => self.indexOf(value) === index);
+        for (const userId of userIds) {
+            for (const courseId of courseIds) {
+                if (userRatings[userId][courseId]) {
+                    userRatings[userId][courseId] = userRatings[userId][courseId];
+                }
+                else {
+                    userRatings[userId][courseId] = 0;
                 }
             }
         }
-        recommendedCourses.sort((a, b) => b.recommendationScore - a.recommendationScore);
+        for (const userId of userIds) {
+            const avg = this.calculateAverageRating(userRatings, userId);
+            console.log(avg);
+            for (const courseId of courseIds) {
+                if (userRatings[userId][courseId] !== 0) {
+                    userRatings[userId][courseId] = userRatings[userId][courseId] - avg;
+                }
+            }
+        }
+        return userRatings;
+    }
+    async recommendCoursesForUser(userId, courses, userRatings) {
+        const userCourses = userRatings[userId];
+        const userCourseRatings = this.splitToObject(await this.redisClient.hgetall("userRatings"));
+        const userSimilarityMatrix = this.splitToObject(await this.redisClient.hgetall("userSimilarity"));
+        let recommendedCourses = [];
+        console.log("userCourseRatings", userCourseRatings);
+        console.log("userSimilarityMatrix", userSimilarityMatrix);
+        const userIds = Object.keys(userCourseRatings);
+        const courseIds = Object.values(userCourseRatings)
+            .map(courseObj => Object.keys(courseObj))
+            .flat()
+            .filter((value, index, self) => self.indexOf(value) === index);
+        for (const courseId of courseIds) {
+            if (!userCourses.hasOwnProperty(courseId)) {
+                console.log("course misss:", courseId);
+                let max1 = -2;
+                let userIdMax1 = "";
+                let max2 = -2;
+                let userIdMax2 = "";
+                for (const userIdItem of userIds) {
+                    if (userIdItem !== userId) {
+                        const listRateUserIdItem = userRatings[userIdItem];
+                        if (listRateUserIdItem.hasOwnProperty(courseId)) {
+                            const rating = userSimilarityMatrix[userIdItem][userId];
+                            console.log(`rating: ${rating}`);
+                            if (rating > max1) {
+                                max2 = max1;
+                                max1 = rating;
+                                userIdMax1 = userIdItem;
+                                userIdMax2 = userIdMax1;
+                            }
+                            else if (rating > max2) {
+                                max2 = rating;
+                                userIdMax2 = userIdItem;
+                            }
+                        }
+                    }
+                }
+                console.log("max:", max1, max2);
+                userCourseRatings[userId][courseId] = (max1 * userCourseRatings[userIdMax1][courseId] + max2 * userCourseRatings[userIdMax2][courseId]) / (Math.abs(max1) + Math.abs(max2));
+                console.log("count:", userCourseRatings[userId][courseId]);
+            }
+        }
+        userCourseRatings[userId] = Object.fromEntries(Object.entries(userCourseRatings[userId]).sort(([, valueA], [, valueB]) => Number(valueB) - Number(valueA)));
+        const courseIdIdRecommends = Object.keys(userCourseRatings[userId]);
+        recommendedCourses = await this.courseModel.find({ courseId: courseIdIdRecommends }).exec();
+        console.log(courseIdIdRecommends);
         return recommendedCourses;
     }
     calculateUserSimilarityMatrix(userRatings) {
