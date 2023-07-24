@@ -34,7 +34,7 @@ import { RedisModule } from "@liaoliaots/nestjs-redis";
     // CommentGateway,
     RedisModule.forRoot({
       config: {
-        host: "localhost" || process.env.URL,
+        host: process.env.URL || "localhost",
         port: 6379,
         password: "authpassword",
       },
