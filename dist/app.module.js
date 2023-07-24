@@ -21,7 +21,6 @@ const livestreams_module_1 = require("./module/livestreams/livestreams.module");
 const exams_module_1 = require("./module/exam/exams.module");
 const scores_module_1 = require("./module/score/scores.module");
 const categories_module_1 = require("./module/categories/categories.module");
-const nestjs_redis_1 = require("@liaoliaots/nestjs-redis");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -40,13 +39,6 @@ AppModule = __decorate([
             exams_module_1.ExamsModule,
             scores_module_1.ScoresModule,
             categories_module_1.CategoriesModule,
-            nestjs_redis_1.RedisModule.forRoot({
-                config: {
-                    host: "localhost" || process.env.URL,
-                    port: 6379,
-                    password: "authpassword",
-                },
-            }),
         ],
         controllers: [],
         providers: [],

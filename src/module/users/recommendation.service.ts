@@ -1,21 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { Course } from "../courses/interfaces/course.interface";
 import { Rate } from "../rates/interfaces/rate.interface";
-import { RedisService } from "@liaoliaots/nestjs-redis";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 @Injectable()
 export class RecommendationService {
-  private redisClient;
-
-  constructor(
-    @InjectModel("Course") private readonly courseModel: Model<Course>,
-    @InjectModel("Rate") private readonly rateModel: Model<Rate>,
-    private readonly redisService: RedisService,
-  ) {
-    this.redisClient = this.redisService.getClient();
-  }
+  constructor(@InjectModel("Course") private readonly courseModel: Model<Course>, @InjectModel("Rate") private readonly rateModel: Model<Rate>) {}
 
   async getUserRatings(courses: Course[], rates: Rate[], userId: string): Promise<Record<string, Record<string, number>>> {
     const userRatings: Record<string, Record<string, number>> = {};
@@ -43,11 +34,6 @@ export class RecommendationService {
     return rates;
   }
 
-  async getUserSimilarityMatrix(): Promise<Record<string, Record<string, number>>> {
-    const similarityMatrix = await this.redisClient.hgetall("userSimilarity");
-    return this.splitToObject(similarityMatrix);
-  }
-
   splitToObject = inputObj => {
     const result = {};
 
@@ -65,7 +51,7 @@ export class RecommendationService {
     return result;
   };
 
-  train(data: { courses: Course[]; rates: Rate[] }): void {
+  train(data: { courses: Course[]; rates: Rate[] }) {
     const { courses, rates } = data;
 
     // Tạo ma trận đánh giá người dùng cho khóa học
@@ -73,10 +59,11 @@ export class RecommendationService {
 
     // Tính toán ma trận tương đồng người dùng
     const userSimilarityMatrix = this.calculateUserSimilarityMatrix(userRatings);
-    // Lưu trữ ma trận tương đồng người dùng và ma trận đánh giá người dùng để sử dụng sau này
-    // Có thể sử dụng Redis hoặc một cơ sở dữ liệu khác để lưu trữ ma trận này
-    this.saveUserSimilarityMatrix(userSimilarityMatrix);
-    this.saveUserRatings(userRatings);
+
+    return {
+      userSimilarityMatrix: userSimilarityMatrix,
+      userRatings: userRatings,
+    };
   }
 
   private prepareUserRatings(courses: Course[], rates: Rate[]): Record<string, Record<string, number>> {
@@ -142,15 +129,11 @@ export class RecommendationService {
     userId: string,
     courses: Course[],
     userRatings: Record<string, Record<string, number>>,
-    // userSimilarityMatrix: Record<string, Record<string, number>>,
+    userCourseRatings: Record<string, Record<string, number>>,
+    userSimilarityMatrix: Record<string, Record<string, number>>,
   ): Promise<Course[]> {
     const userCourses = userRatings[userId];
-    // const similarUsers = userSimilarityMatrix[userId];
-    const userCourseRatings = this.splitToObject(await this.redisClient.hgetall("userRatings"));
-    const userSimilarityMatrix = this.splitToObject(await this.redisClient.hgetall("userSimilarity"));
     let recommendedCourses: Course[] = [];
-    console.log("userCourseRatings", userCourseRatings);
-    console.log("userSimilarityMatrix", userSimilarityMatrix);
 
     const userIds = Object.keys(userCourseRatings);
 
@@ -264,27 +247,5 @@ export class RecommendationService {
 
     // Trả về giá trị độ tương đồng giữa hai người dùng
     return similarity;
-  }
-
-  private saveUserSimilarityMatrix(userSimilarityMatrix: Record<string, Record<string, number>>): void {
-    for (const user1 in userSimilarityMatrix) {
-      for (const user2 in userSimilarityMatrix[user1]) {
-        const similarity = userSimilarityMatrix[user1][user2];
-
-        // Lưu trữ độ tương đồng giữa user1 và user2 trong Redis
-        this.redisClient.hset("userSimilarity", `${user1}:${user2}`, similarity);
-      }
-    }
-  }
-
-  private saveUserRatings(userRatings: Record<string, Record<string, number>>): void {
-    for (const user in userRatings) {
-      for (const course in userRatings[user]) {
-        const rating = userRatings[user][course];
-
-        // Lưu trữ đánh giá của user cho course trong Redis
-        this.redisClient.hset("userRatings", `${user}:${course}`, rating);
-      }
-    }
   }
 }

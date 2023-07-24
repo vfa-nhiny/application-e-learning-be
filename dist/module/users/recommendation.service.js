@@ -14,14 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecommendationService = void 0;
 const common_1 = require("@nestjs/common");
-const nestjs_redis_1 = require("@liaoliaots/nestjs-redis");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let RecommendationService = class RecommendationService {
-    constructor(courseModel, rateModel, redisService) {
+    constructor(courseModel, rateModel) {
         this.courseModel = courseModel;
         this.rateModel = rateModel;
-        this.redisService = redisService;
         this.splitToObject = inputObj => {
             const result = {};
             for (const key in inputObj) {
@@ -44,7 +42,6 @@ let RecommendationService = class RecommendationService {
             const average = Number(sum) / ratingValues.length;
             return average;
         };
-        this.redisClient = this.redisService.getClient();
     }
     async getUserRatings(courses, rates, userId) {
         const userRatings = {};
@@ -67,16 +64,14 @@ let RecommendationService = class RecommendationService {
         const rates = await this.rateModel.find().exec();
         return rates;
     }
-    async getUserSimilarityMatrix() {
-        const similarityMatrix = await this.redisClient.hgetall("userSimilarity");
-        return this.splitToObject(similarityMatrix);
-    }
     train(data) {
         const { courses, rates } = data;
         const userRatings = this.prepareUserRatings(courses, rates);
         const userSimilarityMatrix = this.calculateUserSimilarityMatrix(userRatings);
-        this.saveUserSimilarityMatrix(userSimilarityMatrix);
-        this.saveUserRatings(userRatings);
+        return {
+            userSimilarityMatrix: userSimilarityMatrix,
+            userRatings: userRatings,
+        };
     }
     prepareUserRatings(courses, rates) {
         const userRatings = {};
@@ -115,13 +110,9 @@ let RecommendationService = class RecommendationService {
         }
         return userRatings;
     }
-    async recommendCoursesForUser(userId, courses, userRatings) {
+    async recommendCoursesForUser(userId, courses, userRatings, userCourseRatings, userSimilarityMatrix) {
         const userCourses = userRatings[userId];
-        const userCourseRatings = this.splitToObject(await this.redisClient.hgetall("userRatings"));
-        const userSimilarityMatrix = this.splitToObject(await this.redisClient.hgetall("userSimilarity"));
         let recommendedCourses = [];
-        console.log("userCourseRatings", userCourseRatings);
-        console.log("userSimilarityMatrix", userSimilarityMatrix);
         const userIds = Object.keys(userCourseRatings);
         const courseIds = Object.values(userCourseRatings)
             .map(courseObj => Object.keys(courseObj))
@@ -209,30 +200,12 @@ let RecommendationService = class RecommendationService {
         const similarity = dotProduct / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2));
         return similarity;
     }
-    saveUserSimilarityMatrix(userSimilarityMatrix) {
-        for (const user1 in userSimilarityMatrix) {
-            for (const user2 in userSimilarityMatrix[user1]) {
-                const similarity = userSimilarityMatrix[user1][user2];
-                this.redisClient.hset("userSimilarity", `${user1}:${user2}`, similarity);
-            }
-        }
-    }
-    saveUserRatings(userRatings) {
-        for (const user in userRatings) {
-            for (const course in userRatings[user]) {
-                const rating = userRatings[user][course];
-                this.redisClient.hset("userRatings", `${user}:${course}`, rating);
-            }
-        }
-    }
 };
 RecommendationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)("Course")),
     __param(1, (0, mongoose_1.InjectModel)("Rate")),
-    __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model,
-        nestjs_redis_1.RedisService])
+    __metadata("design:paramtypes", [mongoose_2.Model, mongoose_2.Model])
 ], RecommendationService);
 exports.RecommendationService = RecommendationService;
 //# sourceMappingURL=recommendation.service.js.map

@@ -31,14 +31,6 @@ import { RedisModule } from "@liaoliaots/nestjs-redis";
     ExamsModule,
     ScoresModule,
     CategoriesModule,
-    // CommentGateway,
-    RedisModule.forRoot({
-      config: {
-        host: process.env.URL || "localhost",
-        port: 6379,
-        password: "authpassword",
-      },
-    }),
   ],
   controllers: [],
   providers: [],
