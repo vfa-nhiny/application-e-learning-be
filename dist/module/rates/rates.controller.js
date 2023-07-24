@@ -47,8 +47,14 @@ let RatesController = class RatesController {
     }
     async createNewRate(body) {
         try {
-            const rate = await this.ratesService.createNewRate(body);
-            return new response_dto_1.ResponseSuccess("Success", rate);
+            const rateOld = await this.ratesService.findRateByUserId(body.userId, body.courseId);
+            if (rateOld) {
+                return new response_dto_1.ResponseError("This course has already been rate by user!");
+            }
+            else {
+                const rate = await this.ratesService.createNewRate(body);
+                return new response_dto_1.ResponseSuccess("Success", rate);
+            }
         }
         catch (error) {
             return new response_dto_1.ResponseError("Error: generic error", error);

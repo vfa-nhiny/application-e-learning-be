@@ -45,8 +45,13 @@ export class RatesController {
   @Roles(role.student, role.teacher)
   async createNewRate(@Body() body): Promise<IResponse> {
     try {
-      const rate = await this.ratesService.createNewRate(body);
-      return new ResponseSuccess("Success", rate);
+      const rateOld = await this.ratesService.findRateByUserId(body.userId, body.courseId);
+      if (rateOld) {
+        return new ResponseError("This course has already been rate by user!");
+      } else {
+        const rate = await this.ratesService.createNewRate(body);
+        return new ResponseSuccess("Success", rate);
+      }
     } catch (error) {
       return new ResponseError("Error: generic error", error);
     }
